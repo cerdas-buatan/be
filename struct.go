@@ -11,5 +11,9 @@ type Register struct {
     ConfirmPassword string
 }
 
+type Login struct {
+    Username    string
+    Password    string
+}
 
 
