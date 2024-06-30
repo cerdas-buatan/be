@@ -135,60 +135,85 @@ func DeleteOneDoc(_id primitive.ObjectID, db *mongo.Database, col string) error 
 	return nil
 }
 
-// signup
-func SignUpPengguna(db *mongo.Database, insertedDoc model.Pengguna) error {
-	objectId := primitive.NewObjectID() 
-	if insertedDoc.NamaLengkap == "" || insertedDoc.TanggalLahir == "" || 
-	insertedDoc.JenisKelamin == "" || insertedDoc.NomorHP == "" || 
-	insertedDoc.Alamat == "" || insertedDoc.Akun.Email == "" || 
-	insertedDoc.Akun.Password == "" {
-		return fmt.Errorf("dimohon untuk melengkapi data")
-	} 
-	if err := checkmail.ValidateFormat(insertedDoc.Akun.Email); err != nil {
-		return fmt.Errorf("email tidak valid")
-	} 
-	userExists, _ := GetUserFromEmail(insertedDoc.Akun.Email, db)
-	if insertedDoc.Akun.Email == userExists.Email {
-		return fmt.Errorf("email sudah terdaftar")
-	} 
-	if strings.Contains(insertedDoc.Akun.Password, " ") {
-		return fmt.Errorf("password tidak boleh mengandung spasi")
-	}
-	if len(insertedDoc.Akun.Password) < 8 {
-		return fmt.Errorf("password terlalu pendek")
-	} 
-	salt := make([]byte, 16)
-	_, err := rand.Read(salt)
-	if err != nil {
-		return fmt.Errorf("kesalahan server : salt")
-	}
-	hashedPassword := argon2.IDKey([]byte(insertedDoc.Akun.Password), salt, 1, 64*1024, 4, 32)
-	user := bson.M{
-		"_id": objectId,
-		"email": insertedDoc.Akun.Email,
-		"password": hex.EncodeToString(hashedPassword),
-		"salt": hex.EncodeToString(salt),
-		"role": "pengguna",
-	}
-	pengguna := bson.M{
-		"namalengkap": insertedDoc.NamaLengkap,
-		"tanggallahir": insertedDoc.TanggalLahir,
-		"jeniskelamin": insertedDoc.JenisKelamin,
-		"nomorhp": insertedDoc.NomorHP,
-		"alamat": insertedDoc.Alamat,
-		"akun": model.User {
-			ID : objectId,
-		},
-	}
-	_, err = InsertOneDoc(db, "user", user)
-	if err != nil {
-		return fmt.Errorf("kesalahan server")
-	}
-	_, err = InsertOneDoc(db, "pengguna", pengguna)
-	if err != nil {
-		return fmt.Errorf("kesalahan server")
-	}
-	return nil
+// register
+// Handler untuk menangani registrasi pengguna
+func RegisterHandler(w http.ResponseWriter, r *http.Request) {
+    // Mendapatkan data registrasi dari body request
+    var registerData model.Register
+    err := json.NewDecoder(r.Body).Decode(&registerData)
+    if err != nil {
+        http.Error(w, "Gagal memproses data registrasi", http.StatusBadRequest)
+        return
+    }
+
+    // Validasi data registrasi
+    if registerData.Email == "" || registerData.Username == "" ||
+        registerData.Password == "" || registerData.ConfirmPassword == "" {
+        http.Error(w, "Dimohon untuk melengkapi data", http.StatusBadRequest)
+        return
+    }
+    if registerData.Password != registerData.ConfirmPassword {
+        http.Error(w, "Konfirmasi password tidak cocok", http.StatusBadRequest)
+        return
+    }
+
+    // Validasi format email menggunakan package checkmail
+    if err := checkmail.ValidateFormat(registerData.Email); err != nil {
+        http.Error(w, "Email tidak valid", http.StatusBadRequest)
+        return
+    }
+
+    // Validasi apakah email sudah terdaftar
+    userExists, err := GetUserFromEmail(registerData.Email, database)
+    if err == nil && userExists.Email == registerData.Email {
+        http.Error(w, "Email sudah terdaftar", http.StatusBadRequest)
+        return
+    }
+
+    // Validasi password tidak boleh mengandung spasi
+    if strings.Contains(registerData.Password, " ") {
+        http.Error(w, "Password tidak boleh mengandung spasi", http.StatusBadRequest)
+        return
+    }
+
+    // Validasi panjang minimal password
+    if len(registerData.Password) < 8 {
+        http.Error(w, "Password terlalu pendek", http.StatusBadRequest)
+        return
+    }
+
+    // Generate ObjectId untuk pengguna baru
+    userID := primitive.NewObjectID()
+
+    // Hash password sebelum menyimpannya ke database
+    salt := make([]byte, 16)
+    _, err = rand.Read(salt)
+    if err != nil {
+        http.Error(w, "Gagal menghasilkan salt", http.StatusInternalServerError)
+        return
+    }
+    hashedPassword := argon2.IDKey([]byte(registerData.Password), salt, 1, 64*1024, 4, 32)
+
+    // Persiapkan data pengguna untuk disimpan di MongoDB
+    user := bson.M{
+        "_id":      userID,
+        "email":    registerData.Email,
+        "username": registerData.Username,
+        "password": hex.EncodeToString(hashedPassword),
+        "salt":     hex.EncodeToString(salt),
+        "role":     "pengguna",
+    }
+
+    // Simpan data pengguna ke koleksi 'users' di MongoDB
+    _, err = InsertOneDoc(database, "users", user)
+    if err != nil {
+        http.Error(w, "Gagal menyimpan data pengguna", http.StatusInternalServerError)
+        return
+    }
+
+    // Kirim respons berhasil
+    w.WriteHeader(http.StatusCreated)
+    json.NewEncoder(w).Encode(map[string]string{"message": "Registrasi berhasil"})
 }
 
 //login
