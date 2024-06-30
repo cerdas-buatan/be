@@ -1,19 +1,11 @@
 // package module
 
-// import (
-// 	"encoding/json"
-// 	"net/http"
-// 	"os"
-// 	"github.com/aiteung/atdb"
-// 	"github.com/whatsauth/watoken"
-// 	"go.mongodb.org/mongo-driver/mongo"
-// )
 
-// // func GCFHandler(MONGOCONNSTRINGENV, dbname, collectionname string) string {
-// // 	mconn := SetConnection(MONGOCONNSTRINGENV, dbname)
-// // 	datagedung := GetAllBangunanLineString(mconn, collectionname)
-// // 	return GCFReturnStruct(datagedung)
-// // }
+// func GCFHandler(MONGOCONNSTRINGENV, dbname, collectionname string) string {
+// 	mconn := SetConnection(MONGOCONNSTRINGENV, dbname)
+// 	datagedung := GetAllBangunanLineString(mconn, collectionname)
+// 	return GCFReturnStruct(datagedung)
+// }
 
 // func GCFPostHandler(PASETOPRIVATEKEYENV, MONGOCONNSTRINGENV, dbname, collectionname string, r *http.Request) string {
 // 	var Response Credential
@@ -66,7 +58,7 @@ import (
 	"net/http"
 	"encoding/json"
 
-	"github.com/serbaevents/backendSE/model"
+	"github.com/cerdas-buatan/be/model"
 	"github.com/badoux/checkmail"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"

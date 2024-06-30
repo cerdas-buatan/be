@@ -6,7 +6,7 @@ import (
 	"os"
 	"fmt"
 	"time"
-	"github.com/serbaevents/backendSE/model"
+	"github.com/cerdas-buatan/be/model"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
 )
@@ -22,7 +22,7 @@ var (
 )
 
 // signup
-func GCFHandlerSignUpPengguna(MONGOCONNSTRINGENV, dbname string, r *http.Request) string {
+func GCFHandlerRegisterHandler(MONGOCONNSTRINGENV, dbname string, r *http.Request) string {
 	conn := MongoConnect(MONGOCONNSTRINGENV, dbname)
 	var Response model.Response
 	Response.Status = false
@@ -32,7 +32,7 @@ func GCFHandlerSignUpPengguna(MONGOCONNSTRINGENV, dbname string, r *http.Request
 		Response.Message = "error parsing application/json: " + err.Error()
 		return GCFReturnStruct(Response)
 	}
-	err = SignUpPengguna(conn, datapengguna)
+	err = RegisterHandler(conn, datapengguna)
 	if err != nil {
 		Response.Message = err.Error()
 		return GCFReturnStruct(Response)
