@@ -170,3 +170,22 @@ func GetUserLogin(PASETOPUBLICKEYENV string, r *http.Request) (model.Payload, er
 func GetID(r *http.Request) string {
 	return r.URL.Query().Get("id")
 }
+
+// Verifikasi setelah berhasil login
+func VerifyAfterLogin(db *mongo.Database, userID primitive.ObjectID) error {
+	verification := model.Verification{
+		UserID:     userID,
+		VerifiedAt: time.Now(),
+		IsVerified: true,
+		// Generate or fetch the verification code here
+		VerificationCode: "123456", // Contoh kode verifikasi, sesuaikan dengan implementasi sebenarnya
+	}
+
+	_, err := InsertOneDoc(db, "verification", verification)
+	if err != nil {
+		return fmt.Errorf("gagal menyimpan verifikasi: %v", err)
+	}
+
+	return nil
+}
+

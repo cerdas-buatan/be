@@ -19,4 +19,11 @@ type Login struct {
     Password    string
 }
 
+type Verification struct {
+	ID          primitive.ObjectID `bson:"_id,omitempty"`
+	UserID      primitive.ObjectID `bson:"user_id"`
+	VerifiedAt  time.Time          `bson:"verified_at"`
+	IsVerified  bool               `bson:"is_verified"`
+	VerificationCode string       `bson:"verification_code"`
+}
 

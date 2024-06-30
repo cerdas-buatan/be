@@ -510,87 +510,20 @@ func GetAllPenggunaByAdmin(db *mongo.Database) (pengguna []model.Pengguna, err e
 	return pengguna, nil
 }
 
-//tiket
+// verifikasi
+func VerifyAfterLoginHandler(w http.ResponseWriter, r *http.Request) {
+	// Mendapatkan userID dari sesi atau request, asumsikan sudah ada
+	userID := primitive.NewObjectID() // Ganti dengan userID sesuai implementasi Anda
 
-func InsertTiket(iduser primitive.ObjectID, db *mongo.Database, insertedDoc model.Tiket) error {
-	if insertedDoc.TujuanEvent == "" || insertedDoc.Jemputan == "" || insertedDoc.Keterangan == "" || insertedDoc.Harga == "" {
-		return fmt.Errorf("mohon untuk melengkapi data")
-	}
-
-	tkt := bson.M{
-		"tujuaneven":    insertedDoc.TujuanEvent,
-		"jemputan":   insertedDoc.Jemputan,
-		"keterangan":   insertedDoc.Keterangan,
-		"harga":        insertedDoc.Harga,
-	}
-
-	_, err := InsertOneDoc(db, "tiket", tkt)
+	// Panggil fungsi verifikasi
+	err := VerifyAfterLogin(database, userID)
 	if err != nil {
-		return fmt.Errorf("error saat menyimpan data tiket: %s", err)
-	}
-	return nil
-}
-
-func UpdateTiket(idparam, iduser primitive.ObjectID, db *mongo.Database, insertedDoc model.Tiket) error {
-	_, err := GetTiketFromID(idparam, db)
-	if err != nil {
-		return err
-	}
-	if insertedDoc.TujuanEvent == "" || insertedDoc.Jemputan == "" || insertedDoc.Keterangan == "" || insertedDoc.Harga == ""  {
-		return fmt.Errorf("mohon untuk melengkapi data")
-	}
-	tkt := bson.M{
-		"tujuaneven":    insertedDoc.TujuanEvent,
-		"jemputan":   insertedDoc.Jemputan,
-		"keterangan":   insertedDoc.Keterangan,
-		"harga":        insertedDoc.Harga,
+		http.Error(w, fmt.Sprintf("gagal verifikasi: %v", err), http.StatusInternalServerError)
+		return
 	}
 
-	err = UpdateOneDoc(idparam, db, "tiket", tkt)
-	if err != nil {
-		return err
-	}
-	return nil
-}
-
-
-func DeleteTiket(idparam, iduser primitive.ObjectID, db *mongo.Database) error {
-	_, err := GetTiketFromID(idparam, db)
-	if err != nil {
-		return err
-	}
-	err = DeleteOneDoc(idparam, db, "tiket")
-	if err != nil {
-		return err
-	}
-	return nil
-}
-
-func GetAllTiket(db *mongo.Database) (tiket []model.Tiket, err error) {
-	collection := db.Collection("tiket")
-	filter := bson.M{}
-	cursor, err := collection.Find(context.TODO(), filter)
-	if err != nil {
-		return tiket, fmt.Errorf("error GetAllTiket mongo: %s", err)
-	}
-	err = cursor.All(context.TODO(), &tiket)
-	if err != nil {
-		return tiket, fmt.Errorf("error GetAllTiket context: %s", err)
-	}
-	return tiket, nil
-}
-
-
-func GetTiketFromID(_id primitive.ObjectID, db *mongo.Database) (doc model.Tiket, err error) {
-	collection := db.Collection("tiket")
-	filter := bson.M{"_id": _id}
-	err = collection.FindOne(context.TODO(), filter).Decode(&doc)
-	if err != nil {
-		if err == mongo.ErrNoDocuments {
-			return doc, fmt.Errorf("_id tidak ditemukan")
-		}
-		return doc, fmt.Errorf("kesalahan server")
-	}
-	return doc, nil
+	// Kirim respons berhasil
+	w.WriteHeader(http.StatusOK)
+	json.NewEncoder(w).Encode(map[string]string{"message": "Verifikasi berhasil disimpan"})
 }
 
