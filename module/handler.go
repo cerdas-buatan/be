@@ -17,7 +17,6 @@ var (
 	Response model.Response
 	user     model.User
 	pengguna model.Pengguna
-	Tiket    model.Tiket
 	password model.Password
 )
 
