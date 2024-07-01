@@ -2,19 +2,19 @@ package module
 
 import (
 	"encoding/json"
+	"fmt"
 	"net/http"
 	"os"
-	"fmt"
 	"time"
-	"github.com/cerdas-buatan/be/model"
+
+	model "github.com/cerdas-buatan/be/model"
+
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
 )
 
-
-
 var (
-	Response model.Response
+	Response model.Credential
 	user     model.User
 	pengguna model.Pengguna
 	password model.Password
@@ -101,7 +101,6 @@ func GCFHandlerUpdatePasswordUser(PASETOPUBLICKEYENV, MONGOCONNSTRINGENV, dbname
 	return GCFReturnStruct(Response)
 }
 
-
 func GCFHandlerGetUserFromID(PASETOPUBLICKEYENV, MONGOCONNSTRINGENV, dbname string, r *http.Request) string {
 	conn := MongoConnect(MONGOCONNSTRINGENV, dbname)
 	var Response model.Response
@@ -119,8 +118,6 @@ func GCFHandlerGetUserFromID(PASETOPUBLICKEYENV, MONGOCONNSTRINGENV, dbname stri
 	}
 	return GCFReturnStruct(data)
 }
-
-
 
 // email
 func Put(PASETOPUBLICKEYENV, MONGOCONNSTRINGENV, dbname string, r *http.Request) string {
@@ -147,8 +144,6 @@ func Put(PASETOPUBLICKEYENV, MONGOCONNSTRINGENV, dbname string, r *http.Request)
 	Response.Message = "Berhasil Update Email"
 	return GCFReturnStruct(Response)
 }
-
-
 
 // return struct
 func GCFReturnStruct(DataStuct any) string {
@@ -188,4 +183,3 @@ func VerifyAfterLogin(db *mongo.Database, userID primitive.ObjectID) error {
 
 	return nil
 }
-
