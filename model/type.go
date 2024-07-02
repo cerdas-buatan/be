@@ -28,8 +28,10 @@ type Verification struct {
 
 type User struct {
 	ID       primitive.ObjectID `bson:"_id,omitempty" json:"_id,omitempty"`
-	Username string             `bson:"username" json:"username"`
-	Password string             `bson:"password" json:"password"`
+	Email    string             `bson:"email,omitempty" json:"email,omitempty"`
+	Password string             `bson:"password,omitempty" json:"password,omitempty"`
+	Salt     string             `bson:"salt,omitempty,omitempty" json:"salt,omitempty"`
+	Role     string             `bson:"role,omitempty" json:"role,omitempty"`
 }
 
 type Pengguna struct {
