@@ -8,7 +8,6 @@ import (
 	"time"
 
 	model "github.com/cerdas-buatan/be/model"
-
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
 )
@@ -16,12 +15,12 @@ import (
 var (
 	Response model.Credential
 	user     model.User
-	pengguna model.Pengguna
+	// pengguna model.Pengguna
 	password model.Password
 )
 
 // signup
-func GCFHandlerRegisterHandler(MONGOCONNSTRINGENV, dbname string, r *http.Request) string {
+func GCFHandlerSignUpPengguna(MONGOCONNSTRINGENV, dbname string, r *http.Request) string {
 	conn := MongoConnect(MONGOCONNSTRINGENV, dbname)
 	var Response model.Response
 	Response.Status = false
@@ -31,7 +30,7 @@ func GCFHandlerRegisterHandler(MONGOCONNSTRINGENV, dbname string, r *http.Reques
 		Response.Message = "error parsing application/json: " + err.Error()
 		return GCFReturnStruct(Response)
 	}
-	err = RegisterHandler(conn, datapengguna)
+	err = SignUpPengguna(conn, datapengguna)
 	if err != nil {
 		Response.Message = err.Error()
 		return GCFReturnStruct(Response)

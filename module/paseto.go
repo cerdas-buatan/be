@@ -6,7 +6,7 @@ import (
 	"time"
 
 	"aidanwoods.dev/go-paseto"
-	"github.com/serbaevents/backendSE/model"
+	"github.com/cerdas-buatan/be/model"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 

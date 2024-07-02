@@ -4,10 +4,10 @@ import (
 	"context"
 	"crypto/rand"
 	"encoding/hex"
-	"encoding/json"
+	// "encoding/json"
 	"errors"
 	"fmt"
-	"net/http"
+	// "net/http"
 	"os"
 	"strings"
 
@@ -142,10 +142,10 @@ func SignUpPengguna(db *mongo.Database, insertedDoc model.Pengguna) error {
 // login
 func LogIn(db *mongo.Database, insertedDoc model.User) (user model.User, err error) {
 	if insertedDoc.Email == "" || insertedDoc.Password == "" {
-		return user, fmt.Errorf("Dimohon untuk melengkapi data")
+		return user, fmt.Errorf("mohon untuk melengkapi data")
 	}
 	if err = checkmail.ValidateFormat(insertedDoc.Email); err != nil {
-		return user, fmt.Errorf("Email tidak valid")
+		return user, fmt.Errorf("email tidak valid")
 	}
 	existsDoc, err := GetUserFromEmail(insertedDoc.Email, db)
 	if err != nil {
@@ -169,14 +169,14 @@ func UpdateEmailUser(iduser primitive.ObjectID, db *mongo.Database, insertedDoc 
 		return err
 	}
 	if insertedDoc.Email == "" {
-		return fmt.Errorf("Dimohon untuk melengkapi data")
+		return fmt.Errorf("mohon untuk melengkapi data")
 	}
 	if err = checkmail.ValidateFormat(insertedDoc.Email); err != nil {
-		return fmt.Errorf("Email tidak valid")
+		return fmt.Errorf("email tidak valid")
 	}
 	existsDoc, _ := GetUserFromEmail(insertedDoc.Email, db)
 	if existsDoc.Email == insertedDoc.Email {
-		return fmt.Errorf("Email sudah terdaftar")
+		return fmt.Errorf("email sudah terdaftar")
 	}
 	user := bson.M{
 		"email":    insertedDoc.Email,
@@ -359,10 +359,10 @@ func UpdatePengguna(idparam, iduser primitive.ObjectID, db *mongo.Database, inse
 		return err
 	}
 	if pengguna.ID != idparam {
-		return fmt.Errorf("Anda bukan pemilik data ini")
+		return fmt.Errorf("anda bukan pemilik data ini")
 	}
 	if insertedDoc.NamaLengkap == "" || insertedDoc.TanggalLahir == "" || insertedDoc.JenisKelamin == "" || insertedDoc.NomorHP == "" || insertedDoc.Alamat == "" {
-		return fmt.Errorf("Dimohon untuk melengkapi data")
+		return fmt.Errorf("mohon untuk melengkapi data")
 	}
 	pgn := bson.M{
 		"namalengkap":  insertedDoc.NamaLengkap,
@@ -459,18 +459,18 @@ func GetAllPenggunaByAdmin(db *mongo.Database) (pengguna []model.Pengguna, err e
 }
 
 // verifikasi
-func VerifyAfterLoginHandler(w http.ResponseWriter, r *http.Request) {
-	// Mendapatkan userID dari sesi atau request, asumsikan sudah ada
-	userID := primitive.NewObjectID() // Ganti dengan userID sesuai implementasi Anda
+// func VerifyAfterLoginHandler(w http.ResponseWriter, r *http.Request) {
+// 	// Mendapatkan userID dari sesi atau request, asumsikan sudah ada
+// 	userID := primitive.NewObjectID() // Ganti dengan userID sesuai implementasi Anda
 
-	// Panggil fungsi verifikasi
-	err := VerifyAfterLogin(database, userID)
-	if err != nil {
-		http.Error(w, fmt.Sprintf("gagal verifikasi: %v", err), http.StatusInternalServerError)
-		return
-	}
+// 	// Panggil fungsi verifikasi
+// 	err := VerifyAfterLogin(database, userID)
+// 	if err != nil {
+// 		http.Error(w, fmt.Sprintf("gagal verifikasi: %v", err), http.StatusInternalServerError)
+// 		return
+// 	}
 
-	// Kirim respons berhasil
-	w.WriteHeader(http.StatusOK)
-	json.NewEncoder(w).Encode(map[string]string{"message": "Verifikasi berhasil disimpan"})
-}
+// 	// Kirim respons berhasil
+// 	w.WriteHeader(http.StatusOK)
+// 	json.NewEncoder(w).Encode(map[string]string{"message": "Verifikasi berhasil disimpan"})
+// }
