@@ -5,6 +5,7 @@ import (
 	"net/http"
 	"os"
 
+	model "github.com/cerdas-buatan/be/model"
 	"github.com/cerdas-buatan/be/model"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
@@ -144,6 +145,30 @@ func GCFHandlerGetPenggunaByPengguna(iduser primitive.ObjectID, conn *mongo.Data
 	}
 	//
 	return GCFReturnStruct(pengguna)
+}
+
+//qna
+func GCFHandlerQnA(r *http.Request) string {
+	var Response model.Response
+	Response.Status = false
+	var qnaRequest struct {
+		Question string `json:"question"`
+	}
+	err := json.NewDecoder(r.Body).Decode(&qnaRequest)
+	if err != nil {
+		Response.Message = "error parsing application/json: " + err.Error()
+		return GCFReturnStruct(Response)
+	}
+
+	answer, err := model.GetAnswer(qnaRequest.Question)
+	if err != nil {
+		Response.Message = "error getting answer: " + err.Error()
+		return GCFReturnStruct(Response)
+	}
+
+	Response.Status = true
+	Response.Message = answer
+	return GCFReturnStruct(Response)
 }
 
 

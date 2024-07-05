@@ -70,3 +70,8 @@ type Credential struct {
 	Data    []User `json:"data,omitempty" bson:"data,omitempty"`
 	Role    string `json:"role,omitempty" bson:"role,omitempty"`
 }
+
+type QnA struct {
+	Question string `json:"question"`
+	Answer   string `json:"answer"`
+}
