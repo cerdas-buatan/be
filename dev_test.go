@@ -28,6 +28,15 @@ func TestGetAllDoc(t *testing.T) {
 	fmt.Println(hasil)
 }
 
+func TestGetAllDoc(t *testing.T) {
+	hasil := module.GetAllDocs(db, "user", []Userr{})
+	fmt.Println(hasil)
+}
+func TestGetAllDoc(t *testing.T) {
+	hasil := module.GetAllDocs(db, "user", []Userr{})
+	fmt.Println(hasil)
+}
+
 func TestInsertUser(t *testing.T) {
 	var doc model.User
 	doc.Email = "admin@gmail.com"
