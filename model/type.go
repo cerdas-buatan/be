@@ -13,13 +13,6 @@ type Register struct {
 	ConfirmPassword string
 }
 
-type Register struct {
-	Email           string
-	Username        string
-	Password        string
-	ConfirmPassword string
-}
-
 
 type Login struct {
 	Username string
