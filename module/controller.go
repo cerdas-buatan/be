@@ -4,15 +4,17 @@ import (
 	"context"
 	"crypto/rand"
 	"encoding/hex"
+
 	// "encoding/json"
 	"errors"
 	"fmt"
+
 	// "net/http"
 	"os"
 	"strings"
 
 	"github.com/badoux/checkmail"
-	"github.com/cerdas-buatan/be/model"
+	"github.com/serbaevents/backendSE/model"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
@@ -30,7 +32,6 @@ func MongoConnect(MongoString, dbname string) *mongo.Database {
 	return client.Database(dbname)
 }
 
-// crud
 func GetAllDocs(db *mongo.Database, col string, docs interface{}) interface{} {
 	collection := db.Collection(col)
 	filter := bson.M{}
@@ -67,37 +68,19 @@ func UpdateOneDoc(id primitive.ObjectID, db *mongo.Database, col string, doc int
 	return nil
 }
 
-func DeleteOneDoc(_id primitive.ObjectID, db *mongo.Database, col string) error {
-	collection := db.Collection(col)
-	filter := bson.M{"_id": _id}
-	result, err := collection.DeleteOne(context.TODO(), filter)
-	if err != nil {
-		return fmt.Errorf("error deleting data for ID %s: %s", _id, err.Error())
-	}
-
-	if result.DeletedCount == 0 {
-		return fmt.Errorf("data with ID %s not found", _id)
-	}
-
-	return nil
-}
-
 // register
 // Handler untuk menangani registrasi pengguna
 func SignUpPengguna(db *mongo.Database, insertedDoc model.Pengguna) error {
 	objectId := primitive.NewObjectID()
-	if insertedDoc.NamaLengkap == "" || insertedDoc.TanggalLahir == "" ||
-		insertedDoc.JenisKelamin == "" || insertedDoc.NomorHP == "" ||
-		insertedDoc.Alamat == "" || insertedDoc.Akun.Email == "" ||
-		insertedDoc.Akun.Password == "" {
-		return fmt.Errorf("dimohon untuk melengkapi data")
+	if insertedDoc.NamaLengkap == "" || insertedDoc.TanggalLahir == "" || insertedDoc.JenisKelamin == "" || insertedDoc.NomorHP == "" || insertedDoc.Alamat == "" || insertedDoc.Akun.Email == "" || insertedDoc.Akun.Password == "" {
+		return fmt.Errorf("Dimohon untuk melengkapi data")
 	}
 	if err := checkmail.ValidateFormat(insertedDoc.Akun.Email); err != nil {
-		return fmt.Errorf("email tidak valid")
+		return fmt.Errorf("Email tidak valid")
 	}
 	userExists, _ := GetUserFromEmail(insertedDoc.Akun.Email, db)
 	if insertedDoc.Akun.Email == userExists.Email {
-		return fmt.Errorf("email sudah terdaftar")
+		return fmt.Errorf("Email sudah terdaftar")
 	}
 	if strings.Contains(insertedDoc.Akun.Password, " ") {
 		return fmt.Errorf("password tidak boleh mengandung spasi")
@@ -142,10 +125,10 @@ func SignUpPengguna(db *mongo.Database, insertedDoc model.Pengguna) error {
 // login
 func LogIn(db *mongo.Database, insertedDoc model.User) (user model.User, err error) {
 	if insertedDoc.Email == "" || insertedDoc.Password == "" {
-		return user, fmt.Errorf("mohon untuk melengkapi data")
+		return user, fmt.Errorf("Dimohon untuk melengkapi data")
 	}
 	if err = checkmail.ValidateFormat(insertedDoc.Email); err != nil {
-		return user, fmt.Errorf("email tidak valid")
+		return user, fmt.Errorf("Email tidak valid")
 	}
 	existsDoc, err := GetUserFromEmail(insertedDoc.Email, db)
 	if err != nil {
