@@ -10,7 +10,7 @@ type Register struct {
 	Email           string
 	Username        string
 	Password        string
-
+	ConfirmPassword string
 }
 
 
