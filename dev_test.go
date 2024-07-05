@@ -6,15 +6,16 @@ import (
 	"fmt"
 	"testing"
 
-	"github.com/serbaevents/backendSE/model"
-	"github.com/serbaevents/backendSE/module"
+	"github.com/cerdas-buatan/be/model"
+	"github.com/cerdas-buatan/be/module"
+
 	// "go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	// "golang.org/x/crypto/argon2"
 	// "go.mongodb.org/mongo-driver/bson/primitive"
 )
 
-var db = module.MongoConnect("MONGOSTRING", "serbaevent_db")
+var db = module.MongoConnect("MONGOSTRING", "cobain_db")
 
 type Userr struct {
 	ID    primitive.ObjectID `bson:"_id,omitempty" json:"_id,omitempty"`

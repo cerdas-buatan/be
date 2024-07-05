@@ -5,7 +5,6 @@ go 1.21.3
 require (
 	aidanwoods.dev/go-paseto v1.5.1
 	github.com/badoux/checkmail v1.2.4
-	github.com/serbaevents/backendSE v0.0.6
 	go.mongodb.org/mongo-driver v1.16.0
 	golang.org/x/crypto v0.24.0
 )
