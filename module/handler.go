@@ -148,28 +148,28 @@ func GCFHandlerGetPenggunaByPengguna(iduser primitive.ObjectID, conn *mongo.Data
 }
 
 //qna
-func GCFHandlerQnA(r *http.Request) string {
-	var Response model.Response
-	Response.Status = false
-	var qnaRequest struct {
-		Question string `json:"question"`
-	}
-	err := json.NewDecoder(r.Body).Decode(&qnaRequest)
-	if err != nil {
-		Response.Message = "error parsing application/json: " + err.Error()
-		return GCFReturnStruct(Response)
-	}
+// func GCFHandlerQnA(r *http.Request) string {
+// 	var Response model.Response
+// 	Response.Status = false
+// 	var qnaRequest struct {
+// 		Question string `json:"question"`
+// 	}
+// 	err := json.NewDecoder(r.Body).Decode(&qnaRequest)
+// 	if err != nil {
+// 		Response.Message = "error parsing application/json: " + err.Error()
+// 		return GCFReturnStruct(Response)
+// 	}
 
-	answer, err := model.GetAnswer(qnaRequest.Question)
-	if err != nil {
-		Response.Message = "error getting answer: " + err.Error()
-		return GCFReturnStruct(Response)
-	}
+// 	answer, err := model.GetAnswer(qnaRequest.Question)
+// 	if err != nil {
+// 		Response.Message = "error getting answer: " + err.Error()
+// 		return GCFReturnStruct(Response)
+// 	}
 
-	Response.Status = true
-	Response.Message = answer
-	return GCFReturnStruct(Response)
-}
+// 	Response.Status = true
+// 	Response.Message = answer
+// 	return GCFReturnStruct(Response)
+// }
 
 
 

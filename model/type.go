@@ -71,7 +71,7 @@ type Credential struct {
 	Role    string `json:"role,omitempty" bson:"role,omitempty"`
 }
 
-type QnA struct {
-	Question string `json:"question"`
-	Answer   string `json:"answer"`
-}
+// type QnA struct {
+// 	Question string `json:"question"`
+// 	Answer   string `json:"answer"`
+// }

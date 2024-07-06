@@ -368,30 +368,30 @@ func GetPenggunaFromAkun(akun primitive.ObjectID, db *mongo.Database) (doc model
 }
 
 //qna
-func QnAHandler(w http.ResponseWriter, r *http.Request) {
-	var response model.Response
-	response.Status = false
-	var qnaRequest struct {
-		Question string `json:"question"`
-	}
-	err := json.NewDecoder(r.Body).Decode(&qnaRequest)
-	if err != nil {
-		response.Message = "error parsing application/json: " + err.Error()
-		w.WriteHeader(http.StatusBadRequest)
-		w.Write([]byte(module.GCFReturnStruct(response)))
-		return
-	}
+// func QnAHandler(w http.ResponseWriter, r *http.Request) {
+// 	var response model.Response
+// 	response.Status = false
+// 	var qnaRequest struct {
+// 		Question string `json:"question"`
+// 	}
+// 	err := json.NewDecoder(r.Body).Decode(&qnaRequest)
+// 	if err != nil {
+// 		response.Message = "error parsing application/json: " + err.Error()
+// 		w.WriteHeader(http.StatusBadRequest)
+// 		w.Write([]byte(module.GCFReturnStruct(response)))
+// 		return
+// 	}
 
-	answer, err := model.GetAnswer(qnaRequest.Question)
-	if err != nil {
-		response.Message = "error getting answer: " + err.Error()
-		w.WriteHeader(http.StatusInternalServerError)
-		w.Write([]byte(module.GCFReturnStruct(response)))
-		return
-	}
+// 	answer, err := model.GetAnswer(qnaRequest.Question)
+// 	if err != nil {
+// 		response.Message = "error getting answer: " + err.Error()
+// 		w.WriteHeader(http.StatusInternalServerError)
+// 		w.Write([]byte(module.GCFReturnStruct(response)))
+// 		return
+// 	}
 
-	response.Status = true
-	response.Message = answer
-	w.WriteHeader(http.StatusOK)
-	w.Write([]byte(module.GCFReturnStruct(response)))
-}
+// 	response.Status = true
+// 	response.Message = answer
+// 	w.WriteHeader(http.StatusOK)
+// 	w.Write([]byte(module.GCFReturnStruct(response)))
+// }
