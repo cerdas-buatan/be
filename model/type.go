@@ -6,12 +6,7 @@ import (
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
-type Register struct {
-	Email           string
-	Username        string
-	Password        string
-	ConfirmPassword string
-}
+
 
 
 type Login struct {
@@ -37,11 +32,7 @@ type User struct {
 
 type Pengguna struct {
 	ID           primitive.ObjectID `bson:"_id,omitempty" json:"_id,omitempty"`
-	NamaLengkap  string             `bson:"namalengkap,omitempty" json:"namalengkap,omitempty"`
-	TanggalLahir string             `bson:"tanggallahir,omitempty" json:"tanggallahir,omitempty"`
-	JenisKelamin string             `bson:"jeniskelamin,omitempty" json:"jeniskelamin,omitempty"`
-	NomorHP      string             `bson:"nomorhp,omitempty" json:"nomorhp,omitempty"`
-	Alamat       string             `bson:"alamat,omitempty" json:"alamat,omitempty"`
+	Username        string			`bson:"username,omitempty" json:"username,omitempty"`
 	Akun         User               `bson:"akun,omitempty" json:"akun,omitempty"`
 }
 

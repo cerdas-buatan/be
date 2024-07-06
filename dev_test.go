@@ -56,18 +56,14 @@ func TestInsertUser(t *testing.T) {
 
 func TestSignUpPengguna(t *testing.T) {
 	var doc model.Pengguna
-	doc.NamaLengkap = "Sahijatea"
-	doc.TanggalLahir = "30/08/2004"
-	doc.JenisKelamin = "Perempuan"
-	doc.NomorHP = "081234567890"
-	doc.Alamat = "Wastukencana Blok No 32"
-	doc.Akun.Email = "sahjatsea@gmail.com"
+	doc.Username = "Sahijatea"
+	doc.Akun.Email = "jelemages@gmail.com"
 	doc.Akun.Password = "sahijabandung"
 	err := module.SignUpPengguna(db, doc)
 	if err != nil {
 		t.Errorf("Error inserting document: %v", err)
 	} else {
-		fmt.Println("Data berhasil disimpan dengan nama :", doc.NamaLengkap)
+		fmt.Println("Data berhasil disimpan dengan nama :", doc.Username)
 	}
 }
 

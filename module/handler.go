@@ -45,7 +45,7 @@ func GCFHandlerSignUpPengguna(MONGOCONNSTRINGENV, dbname string, r *http.Request
 		return GCFReturnStruct(Response)
 	}
 	Response.Status = true
-	Response.Message = "Halo " + datapengguna.NamaLengkap
+	Response.Message = "Halo " + datapengguna.Username
 	return GCFReturnStruct(Response)
 }
 
