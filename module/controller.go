@@ -12,7 +12,6 @@ import (
 	"strings"
 
 	"github.com/badoux/checkmail"
-	"github.com/cerdas-buatan/be/model"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
@@ -20,7 +19,7 @@ import (
 	"golang.org/x/crypto/argon2"
 
 	model "github.com/cerdas-buatan/be/model"
-	"github.com/cerdas-buatan/be/module"
+
 )
 
 // var MongoString string = os.Getenv("MONGOSTRING")
