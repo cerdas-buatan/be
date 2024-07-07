@@ -2,7 +2,7 @@ package main
 
 import (
     "net/http"
-    "github.com/cerdas-buatan/be/module/handler"
+    "github.com/cerdas-buatan/be/module"
 )
 
 func main() {

@@ -6,7 +6,7 @@ import (
 	"os"
 
 	model "github.com/cerdas-buatan/be/model"
-	"github.com/cerdas-buatan/be/module/controller"
+	module "github.com/cerdas-buatan/be/module"
     "github.com/cerdas-buatan/be/model"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
@@ -157,7 +157,7 @@ func ChatHandler(w http.ResponseWriter, r *http.Request) {
         return
     }
 
-    response, err := controller.GetResponse(chatReq.Message)
+    response, err := module.GetResponse(chatReq.Message)
     if err != nil {
         http.Error(w, err.Error(), http.StatusInternalServerError)
         return
