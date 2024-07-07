@@ -112,3 +112,4 @@ func TestReturnStruct(t *testing.T) {
 	hasil := module.GCFReturnStruct(data)
 	fmt.Println(hasil)
 }
+

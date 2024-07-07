@@ -11,6 +11,7 @@ import (
 
 	// "net/http"
 	"os"
+	"os/exec"
 	"strings"
 
 	"github.com/badoux/checkmail"
@@ -169,6 +170,16 @@ func UpdateEmailUser(iduser primitive.ObjectID, db *mongo.Database, insertedDoc 
 		return err
 	}
 	return nil
+}
+
+//responsechat
+func GetResponse(input string) (string, error) {
+    cmd := exec.Command("python3", "model/model.py", input)
+    out, err := cmd.Output()
+    if err != nil {
+        return "", err
+    }
+    return string(out), nil
 }
 
 func UpdatePasswordUser(iduser primitive.ObjectID, db *mongo.Database, insertedDoc model.Password) error {

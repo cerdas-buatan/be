@@ -62,7 +62,10 @@ type Credential struct {
 	Role    string `json:"role,omitempty" bson:"role,omitempty"`
 }
 
-// type QnA struct {
-// 	Question string `json:"question"`
-// 	Answer   string `json:"answer"`
-// }
+type ChatRequest struct {
+    Message string `json:"message"`
+}
+
+type ChatResponse struct {
+    Response string `json:"response"`
+}

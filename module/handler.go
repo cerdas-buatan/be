@@ -6,6 +6,8 @@ import (
 	"os"
 
 	model "github.com/cerdas-buatan/be/model"
+	"github.com/cerdas-buatan/be/module/controller"
+    "github.com/cerdas-buatan/be/model"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
 )
@@ -146,30 +148,25 @@ func GCFHandlerGetPenggunaByPengguna(iduser primitive.ObjectID, conn *mongo.Data
 	return GCFReturnStruct(pengguna)
 }
 
-//qna
-// func GCFHandlerQnA(r *http.Request) string {
-// 	var Response model.Response
-// 	Response.Status = false
-// 	var qnaRequest struct {
-// 		Question string `json:"question"`
-// 	}
-// 	err := json.NewDecoder(r.Body).Decode(&qnaRequest)
-// 	if err != nil {
-// 		Response.Message = "error parsing application/json: " + err.Error()
-// 		return GCFReturnStruct(Response)
-// 	}
+//ChatHandler
+func ChatHandler(w http.ResponseWriter, r *http.Request) {
+    var chatReq model.ChatRequest
+    err := json.NewDecoder(r.Body).Decode(&chatReq)
+    if err != nil {
+        http.Error(w, err.Error(), http.StatusBadRequest)
+        return
+    }
 
-// 	answer, err := model.GetAnswer(qnaRequest.Question)
-// 	if err != nil {
-// 		Response.Message = "error getting answer: " + err.Error()
-// 		return GCFReturnStruct(Response)
-// 	}
+    response, err := controller.GetResponse(chatReq.Message)
+    if err != nil {
+        http.Error(w, err.Error(), http.StatusInternalServerError)
+        return
+    }
 
-// 	Response.Status = true
-// 	Response.Message = answer
-// 	return GCFReturnStruct(Response)
-// }
-
+    chatRes := model.ChatResponse{Response: response}
+    w.Header().Set("Content-Type", "application/json")
+    json.NewEncoder(w).Encode(chatRes)
+}
 
 
 // return struct
