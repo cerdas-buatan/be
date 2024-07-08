@@ -6,9 +6,6 @@ import (
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
-
-
-
 type Login struct {
 	Username string
 	Password string
@@ -32,7 +29,7 @@ type User struct {
 
 type Pengguna struct {
 	ID           primitive.ObjectID `bson:"_id,omitempty" json:"_id,omitempty"`
-	Username        string			`bson:"username,omitempty" json:"username,omitempty"`
+	Username     string			    `bson:"username,omitempty" json:"username,omitempty"`
 	Akun         User               `bson:"akun,omitempty" json:"akun,omitempty"`
 }
 
