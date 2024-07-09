@@ -3,8 +3,8 @@ import (
 	"context"
 	"fmt"
 	"os"
-	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
+	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"time"
@@ -65,13 +65,28 @@ func InsertUserdata(database *mongo.Database, username, email, password, salt, r
 	return InsertTwoDoc(database, "users", pengguna)
 }
 
-func InsertOneDoc(db *mongo.Database, col string, doc interface{}) (insertedID primitive.ObjectID, err error) {
-	result, err := db.Collection(col).InsertOne(context.Background(), doc)
+
+func InsertOneDoc(db *mongo.Database, collection string, doc interface{}) (interface{}, error) {
+	coll := db.Collection(collection)
+	result, err := coll.InsertOne(context.Background(), doc)
 	if err != nil {
-		return insertedID, fmt.Errorf("kesalahan server : insert")
+		return nil, err
 	}
-	insertedID = result.InsertedID.(primitive.ObjectID)
-	return insertedID, nil
+	return result.InsertedID, nil
+}
+
+
+// func InsertOneDoc(db *mongo.Database, col string, doc interface{}) (insertedID primitive.ObjectID, err error) {
+// 	result, err := db.Collection(col).InsertOne(context.Background(), doc)
+// 	if err != nil {
+// 		return insertedID, fmt.Errorf("kesalahan server : insert")
+// 	}
+// 	insertedID = result.InsertedID.(primitive.ObjectID)
+// 	return insertedID, nil
+// }
+
+func FindOneDoc(db *mongo.Database, collection string, filter bson.M) *mongo.SingleResult {
+	return db.Collection(collection).FindOne(nil, filter)
 }
 
 func UpdateOneDoc(id primitive.ObjectID, db *mongo.Database, col string, doc interface{}) (err error) {
