@@ -11,6 +11,22 @@ import (
 	"github.com/cerdas-buatan/be/model"
 )
 
+func ConnectDB(uri string) *mongo.Database {
+	client, err := mongo.NewClient(options.Client().ApplyURI(uri))
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+	defer cancel()
+
+	err = client.Connect(ctx)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	return client.Database("chatbot")
+}
 
 func MongoConnect(MongoString, dbname string) *mongo.Database {
 	client, err := mongo.Connect(context.TODO(), options.Client().ApplyURI(os.Getenv(MongoString)))

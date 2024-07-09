@@ -5,57 +5,103 @@ import (
 	"net/http"
 	"os"
 
+	model "github.com/cerdas-buatan/be/model"
 	"github.com/cerdas-buatan/be/helper"
-	"github.com/cerdas-buatan/be/model"
+	"github.com/cerdas-buatan/be/config"
 	"go.mongodb.org/mongo-driver/mongo"
 )
 
-func GCFHandlerSignUpPengguna(MONGOCONNSTRINGENV, dbname string, r *http.Request) string {
-	conn := helper.MongoConnect(MONGOCONNSTRINGENV, dbname)
+// GCFHandlerSignUpPengguna handles signup for Google Cloud Function
+func GCFHandlerSignUpPengguna(w http.ResponseWriter, r *http.Request) {
+	db := helper.ConnectMongoDB(os.Getenv("MONGOCONNSTRING"), os.Getenv("DBNAME"))
+	defer db.Client().Disconnect(r.Context())
+
 	var Response model.Response
 	Response.Status = false
+
 	var datapengguna model.Pengguna
 	err := json.NewDecoder(r.Body).Decode(&datapengguna)
 	if err != nil {
 		Response.Message = "error parsing application/json: " + err.Error()
-		return helper.GCFReturnStruct(Response)
+		w.WriteHeader(http.StatusBadRequest)
+		json.NewEncoder(w).Encode(Response)
+		return
 	}
-	err = SignUpPengguna(conn, datapengguna)
+
+	err = helper.SignUpPengguna(db, datapengguna)
 	if err != nil {
 		Response.Message = err.Error()
-		return helper.GCFReturnStruct(Response)
+		w.WriteHeader(http.StatusInternalServerError)
+		json.NewEncoder(w).Encode(Response)
+		return
 	}
+
 	Response.Status = true
 	Response.Message = "Halo " + datapengguna.Username
-	return helper.GCFReturnStruct(Response)
+	w.WriteHeader(http.StatusOK)
+	json.NewEncoder(w).Encode(Response)
 }
 
-func GCFHandlerLogin(PASETOPRIVATEKEYENV, MONGOCONNSTRINGENV, dbname string, r *http.Request) string {
-	conn := helper.MongoConnect(MONGOCONNSTRINGENV, dbname)
+// GCFHandlerLogin handles login for Google Cloud Function
+func GCFHandlerLogin(w http.ResponseWriter, r *http.Request) {
+	db := helper.ConnectMongoDB(os.Getenv("MONGOCONNSTRING"), os.Getenv("DBNAME"))
+	defer db.Client().Disconnect(r.Context())
+
 	var Response model.Credential
 	Response.Status = false
+
 	var datauser model.User
 	err := json.NewDecoder(r.Body).Decode(&datauser)
 	if err != nil {
 		Response.Message = "error parsing application/json: " + err.Error()
-		return helper.GCFReturnStruct(Response)
+		w.WriteHeader(http.StatusBadRequest)
+		json.NewEncoder(w).Encode(Response)
+		return
 	}
-	user, err := LogIn(conn, datauser)
+
+	user, err := helper.LogIn(db, datauser)
 	if err != nil {
 		Response.Message = err.Error()
-		return helper.GCFReturnStruct(Response)
+		w.WriteHeader(http.StatusUnauthorized)
+		json.NewEncoder(w).Encode(Response)
+		return
 	}
+
 	Response.Status = true
-	tokenstring, err := helper.Encode(user.ID, user.Role, os.Getenv(PASETOPRIVATEKEYENV))
+	tokenstring, err := helper.Encode(user.ID, user.Role, os.Getenv("PASETOPRIVATEKEYENV"))
 	if err != nil {
 		Response.Message = "Gagal Encode Token : " + err.Error()
+		w.WriteHeader(http.StatusInternalServerError)
 	} else {
 		Response.Message = "Selamat Datang " + user.Email
 		Response.Token = tokenstring
 		Response.Role = user.Role
 	}
-	return helper.GCFReturnStruct(Response)
+
+	w.WriteHeader(http.StatusOK)
+	json.NewEncoder(w).Encode(Response)
 }
+
+// ChatHandler handles chat requests
+func ChatHandler(w http.ResponseWriter, r *http.Request) {
+	var chatReq model.ChatRequest
+	err := json.NewDecoder(r.Body).Decode(&chatReq)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		return
+	}
+
+	response, err := GetResponse(chatReq.Message) // Implement GetResponse function
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	chatRes := model.ChatResponse{Response: response}
+	w.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(w).Encode(chatRes)
+}
+
 
 
 

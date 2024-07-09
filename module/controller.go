@@ -354,29 +354,30 @@
 package module
 
 import (
+	"encoding/json"
+	"net/http"
+
 	"github.com/gofiber/fiber/v2"
-	"go.mongodb.org/mongo-driver/mongo"
 	"github.com/cerdas-buatan/be/helper"
 	"github.com/cerdas-buatan/be/model"
+	"go.mongodb.org/mongo-driver/mongo"
 )
 
+// RegisterUser handles user registration
 func RegisterUser(c *fiber.Ctx) error {
 	db := c.Locals("db").(*mongo.Database)
 
-	username := c.FormValue("username")
-	email := c.FormValue("email")
-	password := c.FormValue("password")
+	var user model.User
+	if err := c.BodyParser(&user); err != nil {
+		return helper.SendResponse(c, fiber.StatusBadRequest, "Failed to parse request body", nil)
+	}
 
-	passwordHash, err := helper.HashPassword(password)
+	passwordHash, err := helper.HashPassword(user.Password)
 	if err != nil {
 		return helper.SendResponse(c, fiber.StatusInternalServerError, "Failed to hash password", nil)
 	}
 
-	user := model.User{
-		Username:     username,
-		Email:        email,
-		Password:     passwordHash,
-	}
+	user.Password = passwordHash
 
 	_, err = helper.InsertOneDoc(db, "users", user)
 	if err != nil {
@@ -384,4 +385,37 @@ func RegisterUser(c *fiber.Ctx) error {
 	}
 
 	return helper.SendResponse(c, fiber.StatusCreated, "User registered successfully", user)
+}
+
+// Login handles user login
+func Login(c *fiber.Ctx) error {
+	db := c.Locals("db").(*mongo.Database)
+
+	var credentials struct {
+		Email    string `json:"email"`
+		Password string `json:"password"`
+	}
+
+	if err := c.BodyParser(&credentials); err != nil {
+		return helper.SendResponse(c, fiber.StatusBadRequest, "Failed to parse request body", nil)
+	}
+
+	user := model.User{
+		Email:    credentials.Email,
+		Password: credentials.Password,
+	}
+
+	authenticatedUser, err := helper.LogIn(db, user)
+	if err != nil {
+		return helper.SendResponse(c, fiber.StatusUnauthorized, "Authentication failed", nil)
+	}
+
+	// Here you can optionally generate a token or session for the user if needed
+	return helper.SendResponse(c, fiber.StatusOK, "Login successful", authenticatedUser)
+}
+
+// Logout handles user logout (example implementation)
+func Logout(c *fiber.Ctx) error {
+	// Perform logout logic here, such as clearing session or token
+	return helper.SendResponse(c, fiber.StatusOK, "Logout successful", nil)
 }
