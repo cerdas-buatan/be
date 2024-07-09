@@ -25,7 +25,7 @@ func ConnectDB(uri string) *mongo.Database {
 		log.Fatal(err)
 	}
 
-	return client.Database("chatbot")
+	return client.Database(dbName)
 }
 
 func MongoConnect(MongoString, dbname string) *mongo.Database {
