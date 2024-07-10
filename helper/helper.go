@@ -16,37 +16,6 @@ import (
 	"golang.org/x/crypto/argon2"
 )
 
-// GetAddress is a function to get IP and Port from environment variable
-func GetAddress() (ipport string, network string) {
-	port := os.Getenv("PORT")
-	ip := os.Getenv("IP")
-
-	// Default values
-	if port == "" {
-		port = ":8080"
-	} else if port[0:1] != ":" {
-		port = ":" + port
-	}
-
-	network = "tcp4"
-	ipport = port
-
-	if ip != "" {
-		if strings.Contains(ip, ".") {
-			ipport = ip + port
-		} else {
-			ipport = "[" + ip + "]" + port
-			network = "tcp6"
-		}
-	}
-
-	return ipport, network
-}
-
-package helper
-
-
-
 func HashPassword(password string) (string, error) {
 	salt := make([]byte, 16)
 	_, err := rand.Read(salt)
@@ -66,7 +35,32 @@ func SendResponse(c *fiber.Ctx, status int, message string, data interface{}) er
 	return c.Status(status).JSON(response)
 }
 
+// GetAddress is a function to get IP and Port from environment variable
+// func GetAddress() (ipport string, network string) {
+// 	port := os.Getenv("PORT")
+// 	ip := os.Getenv("IP")
 
+// 	// Default values
+// 	if port == "" {
+// 		port = ":8080"
+// 	} else if port[0:1] != ":" {
+// 		port = ":" + port
+// 	}
+
+// 	network = "tcp4"
+// 	ipport = port
+
+// 	if ip != "" {
+// 		if strings.Contains(ip, ".") {
+// 			ipport = ip + port
+// 		} else {
+// 			ipport = "[" + ip + "]" + port
+// 			network = "tcp6"
+// 		}
+// 	}
+
+// 	return ipport, network
+// }
 
 // GetEnv gets the value of an environment variable or returns a default value if not set
 // func GetEnv(key, defaultValue string) string {
