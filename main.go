@@ -12,13 +12,13 @@ func init() {
 	functions.HTTP("makmur", route.Web)
 }
 
-func main() {
-	app := fiber.New()
-	db := config.ConnectDB(os.Getenv("MONGOCONNSTRING"), os.Getenv("DBNAME"))
-	route.SetupRoutes(app, db)
+// func main() {
+// 	app := fiber.New()
+// 	db := config.ConnectDB(os.Getenv("MONGOCONNSTRING"), os.Getenv("DBNAME"))
+// 	route.SetupRoutes(app, db)
 
-	app.Listen(":3000")
-}
+// 	app.Listen(":3000")
+// }
 
 
 
