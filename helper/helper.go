@@ -7,7 +7,7 @@ import (
 	"os"
 	"strings"
 	"github.com/google/uuid"
-	"github.com/go-check/checkmail"
+	// "github.com/go-check/checkmail"
 	"golang.org/x/crypto/bcrypt"
 	"github.com/gofiber/fiber/v2"
 	"go.mongodb.org/mongo-driver/bson/primitive"
