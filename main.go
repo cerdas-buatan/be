@@ -9,7 +9,7 @@ import (
 )
 
 func init() {
-	functions.HTTP("makmur", route.Web)
+	functions.HTTP("gaysdisal", route.Web)
 }
 
 // func main() {
