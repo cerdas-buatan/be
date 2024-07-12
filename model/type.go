@@ -2,6 +2,7 @@ package model
 
 import "go.mongodb.org/mongo-driver/bson/primitive"
 
+// struct user
 type User struct {
 	ID       primitive.ObjectID `bson:"_id,omitempty" json:"_id,omitempty"`
 	Email    string             `bson:"email,omitempty" json:"email,omitempty"`
@@ -10,22 +11,26 @@ type User struct {
 	Role     string             `bson:"role,omitempty" json:"role,omitempty"`
 }
 
+// struct Pengguna
 type Pengguna struct {
 	ID       primitive.ObjectID `bson:"_id,omitempty" json:"_id,omitempty"`
 	Username string             `bson:"username,omitempty" json:"username,omitempty"`
 	Akun     User               `bson:"akun,omitempty" json:"akun,omitempty"`
 }
 
+// struct response
 type Response struct {
 	Status  bool        `json:"status"`
 	Message string      `json:"message"`
 	Data    interface{} `json:"data"`
 }
 
+// struct ChatRequest
 type ChatRequest struct {
 	Message string `json:"message"`
 }
 
+// struct ChatResponse
 type ChatResponse struct {
 	Response string `json:"response"`
 }
@@ -79,10 +84,10 @@ type ChatResponse struct {
 // 	Nbf  time.Time          `json:"nbf"`
 // }
 
-type Response struct {
-	Status  bool   `json:"status" bson:"status"`
-	Message string `json:"message,omitempty" bson:"message,omitempty"`
-}
+// type Response struct {
+// 	Status  bool   `json:"status" bson:"status"`
+// 	Message string `json:"message,omitempty" bson:"message,omitempty"`
+// }
 
 // type Credential struct {
 // 	Status  bool   `json:"status" bson:"status"`
@@ -92,9 +97,9 @@ type Response struct {
 // 	Role    string `json:"role,omitempty" bson:"role,omitempty"`
 // }
 
-type ChatRequest struct {
-	Message string `json:"message"`
-}
+// type ChatRequest struct {
+// 	Message string `json:"message"`
+// }
 
 // type ChatResponse struct {
 //     Response string `json:"response"`
