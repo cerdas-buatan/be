@@ -1,8 +1,13 @@
 package be
 
 import (
+	"encoding/json"
+	"net/http"
+	"os"
+
 	"github.com/GoogleCloudPlatform/functions-framework-go/functions"
 	"github.com/cerdas-buatan/be/route"
+	"github.com/whatsauth/watoken"
 )
 
 func init() {
@@ -28,3 +33,29 @@ func init() {
 //     http.HandleFunc("/chat", handler.ChatHandler)
 //     http.ListenAndServe(":8080", nil)
 // }
+
+func GCFPostHandler(PASETOPRIVATEKEYENV, MONGOCONNSTRINGENV, dbname, collectionname string, r *http.Request) string {
+	var Response Credential
+	Response.Status = false
+	mconn := SetConnection(MONGOCONNSTRINGENV, dbname)
+	var datauser User
+	err := json.NewDecoder(r.Body).Decode(&datauser)
+	if err != nil {
+		Response.Message = "error parsing application/json: " + err.Error()
+	} else {
+		if IsPasswordValid(mconn, collectionname, datauser) {
+			Response.Status = true
+			tokenstring, err := watoken.Encode(datauser.Username, os.Getenv(PASETOPRIVATEKEYENV))
+			if err != nil {
+				Response.Message = "Gagal Encode Token : " + err.Error()
+			} else {
+				Response.Message = "Selamat Datang"
+				Response.Token = tokenstring
+			}
+		} else {
+			Response.Message = "Password Salah"
+		}
+	}
+
+	return GCFReturnStruct(Response)
+}
