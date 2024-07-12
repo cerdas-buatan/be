@@ -23,11 +23,11 @@ type Response struct {
 }
 
 type ChatRequest struct {
-	Message string `json:"message"`
+	Messagee string `json:"messagee"`
 }
 
 type ChatResponse struct {
-	Response string `json:"response"`
+	Responsee string `json:"responsee"`
 }
 
 // package model
