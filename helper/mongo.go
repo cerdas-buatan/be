@@ -10,7 +10,7 @@ import (
 	"time"
 	"github.com/cerdas-buatan/be/model"
 )
-
+// connection db
 func ConnectDB(uri string) *mongo.Database {
 	client, err := mongo.NewClient(options.Client().ApplyURI(uri))
 	if err != nil {
@@ -28,6 +28,7 @@ func ConnectDB(uri string) *mongo.Database {
 	return client.Database(dbName)
 }
 
+// mongo connec
 func MongoConnect(MongoString, dbname string) *mongo.Database {
 	client, err := mongo.Connect(context.TODO(), options.Client().ApplyURI(os.Getenv(MongoString)))
 	if err != nil {
@@ -62,7 +63,7 @@ func InsertTwoDoc(database *mongo.Database, collection string, document interfac
 	return result.InsertedID
 }
 
-// InsertUserdata inserts a new user into the database
+// InsertUserdata insert user untuk register
 func InsertUserdata(database *mongo.Database, username, email, password, salt, role string) (InsertedID interface{}) {
 	// Create the User struct
 	user := model.User{
@@ -105,6 +106,7 @@ func FindOneDoc(db *mongo.Database, collection string, filter bson.M) *mongo.Sin
 	return db.Collection(collection).FindOne(nil, filter)
 }
 
+// updateonedoc
 func UpdateOneDoc(id primitive.ObjectID, db *mongo.Database, col string, doc interface{}) (err error) {
 	filter := bson.M{"_id": id}
 	result, err := db.Collection(col).UpdateOne(context.Background(), filter, bson.M{"$set": doc})

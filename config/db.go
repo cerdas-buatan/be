@@ -6,6 +6,7 @@ import (
 	"github.com/gocroot/helper/atdb"
 )
 
+// connection mongo
 var MongoString string = os.Getenv("MONGOSTRING")
 
 var mongoinfo = atdb.DBInfo{
