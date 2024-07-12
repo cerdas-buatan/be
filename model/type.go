@@ -11,9 +11,9 @@ type User struct {
 }
 
 type Pengguna struct {
-	//	ID       primitive.ObjectID `bson:"_id,omitempty" json:"_id,omitempty"`
-	//	Username string             `bson:"username,omitempty" json:"username,omitempty"`
-	//	Akun     User               `bson:"akun,omitempty" json:"akun,omitempty"`
+	ID       primitive.ObjectID `bson:"_id,omitempty" json:"_id,omitempty"`
+	Username string             `bson:"username,omitempty" json:"username,omitempty"`
+	Akun     User               `bson:"akun,omitempty" json:"akun,omitempty"`
 }
 
 type Response struct {
@@ -23,25 +23,17 @@ type Response struct {
 }
 
 type ChatRequest struct {
-	Messagee string `json:"messagee"`
+	Message string `json:"message"`
 }
 
 type ChatResponse struct {
-	Responsee string `json:"responsee"`
+	Response string `json:"response"`
 }
 
 // package model
 
 // import (
 // 	"time"
-
-// 	"go.mongodb.org/mongo-driver/bson/primitive"
-// )
-
-// type Login struct {
-// 	Username string
-// 	Password string
-// }
 
 // type Verification struct {
 // 	ID               primitive.ObjectID `bson:"_id,omitempty"`
