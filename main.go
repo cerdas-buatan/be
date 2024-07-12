@@ -68,9 +68,9 @@ func InsertUser(db *mongo.Database, collection string, userdata User) string {
 	atdb.InsertOneDoc(db, collection, userdata)
 	return "username : " + userdata.Username + "password : " + userdata.Password
 }
-func InsertUser(db *mongo.Database, collection string, userdata User) string {
-	hash, _ := HashPassword(userdata.Password)
+//func InsertUser(db *mongo.Database, collection string, userdata User) string {
+//	hash, _ := HashPassword(userdata.Password)
 //	userdata.Password = hash
 //	atdb.InsertOneDoc(db, collection, userdata)
-//	return "username : " + userdata.Username + "password : " + userdata.Password
-//}ssss
+	return "username : " + userdata.Username + "password : " + userdata.Password
+}
