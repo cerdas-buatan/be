@@ -1,3 +1,233 @@
+package module
+
+import (
+	"encoding/json"
+	"net/http"
+
+	"github.com/gofiber/fiber/v2"
+	"github.com/cerdas-buatan/be/helper"
+	"github.com/cerdas-buatan/be/model"
+	// "github.com/go-check/checkmail"
+	"go.mongodb.org/mongo-driver/mongo"
+)
+
+
+func HomeGaysdisal(w http.ResponseWriter, r *http.Request) {
+    // Buat response dalam bentuk string
+    Response := fmt.Sprintf("Gaysdisal AI", "8081")
+
+    // Konversi response ke JSON
+    jsonResponse, err := json.Marshal(Response)
+    if err != nil {
+        http.Error(w, err.Error(), http.StatusInternalServerError)
+        return
+    }
+
+    // Set header Content-Type
+    w.Header().Set("Content-Type", "application/json")
+
+    // Tulis response ke http.ResponseWriter
+    w.Write(jsonResponse)
+}
+
+// NotFound handles 404 errors and provides a button to go back home
+func NotFound(respw http.ResponseWriter, req *http.Request) {
+    respw.WriteHeader(http.StatusNotFound)
+    respw.Header().Set("Content-Type", "text/html")
+    fmt.Fprintln(respw, `
+        <!DOCTYPE html>
+        <html lang="en">
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>404 Not Found</title>
+            <style>
+                body {
+                    font-family: Arial, sans-serif;
+                    text-align: center;
+                    margin-top: 50px;
+                }
+                .container {
+                    max-width: 600px;
+                    margin: auto;
+                }
+                .button {
+                    display: inline-block;
+                    margin-top: 20px;
+                    padding: 10px 20px;
+                    font-size: 16px;
+                    color: #fff;
+                    background-color: #007bff;
+                    text-decoration: none;
+                    border-radius: 5px;
+                }
+                .button:hover {
+                    background-color: #0056b3;
+                }
+            </style>
+        </head>
+        <body>
+            <div class="container">
+                <h1>404 - Not Found</h1>
+                <p>The page you are looking for does not exist.</p>
+                <a href="http://cerdas-buatan.projsonal.online/fe/" class="button">Home</a>
+            </div>
+        </body>
+        </html>
+    `)
+}
+
+
+// func NotFound(respw http.ResponseWriter, req *http.Request) {
+//     var resp model.Response
+//     resp.Message = "404 Not Found"
+//     helper.WriteJSON(respw, http.StatusNotFound, resp)
+// }
+
+// RegisterUser handles user registration
+func RegisterUser(c *fiber.Ctx) error {
+	db := c.Locals("db").(*mongo.Database)
+
+	var user model.User
+	if err := c.BodyParser(&user); err != nil {
+		return helper.SendResponse(c, fiber.StatusBadRequest, "Failed to parse request body", nil)
+	}
+
+	passwordHash, err := helper.HashPassword(user.Password)
+	if err != nil {
+		return helper.SendResponse(c, fiber.StatusInternalServerError, "Failed to hash password", nil)
+	}
+
+	user.Password = passwordHash
+
+	_, err = helper.InsertOneDoc(db, "users", user)
+	if err != nil {
+		return helper.SendResponse(c, fiber.StatusInternalServerError, "Failed to insert user", nil)
+	}
+
+	return helper.SendResponse(c, fiber.StatusCreated, "User registered successfully", user)
+}
+
+// signup
+func SignUpPengguna(db *mongo.Database, insertedDoc model.Pengguna) error {
+	objectId := primitive.NewObjectID()
+	if insertedDoc.Username == "" ||
+		insertedDoc.Akun.Password == "" {
+		return fmt.Errorf("dimohon untuk melengkapi data")
+	}
+	if err := checkmail.ValidateFormat(insertedDoc.Akun.Email); err != nil {
+		return fmt.Errorf("email tidak valid")
+	}
+	userExists, _ := GetUserFromEmail(insertedDoc.Akun.Email, db)
+	if insertedDoc.Akun.Email == userExists.Email {
+		return fmt.Errorf("email sudah terdaftar")
+	}
+	if strings.Contains(insertedDoc.Akun.Password, " ") {
+		return fmt.Errorf("password tidak boleh mengandung spasi")
+	}
+	if len(insertedDoc.Akun.Password) < 8 {
+		return fmt.Errorf("password terlalu pendek")
+	}
+	salt := make([]byte, 16)
+	_, err := rand.Read(salt)
+	if err != nil {
+		return fmt.Errorf("kesalahan server : salt")
+	}
+	hashedPassword := argon2.IDKey([]byte(insertedDoc.Akun.Password), salt, 1, 64*1024, 4, 32)
+	user := bson.M{
+		"_id":      objectId,
+		"email":    insertedDoc.Akun.Email,
+		"password": hex.EncodeToString(hashedPassword),
+		"salt":     hex.EncodeToString(salt),
+		"role":     "pengguna",
+	}
+	pengguna := bson.M{
+		"username": insertedDoc.Username,
+		"akun": model.User{
+			ID: objectId,
+		},
+	}
+	_, err = InsertOneDoc(db, "user", user)
+	if err != nil {
+		return fmt.Errorf("kesalahan server")
+	}
+	_, err = InsertOneDoc(db, "pengguna", pengguna)
+	if err != nil {
+		return fmt.Errorf("kesalahan server")
+	}
+	return nil
+}
+
+
+// // login
+func LogIn(db *mongo.Database, insertedDoc model.User) (user model.User, err error) {
+	if insertedDoc.Email == "" || insertedDoc.Password == "" {
+		return user, fmt.Errorf("mohon untuk melengkapi data")
+	}
+	if err = checkmail.ValidateFormat(insertedDoc.Email); err != nil {
+		return user, fmt.Errorf("email tidak valid")
+	}
+	existsDoc, err := GetUserFromEmail(insertedDoc.Email, db)
+	if err != nil {
+		return
+	}
+	salt, err := hex.DecodeString(existsDoc.Salt)
+	if err != nil {
+		return user, fmt.Errorf("kesalahan server : salt")
+	}
+	hash := argon2.IDKey([]byte(insertedDoc.Password), salt, 1, 64*1024, 4, 32)
+	if hex.EncodeToString(hash) != existsDoc.Password {
+		return user, fmt.Errorf("password salah")
+	}
+	return existsDoc, nil
+}
+
+// Login handles user login
+func Login(c *fiber.Ctx) error {
+	db := c.Locals("db").(*mongo.Database)
+
+	var credentials struct {
+		Email    string `json:"email"`
+		Password string `json:"password"`
+	}
+
+	if err := c.BodyParser(&credentials); err != nil {
+		return helper.SendResponse(c, fiber.StatusBadRequest, "Failed to parse request body", nil)
+	}
+
+	user := model.User{
+		Email:    credentials.Email,
+		Password: credentials.Password,
+	}
+
+	authenticatedUser, err := helper.LogIn(db, user)
+	if err != nil {
+		return helper.SendResponse(c, fiber.StatusUnauthorized, "Authentication failed", nil)
+	}
+
+	// Here you can optionally generate a token or session for the user if needed
+	return helper.SendResponse(c, fiber.StatusOK, "Login successful", authenticatedUser)
+}
+
+// Logout handles user logout (example implementation)
+func Logout(c *fiber.Ctx) error {
+	// Perform logout logic here, such as clearing session or token
+	return helper.SendResponse(c, fiber.StatusOK, "Logout successful", nil)
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 // package module
 
 // import (
@@ -350,71 +580,3 @@
 // 	return doc, nil
 // }
 
-package module
-
-import (
-	"encoding/json"
-	"net/http"
-
-	"github.com/gofiber/fiber/v2"
-	"github.com/cerdas-buatan/be/helper"
-	"github.com/cerdas-buatan/be/model"
-	"go.mongodb.org/mongo-driver/mongo"
-)
-
-// RegisterUser handles user registration
-func RegisterUser(c *fiber.Ctx) error {
-	db := c.Locals("db").(*mongo.Database)
-
-	var user model.User
-	if err := c.BodyParser(&user); err != nil {
-		return helper.SendResponse(c, fiber.StatusBadRequest, "Failed to parse request body", nil)
-	}
-
-	passwordHash, err := helper.HashPassword(user.Password)
-	if err != nil {
-		return helper.SendResponse(c, fiber.StatusInternalServerError, "Failed to hash password", nil)
-	}
-
-	user.Password = passwordHash
-
-	_, err = helper.InsertOneDoc(db, "users", user)
-	if err != nil {
-		return helper.SendResponse(c, fiber.StatusInternalServerError, "Failed to insert user", nil)
-	}
-
-	return helper.SendResponse(c, fiber.StatusCreated, "User registered successfully", user)
-}
-
-// Login handles user login
-func Login(c *fiber.Ctx) error {
-	db := c.Locals("db").(*mongo.Database)
-
-	var credentials struct {
-		Email    string `json:"email"`
-		Password string `json:"password"`
-	}
-
-	if err := c.BodyParser(&credentials); err != nil {
-		return helper.SendResponse(c, fiber.StatusBadRequest, "Failed to parse request body", nil)
-	}
-
-	user := model.User{
-		Email:    credentials.Email,
-		Password: credentials.Password,
-	}
-
-	authenticatedUser, err := helper.LogIn(db, user)
-	if err != nil {
-		return helper.SendResponse(c, fiber.StatusUnauthorized, "Authentication failed", nil)
-	}
-
-	// Here you can optionally generate a token or session for the user if needed
-	return helper.SendResponse(c, fiber.StatusOK, "Login successful", authenticatedUser)
-}
-
-// Logout handles user logout (example implementation)
-func Logout(c *fiber.Ctx) error {
-	// Perform logout logic here, such as clearing session or token
-	return helper.SendResponse(c, fiber.StatusOK, "Logout successful", nil)
-}
