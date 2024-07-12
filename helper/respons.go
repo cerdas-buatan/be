@@ -7,13 +7,6 @@ func GCFReturnStruct(DataStruct interface{}) string {
 	return string(jsonData)
 }
 
-
-
-
-
-
-
-
 // package main
 // import(
 // 	"net/http"

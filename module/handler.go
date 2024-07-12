@@ -102,12 +102,6 @@ func ChatHandler(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(chatRes)
 }
 
-
-
-
-
-
-
 // package module
 
 // import (
@@ -206,8 +200,6 @@ func ChatHandler(w http.ResponseWriter, r *http.Request) {
 // 	return GCFReturnStruct(data)
 // }
 
-
-
 // func GCFHandlerGetUserFromID(PASETOPUBLICKEYENV, MONGOCONNSTRINGENV, dbname string, r *http.Request) string {
 // 	conn := MongoConnect(MONGOCONNSTRINGENV, dbname)
 // 	var Response model.Response
@@ -287,7 +279,6 @@ func ChatHandler(w http.ResponseWriter, r *http.Request) {
 //     w.Header().Set("Content-Type", "application/json")
 //     json.NewEncoder(w).Encode(chatRes)
 // }
-
 
 // // return struct
 // func GCFReturnStruct(DataStuct any) string {

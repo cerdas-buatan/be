@@ -92,16 +92,6 @@ func InsertOneDoc(db *mongo.Database, collection string, doc interface{}) (inter
 	return result.InsertedID, nil
 }
 
-
-// func InsertOneDoc(db *mongo.Database, col string, doc interface{}) (insertedID primitive.ObjectID, err error) {
-// 	result, err := db.Collection(col).InsertOne(context.Background(), doc)
-// 	if err != nil {
-// 		return insertedID, fmt.Errorf("kesalahan server : insert")
-// 	}
-// 	insertedID = result.InsertedID.(primitive.ObjectID)
-// 	return insertedID, nil
-// }
-
 func FindOneDoc(db *mongo.Database, collection string, filter bson.M) *mongo.SingleResult {
 	return db.Collection(collection).FindOne(nil, filter)
 }
