@@ -1,11 +1,8 @@
 package be
 
 import (
-	"github.com/gofiber/fiber/v2"
-	"github.com/cerdas-buatan/be/config"
-	"github.com/cerdas-buatan/be/route"
-	"os"
 	"github.com/GoogleCloudPlatform/functions-framework-go/functions"
+	"github.com/cerdas-buatan/be/route"
 )
 
 func init() {
@@ -20,11 +17,6 @@ func init() {
 // 	app.Listen(":3000")
 // }
 
-
-
-
-
-
 // package main
 
 // import (
@@ -36,4 +28,3 @@ func init() {
 //     http.HandleFunc("/chat", handler.ChatHandler)
 //     http.ListenAndServe(":8080", nil)
 // }
-
