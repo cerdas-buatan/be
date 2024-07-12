@@ -74,3 +74,8 @@ func InsertUser(db *mongo.Database, collection string, userdata User) string {
 //	atdb.InsertOneDoc(db, collection, userdata)
 	return "username : " + userdata.Username + "password : " + userdata.Password
 }
+
+func GCFReturnStruct(DataStuct any) string {
+	jsondata, _ := json.Marshal(DataStuct)
+	return string(jsondata)
+}
