@@ -79,10 +79,10 @@ type ChatResponse struct {
 // 	Nbf  time.Time          `json:"nbf"`
 // }
 
-// type Response struct {
-// 	Status  bool   `json:"status" bson:"status"`
-// 	Message string `json:"message,omitempty" bson:"message,omitempty"`
-// }
+type Response struct {
+	Status  bool   `json:"status" bson:"status"`
+	Message string `json:"message,omitempty" bson:"message,omitempty"`
+}
 
 // type Credential struct {
 // 	Status  bool   `json:"status" bson:"status"`
@@ -92,9 +92,9 @@ type ChatResponse struct {
 // 	Role    string `json:"role,omitempty" bson:"role,omitempty"`
 // }
 
-// type ChatRequest struct {
-//     Message string `json:"message"`
-// }
+type ChatRequest struct {
+	Message string `json:"message"`
+}
 
 // type ChatResponse struct {
 //     Response string `json:"response"`
