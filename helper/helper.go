@@ -16,6 +16,7 @@ import (
 	"golang.org/x/crypto/argon2"
 )
 
+// hash
 func HashPassword(password string) (string, error) {
 	salt := make([]byte, 16)
 	_, err := rand.Read(salt)
@@ -26,6 +27,7 @@ func HashPassword(password string) (string, error) {
 	return hex.EncodeToString(hashedPassword), nil
 }
 
+// sendresponse
 func SendResponse(c *fiber.Ctx, status int, message string, data interface{}) error {
 	response := model.Response{
 		Status:  status == fiber.StatusOK,
