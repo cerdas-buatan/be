@@ -3,17 +3,17 @@ package model
 import "go.mongodb.org/mongo-driver/bson/primitive"
 
 type User struct {
-	//	ID       primitive.ObjectID `bson:"_id,omitempty" json:"_id,omitempty"`
-	//	Email    string             `bson:"email,omitempty" json:"email,omitempty"`
-	Password string `bson:"password,omitempty" json:"password,omitempty"`
-	Salt     string `bson:"salt,omitempty" json:"salt,omitempty"`
-	Role     string `bson:"role,omitempty" json:"role,omitempty"`
+	ID       primitive.ObjectID `bson:"_id,omitempty" json:"_id,omitempty"`
+	Email    string             `bson:"email,omitempty" json:"email,omitempty"`
+	Password string             `bson:"password,omitempty" json:"password,omitempty"`
+	Salt     string             `bson:"salt,omitempty" json:"salt,omitempty"`
+	Role     string             `bson:"role,omitempty" json:"role,omitempty"`
 }
 
 type Pengguna struct {
-	ID       primitive.ObjectID `bson:"_id,omitempty" json:"_id,omitempty"`
-	Username string             `bson:"username,omitempty" json:"username,omitempty"`
-	Akun     User               `bson:"akun,omitempty" json:"akun,omitempty"`
+	//	ID       primitive.ObjectID `bson:"_id,omitempty" json:"_id,omitempty"`
+	//	Username string             `bson:"username,omitempty" json:"username,omitempty"`
+	//	Akun     User               `bson:"akun,omitempty" json:"akun,omitempty"`
 }
 
 type Response struct {
