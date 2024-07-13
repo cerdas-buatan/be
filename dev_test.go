@@ -11,7 +11,6 @@ import (
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"golang.org/x/crypto/argon2"
-	// "go.mongodb.org/mongo-driver/bson/primitive"
 )
 
 var db = module.MongoConnect("MONGOSTRING", "cobaiesnn_db")
@@ -52,7 +51,6 @@ func TestInsertUser(t *testing.T) {
 		}
 	}
 }
-
 
 func TestSignUpPengguna(t *testing.T) {
 	var doc model.Pengguna

@@ -135,9 +135,6 @@ func InsertUser(db *mongo.Database, collection string, userdata User) string {
 	return "username : " + userdata.Username + "password : " + userdata.Password
 }
 
-
-
-
 // package module
 
 // import (
@@ -229,12 +226,12 @@ func InsertUser(db *mongo.Database, collection string, userdata User) string {
 // 	return GCFReturnStruct(Response)
 // }
 
-// // get all
-// func GCFHandlerGetAll(MONGOCONNSTRINGENV, dbname, col string, docs interface{}) string {
-// 	conn := MongoConnect(MONGOCONNSTRINGENV, dbname)
-// 	data := GetAllDocs(conn, col, docs)
-// 	return GCFReturnStruct(data)
-// }
+// get all
+func GCFHandlerGetAll(MONGOCONNSTRINGENV, dbname, col string, docs interface{}) string {
+	conn := MongoConnect(MONGOCONNSTRINGENV, dbname)
+	data := GetAllDocs(conn, col, docs)
+	return GCFReturnStruct(data)
+}
 
 // func GCFHandlerGetUserFromID(PASETOPUBLICKEYENV, MONGOCONNSTRINGENV, dbname string, r *http.Request) string {
 // 	conn := MongoConnect(MONGOCONNSTRINGENV, dbname)
@@ -269,7 +266,6 @@ func InsertUser(db *mongo.Database, collection string, userdata User) string {
 // 	return GCFReturnStruct(Response)
 // }
 
-
 // func GCFHandlerGetAllPengguna(MONGOCONNSTRINGENV, dbname string) string {
 // 	conn := MongoConnect(MONGOCONNSTRINGENV, dbname)
 // 	var Response model.Response
@@ -281,8 +277,6 @@ func InsertUser(db *mongo.Database, collection string, userdata User) string {
 // 	}
 // 	return GCFReturnStruct(data)
 // }
-
-
 
 // func GCFHandlerGetPenggunaByPengguna(iduser primitive.ObjectID, conn *mongo.Database) string {
 // 	Response.Status = false
@@ -322,15 +316,15 @@ func InsertUser(db *mongo.Database, collection string, userdata User) string {
 // 	return string(jsondata)
 // }
 
-// // get user login
-// func GetUserLogin(PASETOPUBLICKEYENV string, r *http.Request) (model.Payload, error) {
-// 	tokenstring := r.Header.Get("Authorization")
-// 	payload, err := Decode(os.Getenv(PASETOPUBLICKEYENV), tokenstring)
-// 	if err != nil {
-// 		return payload, err
-// 	}
-// 	return payload, nil
-// }
+// get user login
+func GetUserLogin(PASETOPUBLICKEYENV string, r *http.Request) (model.Payload, error) {
+	tokenstring := r.Header.Get("Authorization")
+	payload, err := Decode(os.Getenv(PASETOPUBLICKEYENV), tokenstring)
+	if err != nil {
+		return payload, err
+	}
+	return payload, nil
+}
 
 // // get id
 // func GetID(r *http.Request) string {
