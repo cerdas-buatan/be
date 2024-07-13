@@ -215,19 +215,6 @@ func Logout(c *fiber.Ctx) error {
 	return helper.SendResponse(c, fiber.StatusOK, "Logout successful", nil)
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 // package module
 
 // import (
@@ -540,19 +527,19 @@ func Logout(c *fiber.Ctx) error {
 // 	return nil
 // }
 
-// func GetAllPengguna(db *mongo.Database) (pengguna []model.Pengguna, err error) {
-// 	collection := db.Collection("pengguna")
-// 	filter := bson.M{}
-// 	cursor, err := collection.Find(context.Background(), filter)
-// 	if err != nil {
-// 		return pengguna, fmt.Errorf("error GetAllPengguna mongo: %s", err)
-// 	}
-// 	err = cursor.All(context.Background(), &pengguna)
-// 	if err != nil {
-// 		return pengguna, fmt.Errorf("error GetAllPengguna context: %s", err)
-// 	}
-// 	return pengguna, nil
-// }
+func GetAllPengguna(db *mongo.Database) (pengguna []model.Pengguna, err error) {
+	collection := db.Collection("pengguna")
+	filter := bson.M{}
+	cursor, err := collection.Find(context.Background(), filter)
+	if err != nil {
+		return pengguna, fmt.Errorf("error GetAllPengguna mongo: %s", err)
+	}
+	err = cursor.All(context.Background(), &pengguna)
+	if err != nil {
+		return pengguna, fmt.Errorf("error GetAllPengguna context: %s", err)
+	}
+	return pengguna, nil
+}
 
 // func GetPenggunaFromID(_id primitive.ObjectID, db *mongo.Database) (doc model.Pengguna, err error) {
 // 	collection := db.Collection("pengguna")
