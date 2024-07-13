@@ -77,13 +77,6 @@ func NotFound(respw http.ResponseWriter, req *http.Request) {
     `)
 }
 
-
-// func NotFound(respw http.ResponseWriter, req *http.Request) {
-//     var resp model.Response
-//     resp.Message = "404 Not Found"
-//     helper.WriteJSON(respw, http.StatusNotFound, resp)
-// }
-
 // RegisterUser handles user registration
 func RegisterUser(c *fiber.Ctx) error {
 	db := c.Locals("db").(*mongo.Database)
