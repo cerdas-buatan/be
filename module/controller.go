@@ -541,18 +541,18 @@ func GetAllPengguna(db *mongo.Database) (pengguna []model.Pengguna, err error) {
 	return pengguna, nil
 }
 
-// func GetPenggunaFromID(_id primitive.ObjectID, db *mongo.Database) (doc model.Pengguna, err error) {
-// 	collection := db.Collection("pengguna")
-// 	filter := bson.M{"_id": _id}
-// 	err = collection.FindOne(context.TODO(), filter).Decode(&doc)
-// 	if err != nil {
-// 		if errors.Is(err, mongo.ErrNoDocuments) {
-// 			return doc, fmt.Errorf("no data found for ID %s", _id)
-// 		}
-// 		return doc, fmt.Errorf("error retrieving data for ID %s: %s", _id, err.Error())
-// 	}
-// 	return doc, nil
-// }
+func GetPenggunaFromID(_id primitive.ObjectID, db *mongo.Database) (doc model.Pengguna, err error) {
+	collection := db.Collection("pengguna")
+	filter := bson.M{"_id": _id}
+	err = collection.FindOne(context.TODO(), filter).Decode(&doc)
+	if err != nil {
+		if errors.Is(err, mongo.ErrNoDocuments) {
+			return doc, fmt.Errorf("no data found for ID %s", _id)
+		}
+		return doc, fmt.Errorf("error retrieving data for ID %s: %s", _id, err.Error())
+	}
+	return doc, nil
+}
 
 // func GetPenggunaFromAkun(akun primitive.ObjectID, db *mongo.Database) (doc model.Pengguna, err error) {
 // 	collection := db.Collection("pengguna")
