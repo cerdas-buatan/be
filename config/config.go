@@ -2,7 +2,7 @@ package config
 
 import (
 	"github.com/gofiber/fiber/v2"
-	"github.com/cerdas-buaatan/be/helper"
+	// helper "github.com/cerdas-buaatan/be/helper"
 	"os"
 )
 
@@ -13,7 +13,7 @@ var Iteung = fiber.Config{
 	ServerHeader:  "Gaysdisal",
 	AppName:       "Gaysdisal",
 }
-var IPport, netstring = helper.GetAddress()
+// var IPport, netstring = helper.GetAddress()
 
 var PrivateKey = os.Getenv("PRIVATEKEY")
 var PublicKey = os.Getenv("PUBLICKEY")

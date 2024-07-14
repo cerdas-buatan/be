@@ -51,7 +51,7 @@ import (
 	"os"
 	"time"
 
-	"github.com/o1egl/paseto"
+	paseto "github.com/o1egl/paseto"
 	"github.com/google/uuid"
 )
 

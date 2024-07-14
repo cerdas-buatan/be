@@ -2,8 +2,8 @@ package route
 
 import (
 	"github.com/gofiber/fiber/v2"
-	"github.com/cerdas-buatan/be/config"
-	"github.com/cerdas-buatan/be/module"
+	config "github.com/cerdas-buatan/be/config"
+	module "github.com/cerdas-buatan/be/module"
 	"go.mongodb.org/mongo-driver/mongo"
 )
 
@@ -15,7 +15,7 @@ func SetupRoutes(app *fiber.App, db *mongo.Database) {
 		return c.Next()
 	})
 
-	app.Post("/registeruser", module.RegisterUser)
+	// app.Post("/registeruser", module.RegisterUser)
 	app.Post("/registerai", module.GCFHandlerSignUpPengguna)
 	app.Post("/loginai", module.GCFHandlerLogin)
 	app.Post("/chatres", module.ChatHandler)

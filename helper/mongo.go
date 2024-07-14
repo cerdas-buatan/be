@@ -9,6 +9,7 @@ import (
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"time"
 	model "github.com/cerdas-buatan/be/model"
+	atdb "github.com/aiteung/atdb"
 )
 // connection db
 func ConnectDB(uri string) *mongo.Database {
@@ -61,6 +62,18 @@ func InsertTwoDoc(database *mongo.Database, collection string, document interfac
 	}
 
 	return result.InsertedID
+}
+
+func InsertUser(db *mongo.Database, collection string, userdata User) string {
+	hash, _ := HashPassword(userdata.Password)
+	userdata.Password = hash
+	atdb.InsertOneDoc(db, collection, userdata)
+	return "username : " + userdata.Username + "password : " + userdata.Password
+}
+
+func GCFReturnStruct(DataStuct any) string {
+	jsondata, _ := json.Marshal(DataStuct)
+	return string(jsondata)
 }
 
 // InsertUserdata insert user untuk register

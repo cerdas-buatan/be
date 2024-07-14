@@ -6,7 +6,7 @@ import (
 	"os"
 
 	"github.com/GoogleCloudPlatform/functions-framework-go/functions"
-	"github.com/cerdas-buatan/be/route"
+	route "github.com/cerdas-buatan/be/route"
 	"github.com/whatsauth/watoken"
 	"go.mongodb.org/mongo-driver/mongo"
 )
