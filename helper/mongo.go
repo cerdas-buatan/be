@@ -8,7 +8,7 @@ import (
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"time"
-	"github.com/cerdas-buatan/be/model"
+	model "github.com/cerdas-buatan/be/model"
 )
 // connection db
 func ConnectDB(uri string) *mongo.Database {
