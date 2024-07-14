@@ -28,11 +28,13 @@ type Response struct {
 // struct ChatRequest
 type ChatRequest struct {
 	Message string `json:"message"`
+	Response string `json:"response"`
 }
 
-// struct ChatResponse
-type ChatResponse struct {
-	Response string `json:"response"`
+type Credential struct {
+	Status  bool   `json:"status" bson:"status"`
+	Token   string `json:"token,omitempty" bson:"token,omitempty"`
+	Message string `json:"message,omitempty" bson:"message,omitempty"`
 }
 
 // package model

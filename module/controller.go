@@ -79,26 +79,36 @@ func NotFound(respw http.ResponseWriter, req *http.Request) {
 
 // RegisterUser handles user registration
 func RegisterUser(c *fiber.Ctx) error {
+	resp := new(model.Credential)
+	userdata := new(model.User)
+	resp.Status = false
 	db := c.Locals("db").(*mongo.Database)
-
-	var user model.User
-	if err := c.BodyParser(&user); err != nil {
-		return helper.SendResponse(c, fiber.StatusBadRequest, "Failed to parse request body", nil)
+	
+	// Parse request body into userdata
+	if err := c.BodyParser(userdata); err != nil {
+		resp.Message = "error parsing application/json: " + err.Error()
+		return helper.SendResponse(c, fiber.StatusNotAcceptable, resp)
 	}
 
-	passwordHash, err := helper.HashPassword(user.Password)
+	// Hash the user's password
+	hash, err := helper.HashPassword(userdata.Password)
 	if err != nil {
-		return helper.SendResponse(c, fiber.StatusInternalServerError, "Failed to hash password", nil)
+		resp.Message = "Gagal Hash Password: " + err.Error()
+		return helper.SendResponse(c, fiber.StatusBadRequest, resp)
 	}
+	userdata.Password = hash
 
-	user.Password = passwordHash
-
-	_, err = helper.InsertOneDoc(db, "users", user)
+	// Insert user data into the database
+	_, err = helper.InsertUserdata(db, userdata.Username, userdata.Email, userdata.Password, userdata.Salt, userdata.Role)
 	if err != nil {
-		return helper.SendResponse(c, fiber.StatusInternalServerError, "Failed to insert user", nil)
+		resp.Message = "Failed to insert user: " + err.Error()
+		return helper.SendResponse(c, fiber.StatusInternalServerError, resp)
 	}
 
-	return helper.SendResponse(c, fiber.StatusCreated, "User registered successfully", user)
+	// Set successful response
+	resp.Status = true
+	resp.Message = "Berhasil Registrasi Data"
+	return helper.SendResponse(c, fiber.StatusOK, resp)
 }
 
 // signup
@@ -173,33 +183,6 @@ func LogIn(db *mongo.Database, insertedDoc model.User) (user model.User, err err
 		return user, fmt.Errorf("password salah")
 	}
 	return existsDoc, nil
-}
-
-// Login handles user login
-func Login(c *fiber.Ctx) error {
-	db := c.Locals("db").(*mongo.Database)
-
-	var credentials struct {
-		Email    string `json:"email"`
-		Password string `json:"password"`
-	}
-
-	if err := c.BodyParser(&credentials); err != nil {
-		return helper.SendResponse(c, fiber.StatusBadRequest, "Failed to parse request body", nil)
-	}
-
-	user := model.User{
-		Email:    credentials.Email,
-		Password: credentials.Password,
-	}
-
-	authenticatedUser, err := helper.LogIn(db, user)
-	if err != nil {
-		return helper.SendResponse(c, fiber.StatusUnauthorized, "Authentication failed", nil)
-	}
-
-	// Here you can optionally generate a token or session for the user if needed
-	return helper.SendResponse(c, fiber.StatusOK, "Login successful", authenticatedUser)
 }
 
 // Logout handles user logout (example implementation)
