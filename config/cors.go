@@ -23,14 +23,14 @@ var Cors= cors.config{
 	MaxAge: 3600,
 }
 
-// var Cors = cors.config{
-// 	AllowOrigins: Origins,
-// 	AllowMethods: []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
-// 	AllowHeaders: []string{"Content-Type", "Chat"},
-// 	AllowCredentials: true,
-// 	ExposeHeaders: []string{"Content-Length"},
-// 	MaxAge: 3600,
-// }
+// var Cors = cors.config{ 
+// 	AllowOrigins: Origins, 
+// 	AllowMethods: []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"}, 
+// 	AllowHeaders: []string{"Content-Type", "Chat"}, 
+// 	AllowCredentials: true, 
+// 	ExposeHeaders: []string{"Content-Length"}, 
+// 	MaxAge: 3600, 
+// } 
 
 // Fungsi untuk memeriksa apakah origin diizinkan
 func isAllowedOrigin(origin string) bool {
