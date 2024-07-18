@@ -14,6 +14,24 @@ var Origins = []string{
 	// "https://www.do.my.id",
 }
 
+var Cors= cors.config{
+	AllowOrigins: Origins,
+	AllowMethods: []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
+	AllowHeaders: []string{"Content-Type", "Login"},
+	AllowCredentials: true,
+	ExposeHeaders: []string{"Content-Length"},
+	MaxAge: 3600,
+}
+
+// var Cors = cors.config{
+// 	AllowOrigins: Origins,
+// 	AllowMethods: []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
+// 	AllowHeaders: []string{"Content-Type", "Chat"},
+// 	AllowCredentials: true,
+// 	ExposeHeaders: []string{"Content-Length"},
+// 	MaxAge: 3600,
+// }
+
 // Fungsi untuk memeriksa apakah origin diizinkan
 func isAllowedOrigin(origin string) bool {
 	for _, o := range Origins {
@@ -23,6 +41,8 @@ func isAllowedOrigin(origin string) bool {
 	}
 	return false
 }
+
+var Internalhost string = os.Getenv("internalhost") + ":" os.Getenv("port")
 
 // Fungsi untuk mengatur header CORS
 func SetAccessControlHeaders(w http.ResponseWriter, r *http.Request) bool {

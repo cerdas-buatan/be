@@ -37,6 +37,13 @@ type Credential struct {
 	Message string `json:"message,omitempty" bson:"message,omitempty"`
 }
 
+type Payload struct {
+	ID       string `json:"id"`
+	Role     string `json:"role"`
+	IssuedAt time.Time `json:"issued_at"`
+	Expiry   time.Time `json:"expiry"`
+}
+
 // package model
 
 // import (

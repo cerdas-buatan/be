@@ -12,96 +12,96 @@ import (
 	"go.mongodb.org/mongo-driver/mongo"
 )
 
-// // GCFHandlerSignUpPengguna handles signup for Google Cloud Function
-// func GCFHandlerSignUpPengguna(w http.ResponseWriter, r *http.Request) {
-// 	db := helper.ConnectMongoDB(os.Getenv("MONGOCONNSTRING"), os.Getenv("DBNAME"))
-// 	defer db.Client().Disconnect(r.Context())
+// GCFHandlerSignUpPengguna handles signup for Google Cloud Function
+func GCFHandlerSignUpPengguna(w http.ResponseWriter, r *http.Request) {
+	db := helper.ConnectMongoDB(os.Getenv("MONGOCONNSTRING"), os.Getenv("DBNAME"))
+	defer db.Client().Disconnect(r.Context())
 
-// 	var Response model.Response
-// 	Response.Status = false
+	var Response model.Response
+	Response.Status = false
 
-// 	var datapengguna model.Pengguna
-// 	err := json.NewDecoder(r.Body).Decode(&datapengguna)
-// 	if err != nil {
-// 		Response.Message = "error parsing application/json: " + err.Error()
-// 		w.WriteHeader(http.StatusBadRequest)
-// 		json.NewEncoder(w).Encode(Response)
-// 		return
-// 	}
+	var datapengguna model.Pengguna
+	err := json.NewDecoder(r.Body).Decode(&datapengguna)
+	if err != nil {
+		Response.Message = "error parsing application/json: " + err.Error()
+		w.WriteHeader(http.StatusBadRequest)
+		json.NewEncoder(w).Encode(Response)
+		return
+	}
 
-// 	err = helper.SignUpPengguna(db, datapengguna)
-// 	if err != nil {
-// 		Response.Message = err.Error()
-// 		w.WriteHeader(http.StatusInternalServerError)
-// 		json.NewEncoder(w).Encode(Response)
-// 		return
-// 	}
+	err = helper.SignUpPengguna(db, datapengguna)
+	if err != nil {
+		Response.Message = err.Error()
+		w.WriteHeader(http.StatusInternalServerError)
+		json.NewEncoder(w).Encode(Response)
+		return
+	}
 
-// 	Response.Status = true
-// 	Response.Message = "Halo " + datapengguna.Username
-// 	w.WriteHeader(http.StatusOK)
-// 	json.NewEncoder(w).Encode(Response)
-// }
+	Response.Status = true
+	Response.Message = "Halo " + datapengguna.Username
+	w.WriteHeader(http.StatusOK)
+	json.NewEncoder(w).Encode(Response)
+}
 
-// // GCFHandlerLogin handles login for Google Cloud Function
-// func GCFHandlerLogin(w http.ResponseWriter, r *http.Request) {
-// 	db := helper.ConnectMongoDB(os.Getenv("MONGOCONNSTRING"), os.Getenv("DBNAME"))
-// 	defer db.Client().Disconnect(r.Context())
+// GCFHandlerLogin handles login for Google Cloud Function
+func GCFHandlerLogin(w http.ResponseWriter, r *http.Request) {
+	db := helper.ConnectMongoDB(os.Getenv("MONGOCONNSTRING"), os.Getenv("DBNAME"))
+	defer db.Client().Disconnect(r.Context())
 
-// 	var Response model.Credential
-// 	Response.Status = false
+	var Response model.Credential
+	Response.Status = false
 
-// 	var datauser model.User
-// 	err := json.NewDecoder(r.Body).Decode(&datauser)
-// 	if err != nil {
-// 		Response.Message = "error parsing application/json: " + err.Error()
-// 		w.WriteHeader(http.StatusBadRequest)
-// 		json.NewEncoder(w).Encode(Response)
-// 		return
-// 	}
+	var datauser model.User
+	err := json.NewDecoder(r.Body).Decode(&datauser)
+	if err != nil {
+		Response.Message = "error parsing application/json: " + err.Error()
+		w.WriteHeader(http.StatusBadRequest)
+		json.NewEncoder(w).Encode(Response)
+		return
+	}
 
-// 	user, err := helper.LogIn(db, datauser)
-// 	if err != nil {
-// 		Response.Message = err.Error()
-// 		w.WriteHeader(http.StatusUnauthorized)
-// 		json.NewEncoder(w).Encode(Response)
-// 		return
-// 	}
+	user, err := helper.LogIn(db, datauser)
+	if err != nil {
+		Response.Message = err.Error()
+		w.WriteHeader(http.StatusUnauthorized)
+		json.NewEncoder(w).Encode(Response)
+		return
+	}
 
-// 	Response.Status = true
-// 	tokenstring, err := helper.Encode(user.ID, user.Role, os.Getenv("PASETOPRIVATEKEYENV"))
-// 	if err != nil {
-// 		Response.Message = "Gagal Encode Token : " + err.Error()
-// 		w.WriteHeader(http.StatusInternalServerError)
-// 	} else {
-// 		Response.Message = "Selamat Datang " + user.Email
-// 		Response.Token = tokenstring
-// 		Response.Role = user.Role
-// 	}
+	Response.Status = true
+	tokenstring, err := helper.Encode(user.ID, user.Role, os.Getenv("PASETOPRIVATEKEYENV"))
+	if err != nil {
+		Response.Message = "Gagal Encode Token : " + err.Error()
+		w.WriteHeader(http.StatusInternalServerError)
+	} else {
+		Response.Message = "Selamat Datang " + user.Email
+		Response.Token = tokenstring
+		Response.Role = user.Role
+	}
 
-// 	w.WriteHeader(http.StatusOK)
-// 	json.NewEncoder(w).Encode(Response)
-// }
+	w.WriteHeader(http.StatusOK)
+	json.NewEncoder(w).Encode(Response)
+}
 
-// // ChatHandler handles chat requests
-// func ChatHandler(w http.ResponseWriter, r *http.Request) {
-// 	var chatReq model.ChatRequest
-// 	err := json.NewDecoder(r.Body).Decode(&chatReq)
-// 	if err != nil {
-// 		http.Error(w, err.Error(), http.StatusBadRequest)
-// 		return
-// 	}
+// ChatHandler handles chat requests
+func ChatHandler(w http.ResponseWriter, r *http.Request) {
+	var chatReq model.ChatRequest
+	err := json.NewDecoder(r.Body).Decode(&chatReq)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		return
+	}
 
-// 	response, err := GetResponse(chatReq.Message) // Implement GetResponse function
-// 	if err != nil {
-// 		http.Error(w, err.Error(), http.StatusInternalServerError)
-// 		return
-// 	}
+	response, err := GetResponse(chatReq.Message) // Implement GetResponse function
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
 
-// 	chatRes := model.ChatResponse{Response: response}
-// 	w.Header().Set("Content-Type", "application/json")
-// 	json.NewEncoder(w).Encode(chatRes)
-// }
+	chatRes := model.ChatResponse{Response: response}
+	w.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(w).Encode(chatRes)
+}
 
 func GCFPostHandler(PASETOPRIVATEKEYENV, MONGOCONNSTRINGENV, dbname, collectionname string, r *http.Request) string {
 	var Response Credential
