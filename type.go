@@ -22,21 +22,21 @@ type Pengguna struct {
 
 // struct response
 type Response struct {
-	Status  bool        `json:"status"`
-	Message string      `json:"message"`
-	Data    interface{} `json:"data"`
+	Status  bool        `json:"status"` 
+	Message string      `json:"message"` 
+	Data    interface{} `json:"data"` 
 }
 
 // struct ChatRequest
 type ChatRequest struct {  
-	Message  string `json:"message"`  
-	Response string `json:"response"`  
+	Message  string `json:"message"`    
+	Response string `json:"response"`    
 }
 
 type Credential struct {
-	Status  bool   `json:"status" bson:"status"`
-	Token   string `json:"token,omitempty" bson:"token,omitempty"`
-	Message string `json:"message,omitempty" bson:"message,omitempty"`
+	Status  bool   `json:"status" bson:"status"`  
+	Token   string `json:"token,omitempty" bson:"token,omitempty"`  
+	Message string `json:"message,omitempty" bson:"message,omitempty"`  
 }
 
 type Payload struct {
