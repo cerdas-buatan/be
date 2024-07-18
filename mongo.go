@@ -7,6 +7,7 @@ import (
 	"os"
 	"time"
 
+	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
@@ -36,4 +37,30 @@ func MongoConnect(MongoString, dbname string) *mongo.Database {
 		fmt.Printf("MongoConnect: %v\n", err)
 	}
 	return client.Database(dbname)
+}
+
+func GetAllDocs(db *mongo.Database, col string, docs interface{}) interface{} {
+	collection := db.Collection(col)
+	filter := bson.M{}
+	cursor, err := collection.Find(context.TODO(), filter)
+	if err != nil {
+		return fmt.Errorf("error GetAllDocs %s: %s", col, err)
+	}
+	err = cursor.All(context.TODO(), &docs)
+	if err != nil {
+		return err
+	}
+	return docs
+}
+
+func InsertTwoDoc(database *mongo.Database, collection string, document interface{}) (InsertedID interface{}) {
+	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+	defer cancel()
+
+	result, err := database.Collection(collection).InsertOne(ctx, document)
+	if err != nil {
+		return nil
+	}
+
+	return result.InsertedID
 }
