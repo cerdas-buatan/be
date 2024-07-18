@@ -33,7 +33,7 @@ func isAllowedOrigin(origin string) bool {
 	return false
 }
 
-var Internalhost string = os.Getenv("internalhost") + ":" os.Getenv("port")
+var Internalhost string = os.Getenv("INTERNALHOST") + ":" os.Getenv("PORT")
 
 
 // Fungsi untuk mengatur header CORS
