@@ -1,44 +1,40 @@
 package route
 
 import (
-    "github.com/cerdas-buatan/be/config"
-    module "github.com/cerdas-buatan/be/module"
-    "github.com/gofiber/fiber/v2"
-    "go.mongodb.org/mongo-driver/mongo"
+	"net/http"
+
+	module "github.com/cerdas-buatan/be/module"
+	"github.com/gofiber/fiber/v2"
+	"go.mongodb.org/mongo-driver/mongo"
 )
 
 var db *mongo.Database
 
 func SetupRouter(app *fiber.App, database *mongo.Database) {
-    db = database
+	db = database
 
-    app.Get("/", func(c *fiber.Ctx) error {
-        return module.HomeGaysdisal(c, db)
-    })
+	app.Get("/", func(c *fiber.Ctx) error {
+		return module.HomeGaysdisal(c, db)
+	})
 
-    app.Post("/registerai", func(c *fiber.Ctx) error {
-        return module.RegisterUsers(c, db)
-    })
+	app.Post("/registerai", func(c *fiber.Ctx) error {
+		return module.RegisterUsers(c, db)
+	})
 
-    app.Post("/loginai", func(c *fiber.Ctx) error {
-        return module.LoginUsers(c, db)
-    })
+	app.Post("/loginai", func(c *fiber.Ctx) error {
+		return module.LoginUsers(c, db)
+	})
 
-    app.Use(func(c *fiber.Ctx) error {
-        return module.NotFound(c)
-    })
+	app.Use(func(c *fiber.Ctx) error {
+		return module.NotFound(c)
+	})
 }
 
 func Web(w http.ResponseWriter, r *http.Request) {
-    app := fiber.New()
-    SetupRouter(app, db)
-    app.Handler()(w, r)
+	app := fiber.New()
+	SetupRouter(app, db)
+	app.Handler()(w, r)
 }
-
-
-
-
-
 
 // package route
 
@@ -66,4 +62,3 @@ func Web(w http.ResponseWriter, r *http.Request) {
 // 		module.NotFound(w, r)
 // 	}
 // }
-
