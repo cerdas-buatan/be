@@ -1,24 +1,38 @@
 package route
 
 import (
-	"github.com/gofiber/fiber/v2"
-	config "github.com/cerdas-buatan/be/config"
-	module "github.com/cerdas-buatan/be/module"
-	"go.mongodb.org/mongo-driver/mongo"
+    "github.com/cerdas-buatan/be/config"
+    module "github.com/cerdas-buatan/be/module"
+    "github.com/gofiber/fiber/v2"
+    "go.mongodb.org/mongo-driver/mongo"
 )
 
-func SetupRoutes(app *fiber.App, db *mongo.Database) {
-	config.SetupCors(app)
+var db *mongo.Database
 
-	app.Use(func(c *fiber.Ctx) error {
-		c.Locals("db", db)
-		return c.Next()
-	})
+func SetupRouter(app *fiber.App, database *mongo.Database) {
+    db = database
 
-	// app.Post("/registeruser", module.RegisterUser)
-	app.Post("/registerai", module.GCFHandlerSignUpPengguna)
-	app.Post("/loginai", module.GCFHandlerLogin)
-	app.Post("/chatres", module.ChatHandler)
+    app.Get("/", func(c *fiber.Ctx) error {
+        return module.HomeGaysdisal(c, db)
+    })
+
+    app.Post("/registerai", func(c *fiber.Ctx) error {
+        return module.RegisterUsers(c, db)
+    })
+
+    app.Post("/loginai", func(c *fiber.Ctx) error {
+        return module.LoginUsers(c, db)
+    })
+
+    app.Use(func(c *fiber.Ctx) error {
+        return module.NotFound(c)
+    })
+}
+
+func Web(w http.ResponseWriter, r *http.Request) {
+    app := fiber.New()
+    SetupRouter(app, db)
+    app.Handler()(w, r)
 }
 
 
