@@ -28,7 +28,7 @@ type Response struct {
 }
 
 // struct ChatRequest
-type ChatRequest struct {
-	Message  string `json:"message"`
-	Response string `json:"response"`
+type ChatRequest struct {  
+	Message  string `json:"message"`  
+	Response string `json:"response"`  
 }
