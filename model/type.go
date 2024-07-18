@@ -126,6 +126,7 @@ type Menu struct {
 // 	Question string `json:"question"`
 // 	Answer   string `json:"answer"`
 // }
+
 //type Credential struct {
 // 	Status  bool   `json:"status" bson:"status"`
 // 	Token   string `json:"token,omitempty" bson:"token,omitempty"`
