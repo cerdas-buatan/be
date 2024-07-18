@@ -5,15 +5,19 @@ go 1.20
 require (
 	github.com/GoogleCloudPlatform/functions-framework-go v1.8.1
 	github.com/aiteung/atdb v0.1.7
+	github.com/badoux/checkmail v1.2.4
 	github.com/gin-gonic/gin v1.10.0
 	github.com/gofiber/fiber/v2 v2.52.5
 	github.com/google/uuid v1.6.0
 	github.com/o1egl/paseto v1.0.0
+	github.com/whatsauth/watoken v0.1.6
 	go.mongodb.org/mongo-driver v1.16.0
 	golang.org/x/crypto v0.25.0
 )
 
 require (
+	aidanwoods.dev/go-paseto v1.5.0 // indirect
+	aidanwoods.dev/go-result v0.1.0 // indirect
 	github.com/aead/chacha20 v0.0.0-20180709150244-8b13a72661da // indirect
 	github.com/aead/chacha20poly1305 v0.0.0-20170617001512-233f39982aeb // indirect
 	github.com/aead/poly1305 v0.0.0-20180717145839-3fee0db0b635 // indirect
