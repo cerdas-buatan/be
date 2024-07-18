@@ -80,8 +80,6 @@ type Menu struct {
 // 	Username     string             `bson:"username,omitempty" json:"username,omitempty"`
 // 	Email        string             `bson:"email,omitempty" json:"email,omitempty"`
 // 	Password     string             `bson:"password,omitempty" json:"password,omitempty"`
-// 	PasswordHash string             `bson:"passwordhash,omitempty" json:"passwordhash,omitempty"`
-// 	Role         string             `bson:"role,omitempty" json:"role,omitempty"`
 // }
 
 // type Pengguna struct {
