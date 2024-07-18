@@ -1,40 +1,50 @@
 package module
 
 import (
+	"context"
+	"crypto/rand"
+	"encoding/hex"
 	"encoding/json"
+	"errors"
+	"fmt"
 	"net/http"
+	"strings"
 
+	"github.com/badoux/checkmail"
 	"github.com/gofiber/fiber/v2"
+	"golang.org/x/crypto/argon2"
 	// helper "github.com/cerdas-buatan/be/helper"
+	"github.com/cerdas-buatan/be/helper"
 	model "github.com/cerdas-buatan/be/model"
 	// "github.com/go-check/checkmail"
+	"go.mongodb.org/mongo-driver/bson"
+	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
 )
 
-
 func HomeGaysdisal(w http.ResponseWriter, r *http.Request) {
-    // Buat response dalam bentuk string
-    Response := fmt.Sprintf("Gaysdisal AI", "8081")
+	// Buat response dalam bentuk string
+	Response := fmt.Sprintf("Gaysdisal AI", "8081")
 
-    // Konversi response ke JSON
-    jsonResponse, err := json.Marshal(Response)
-    if err != nil {
-        http.Error(w, err.Error(), http.StatusInternalServerError)
-        return
-    }
+	// Konversi response ke JSON
+	jsonResponse, err := json.Marshal(Response)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
 
-    // Set header Content-Type
-    w.Header().Set("Content-Type", "application/json")
+	// Set header Content-Type
+	w.Header().Set("Content-Type", "application/json")
 
-    // Tulis response ke http.ResponseWriter
-    w.Write(jsonResponse)
+	// Tulis response ke http.ResponseWriter
+	w.Write(jsonResponse)
 }
 
 // NotFound handles 404 errors and provides a button to go back home
 func NotFound(respw http.ResponseWriter, req *http.Request) {
-    respw.WriteHeader(http.StatusNotFound)
-    respw.Header().Set("Content-Type", "text/html")
-    fmt.Fprintln(respw, `
+	respw.WriteHeader(http.StatusNotFound)
+	respw.Header().Set("Content-Type", "text/html")
+	fmt.Fprintln(respw, `
         <!DOCTYPE html>
         <html lang="en">
         <head>
@@ -83,7 +93,7 @@ func NotFound(respw http.ResponseWriter, req *http.Request) {
 // 	userdata := new(model.User)
 // 	resp.Status = false
 // 	db := c.Locals("db").(*mongo.Database)
-	
+
 // 	// Parse request body into userdata
 // 	if err := c.BodyParser(userdata); err != nil {
 // 		resp.Message = "error parsing application/json: " + err.Error()
@@ -161,8 +171,7 @@ func SignUpPengguna(db *mongo.Database, insertedDoc model.Pengguna) error {
 	return nil
 }
 
-
-// // login
+// login
 func LogIn(db *mongo.Database, insertedDoc model.User) (user model.User, err error) {
 	if insertedDoc.Email == "" || insertedDoc.Password == "" {
 		return user, fmt.Errorf("mohon untuk melengkapi data")
@@ -230,22 +239,6 @@ func Logout(c *fiber.Ctx) error {
 	// Perform logout logic here, such as clearing session or token
 	return helper.SendResponse(c, fiber.StatusOK, "Logout successful", nil)
 }
-
-// package module
-
-// import (
-// 	"context"
-// 	"crypto/rand"
-// 	"encoding/hex"
-
-// 	// "encoding/json"
-// 	"errors"
-// 	"fmt"
-
-// 	// "net/http"
-// 	"os"
-// 	"os/exec"
-// 	"strings"
 
 // 	"go.mongodb.org/mongo-driver/bson"
 // 	"go.mongodb.org/mongo-driver/bson/primitive"
@@ -582,4 +575,3 @@ func GetPenggunaFromID(_id primitive.ObjectID, db *mongo.Database) (doc model.Pe
 // 	}
 // 	return doc, nil
 // }
-
