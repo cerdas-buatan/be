@@ -1,87 +1,73 @@
-// route/url.go
-
-package route
+package module
 
 import (
-    "github.com/cerdas-buatan/be/module"
-    "github.com/gin-gonic/gin"
-    "go.mongodb.org/mongo-driver/mongo"
+	"context"
+
+	"github.com/cerdas-buatan/be/model"
+	"go.mongodb.org/mongo-driver/bson"
+	"go.mongodb.org/mongo-driver/bson/primitive"
+	"go.mongodb.org/mongo-driver/mongo"
 )
 
-func SetupRouter(db *mongo.Database) *gin.Engine {
-    r := gin.Default()
+type MenuService struct {
+	db *mongo.Database
+}
 
-    menuService := module.NewMenuService(db)
+func NewMenuService(db *mongo.Database) *MenuService {
+	return &MenuService{db: db}
+}
 
-    r.POST("/menus", func(c *gin.Context) {
-        var menu module.Menu
-        if err := c.ShouldBindJSON(&menu); err != nil {
-            c.JSON(400, gin.H{"error": err.Error()})
-            return
-        }
-        createdMenu, err := menuService.CreateMenu(c.Request.Context(), menu)
-        if err != nil {
-            c.JSON(500, gin.H{"error": err.Error()})
-            return
-        }
-        c.JSON(201, createdMenu)
-    })
+func (s *MenuService) CreateMenu(ctx context.Context, menu model.Menu) (model.Menu, error) {
+	collection := s.db.Collection("menus")
+	res, err := collection.InsertOne(ctx, menu)
+	if err != nil {
+		return model.Menu{}, err
+	}
+	menu.ID = res.InsertedID.(primitive.ObjectID)
+	return menu, nil
+}
 
-    r.GET("/menus/:id", func(c *gin.Context) {
-        id, err := primitive.ObjectIDFromHex(c.Param("id"))
-        if err != nil {
-            c.JSON(400, gin.H{"error": "Invalid ID"})
-            return
-        }
-        menu, err := menuService.GetMenu(c.Request.Context(), id)
-        if err != nil {
-            c.JSON(404, gin.H{"error": "Menu not found"})
-            return
-        }
-        c.JSON(200, menu)
-    })
+func (s *MenuService) GetMenu(ctx context.Context, id primitive.ObjectID) (model.Menu, error) {
+	collection := s.db.Collection("menus")
+	var menu model.Menu
+	err := collection.FindOne(ctx, bson.M{"_id": id}).Decode(&menu)
+	if err != nil {
+		return model.Menu{}, err
+	}
+	return menu, nil
+}
 
-    r.PUT("/menus/:id", func(c *gin.Context) {
-        id, err := primitive.ObjectIDFromHex(c.Param("id"))
-        if err != nil {
-            c.JSON(400, gin.H{"error": "Invalid ID"})
-            return
-        }
-        var menu module.Menu
-        if err := c.ShouldBindJSON(&menu); err != nil {
-            c.JSON(400, gin.H{"error": err.Error()})
-            return
-        }
-        err = menuService.UpdateMenu(c.Request.Context(), id, menu)
-        if err != nil {
-            c.JSON(500, gin.H{"error": err.Error()})
-            return
-        }
-        c.JSON(200, gin.H{"message": "Menu updated successfully"})
-    })
+func (s *MenuService) UpdateMenu(ctx context.Context, id primitive.ObjectID, menu model.Menu) error {
+	collection := s.db.Collection("menus")
+	_, err := collection.UpdateOne(ctx, bson.M{"_id": id}, bson.M{"$set": menu})
+	return err
+}
 
-    r.DELETE("/menus/:id", func(c *gin.Context) {
-        id, err := primitive.ObjectIDFromHex(c.Param("id"))
-        if err != nil {
-            c.JSON(400, gin.H{"error": "Invalid ID"})
-            return
-        }
-        err = menuService.DeleteMenu(c.Request.Context(), id)
-        if err != nil {
-            c.JSON(500, gin.H{"error": err.Error()})
-            return
-        }
-        c.JSON(200, gin.H{"message": "Menu deleted successfully"})
-    })
+func (s *MenuService) DeleteMenu(ctx context.Context, id primitive.ObjectID) error {
+	collection := s.db.Collection("menus")
+	_, err := collection.DeleteOne(ctx, bson.M{"_id": id})
+	return err
+}
 
-    r.GET("/menus", func(c *gin.Context) {
-        menus, err := menuService.ListMenus(c.Request.Context())
-        if err != nil {
-            c.JSON(500, gin.H{"error": err.Error()})
-            return
-        }
-        c.JSON(200, menus)
-    })
+func (s *MenuService) ListMenus(ctx context.Context) ([]model.Menu, error) {
+	collection := s.db.Collection("menus")
+	cur, err := collection.Find(ctx, bson.D{})
+	if err != nil {
+		return nil, err
+	}
+	defer cur.Close(ctx)
 
-    return r
+	var menus []model.Menu
+	for cur.Next(ctx) {
+		var menu model.Menu
+		err := cur.Decode(&menu)
+		if err != nil {
+			return nil, err
+		}
+		menus = append(menus, menu)
+	}
+	if err := cur.Err(); err != nil {
+		return nil, err
+	}
+	return menus, nil
 }
