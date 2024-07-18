@@ -36,16 +36,6 @@ func Web(w http.ResponseWriter, r *http.Request) {
 	app.Handler()(w, r)
 }
 
-// package route
-
-// import (
-// 	"github.com/cerdas-buatan/be/config"
-// 	"github.com/cerdas-buatan/be/module"
-// 	"net/http"
-// 	"github.com/gofiber/fiber/v2"
-// 	"go.mongodb.org/mongo-driver/mongo"
-// )
-
 // func Web(w http.ResponseWriter, r *http.Request) {
 // 	if config.SetAccessControlHeaders(w, r) {
 // 		return // If it's a preflight request, return early.
