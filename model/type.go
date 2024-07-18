@@ -35,10 +35,6 @@ type ChatRequest struct {
 	
 }
 
-// type ChatRespons struct {
-// 	Response string `json:"response"`
-// }
-
 // ChatResponse represents a chat response
 type ChatResponse struct {
 	ID       primitive.ObjectID `bson:"_id,omitempty" json:"id,omitempty"`
@@ -64,6 +60,10 @@ type Menu struct {
 	Name string             `bson:"name" json:"name"`
 	Link string             `bson:"link" json:"link"`
 }
+
+// type ChatRespons struct {
+// 	Response string `json:"response"`
+// }
 
 // package model
 

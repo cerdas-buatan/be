@@ -16,7 +16,6 @@ import (
 	// helper "github.com/cerdas-buatan/be/helper"
 	"github.com/cerdas-buatan/be/helper"
 	model "github.com/cerdas-buatan/be/model"
-	// "github.com/go-check/checkmail"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
