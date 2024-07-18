@@ -32,3 +32,22 @@ type ChatRequest struct {
 	Message  string `json:"message"`  
 	Response string `json:"response"`  
 }
+
+type Credential struct {
+	Status  bool   `json:"status" bson:"status"`
+	Token   string `json:"token,omitempty" bson:"token,omitempty"`
+	Message string `json:"message,omitempty" bson:"message,omitempty"`
+}
+
+type Payload struct {
+	ID       string    `json:"id"`
+	Role     string    `json:"role"`
+	IssuedAt time.Time `json:"issued_at"`
+	Expiry   time.Time `json:"expiry"`
+}
+
+type Menu struct {
+	ID   primitive.ObjectID `bson:"_id,omitempty" json:"id,omitempty"`
+	Name string             `bson:"name" json:"name"`
+	Link string             `bson:"link" json:"link"`
+}
