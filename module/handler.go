@@ -5,10 +5,12 @@ import (
 	"net/http"
 	"os"
 
+	"github.com/aiteung/atdb"
 	model "github.com/cerdas-buatan/be/model"
+	"github.com/whatsauth/watoken"
 	// helper"github.com/cerdas-buatan/be/helper"
 	// "github.com/aiteung/atdb"
-	"github.com/cerdas-buatan/be/config"
+
 	"go.mongodb.org/mongo-driver/mongo"
 )
 
@@ -151,22 +153,22 @@ func InsertUser(db *mongo.Database, collection string, userdata User) string {
 // 	"github.com/gofiber/fiber/v2"
 // )
 
-// // var (
-// // 	Response model.Response
-// // 	user model.User
-// // 	pengguna model.Pengguna
-// // 	driver model.Driver
-// // 	obat model.Obat
-// // 	order model.Order
-// // 	password model.Password
+//  var (
+//  	Response model.Response
+//  	user model.User
+//  	pengguna model.Pengguna
+//  	driver model.Driver
+//  	obat model.Obat
+//  	order model.Order
+//  	password model.Password
 
 // // )
 
 // var (
 // 	Response model.Response
-// 	// user     model.User
-// 	// pengguna model.Pengguna
-// 	// password model.Password
+// 	 user     model.User
+// 	 pengguna model.Pengguna
+// 	 password model.Password
 // )
 
 // func RegisterRoutes(app *fiber.App, db *mongo.Database) {
@@ -252,7 +254,6 @@ func GCFHandlerGetAll(MONGOCONNSTRINGENV, dbname, col string, docs interface{}) 
 // 	return GCFReturnStruct(data)
 // }
 
-
 // func GCFHandlerUpdateByPengguna(idparam, iduser primitive.ObjectID, pengguna model.Pengguna, conn *mongo.Database, r *http.Request) string {
 // 	Response.Status = false
 // 	//
@@ -331,6 +332,3 @@ func GetUserLogin(PASETOPUBLICKEYENV string, r *http.Request) (model.Payload, er
 // func GetID(r *http.Request) string {
 // 	return r.URL.Query().Get("id")
 // }
-
-
-
