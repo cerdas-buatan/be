@@ -13,7 +13,7 @@ var Iteung = fiber.Config{
 	ServerHeader:  "Gaysdisal",
 	AppName:       "Gaysdisal",
 }
-// var IPport, netstring = helper.GetAddress()
+var IPort, netString = helper.GetAddress()
 
 var PrivateKey = os.Getenv("PRIVATEKEY")
 var PublicKey = os.Getenv("PUBLICKEY")

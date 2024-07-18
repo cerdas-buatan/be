@@ -35,6 +35,7 @@ func isAllowedOrigin(origin string) bool {
 
 var Internalhost string = os.Getenv("internalhost") + ":" os.Getenv("port")
 
+
 // Fungsi untuk mengatur header CORS
 func SetAccessControlHeaders(w http.ResponseWriter, r *http.Request) bool {
 	origin := r.Header.Get("Origin")
