@@ -4,8 +4,6 @@ import (
 	"encoding/json"
 	"log"
 	"net/http"
-
-	"github.com/gofiber/fiber/v2"
 )
 
 func WriteJSON(respw http.ResponseWriter, statusCode int, content interface{}) {
@@ -28,14 +26,14 @@ func Jsonstr(strc interface{}) string {
 //     respw.Write([]byte(Jsonstr(content)))
 // }
 
-// func GCFReturnStruct(DataStruct interface{}) string {
-// 	jsonData, _ := json.Marshal(DataStruct)
-// 	return string(jsonData)
-// }
-
-func SendResponse(c *fiber.Ctx, statusCode int, message string, data interface{}) error {
-	return c.Status(statusCode).JSON(fiber.Map{
-		"message": message,
-		"data":    data,
-	})
+func GCFReturnStruct(DataStruct interface{}) string {
+	jsonData, _ := json.Marshal(DataStruct)
+	return string(jsonData)
 }
+
+//func SendResponse(c *fiber.Ctx, statusCode int, message string, data interface{}) error {
+//	return c.Status(statusCode).JSON(fiber.Map{
+//		"message": message,
+//		"data":    data,
+//	})
+//}
