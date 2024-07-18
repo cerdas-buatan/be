@@ -11,6 +11,7 @@ import (
 	"github.com/aiteung/atdb"
 	"github.com/cerdas-buatan/be/model"
 	"go.mongodb.org/mongo-driver/bson"
+	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
@@ -97,4 +98,36 @@ func InsertUserdata(database *mongo.Database, username, email, password, salt, r
 	}
 
 	return InsertTwoDoc(database, "users", pengguna)
+}
+
+func InsertOneDoc(db *mongo.Database, collection string, doc interface{}) (interface{}, error) {
+	coll := db.Collection(collection)
+	result, err := coll.InsertOne(context.Background(), doc)
+	if err != nil {
+		return nil, err
+	}
+	return result.InsertedID, nil
+}
+
+func FindOneDoc(db *mongo.Database, collection string, filter bson.M) *mongo.SingleResult {
+	return db.Collection(collection).FindOne(nil, filter)
+}
+
+// updateonedoc
+func UpdateOneDoc(id primitive.ObjectID, db *mongo.Database, col string, doc interface{}) (err error) {
+	filter := bson.M{"_id": id}
+	result, err := db.Collection(col).UpdateOne(context.Background(), filter, bson.M{"$set": doc})
+	if err != nil {
+		return fmt.Errorf("error update: %v", err)
+	}
+	if result.ModifiedCount == 0 {
+		err = fmt.Errorf("tidak ada data yang diubah")
+		return
+	}
+	return nil
+}
+
+func GCFReturnStruct(DataStuct any) string {
+	jsondata, _ := json.Marshal(DataStuct)
+	return string(jsondata)
 }
