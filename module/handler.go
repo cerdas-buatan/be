@@ -8,6 +8,7 @@ import (
 	"github.com/aiteung/atdb"
 	model "github.com/cerdas-buatan/be/model"
 	"github.com/whatsauth/watoken"
+
 	// helper"github.com/cerdas-buatan/be/helper"
 	// "github.com/aiteung/atdb"
 
@@ -137,21 +138,6 @@ func InsertUser(db *mongo.Database, collection string, userdata User) string {
 	atdb.InsertOneDoc(db, collection, userdata)
 	return "username : " + userdata.Username + "password : " + userdata.Password
 }
-
-// package module
-
-// import (
-// 	"encoding/json"
-// 	"net/http"
-// 	"os"
-
-// 	model "github.com/cerdas-buatan/be/model"
-// 	module "github.com/cerdas-buatan/be/module"
-//     "github.com/cerdas-buatan/be/model"
-// 	"go.mongodb.org/mongo-driver/bson/primitive"
-// 	"go.mongodb.org/mongo-driver/mongo"
-// 	"github.com/gofiber/fiber/v2"
-// )
 
 //  var (
 //  	Response model.Response
