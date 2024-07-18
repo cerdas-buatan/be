@@ -2,7 +2,9 @@ package helper
 
 import (
 	"context"
+	"fmt"
 	"log"
+	"os"
 	"time"
 
 	"go.mongodb.org/mongo-driver/mongo"
@@ -25,4 +27,13 @@ func ConnectDB(uri string) *mongo.Database {
 	}
 
 	return client.Database(dbName)
+}
+
+// mongo connec
+func MongoConnect(MongoString, dbname string) *mongo.Database {
+	client, err := mongo.Connect(context.TODO(), options.Client().ApplyURI(os.Getenv(MongoString)))
+	if err != nil {
+		fmt.Printf("MongoConnect: %v\n", err)
+	}
+	return client.Database(dbname)
 }
