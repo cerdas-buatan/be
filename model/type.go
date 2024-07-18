@@ -32,7 +32,18 @@ type Response struct {
 // struct ChatRequest
 type ChatRequest struct {
 	Message  string `json:"message"`
-	Response string `json:"response"`
+	
+}
+
+// type ChatRespons struct {
+// 	Response string `json:"response"`
+// }
+
+// ChatResponse represents a chat response
+type ChatResponse struct {
+	ID       primitive.ObjectID `bson:"_id,omitempty" json:"id,omitempty"`
+	Message  string             `bson:"message" json:"message"`
+	Response string             `bson:"response" json:"response"`
 }
 
 type Credential struct {

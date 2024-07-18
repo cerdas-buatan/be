@@ -87,40 +87,6 @@ func NotFound(respw http.ResponseWriter, req *http.Request) {
     `)
 }
 
-// // RegisterUser handles user registration
-// func RegisterUser(c *fiber.Ctx) error {
-// 	resp := new(model.Credential)
-// 	userdata := new(model.User)
-// 	resp.Status = false
-// 	db := c.Locals("db").(*mongo.Database)
-
-// 	// Parse request body into userdata
-// 	if err := c.BodyParser(userdata); err != nil {
-// 		resp.Message = "error parsing application/json: " + err.Error()
-// 		return helper.SendResponse(c, fiber.StatusNotAcceptable, resp)
-// 	}
-
-// 	// Hash the user's password
-// 	hash, err := helper.HashPassword(userdata.Password)
-// 	if err != nil {
-// 		resp.Message = "Gagal Hash Password: " + err.Error()
-// 		return helper.SendResponse(c, fiber.StatusBadRequest, resp)
-// 	}
-// 	userdata.Password = hash
-
-// 	// Insert user data into the database
-// 	_, err = helper.InsertUserdata(db, userdata.Username, userdata.Email, userdata.Password, userdata.Salt, userdata.Role)
-// 	if err != nil {
-// 		resp.Message = "Failed to insert user: " + err.Error()
-// 		return helper.SendResponse(c, fiber.StatusInternalServerError, resp)
-// 	}
-
-// 	// Set successful response
-// 	resp.Status = true
-// 	resp.Message = "Berhasil Registrasi Data"
-// 	return helper.SendResponse(c, fiber.StatusOK, resp)
-// }
-
 // signup
 func SignUpPengguna(db *mongo.Database, insertedDoc model.Pengguna) error {
 	objectId := primitive.NewObjectID()
@@ -235,10 +201,44 @@ func GetUserFromID(_id primitive.ObjectID, db *mongo.Database) (doc model.User, 
 }
 
 // Logout handles user logout (example implementation)
-func Logout(c *fiber.Ctx) error {
-	// Perform logout logic here, such as clearing session or token
-	return helper.SendResponse(c, fiber.StatusOK, "Logout successful", nil)
-}
+// func Logout(c *fiber.Ctx) error {
+// 	// Perform logout logic here, such as clearing session or token
+// 	return helper.SendResponse(c, fiber.StatusOK, "Logout successful", nil)
+// }
+
+// // RegisterUser handles user registration
+// func RegisterUser(c *fiber.Ctx) error {
+// 	resp := new(model.Credential)
+// 	userdata := new(model.User)
+// 	resp.Status = false
+// 	db := c.Locals("db").(*mongo.Database)
+
+// 	// Parse request body into userdata
+// 	if err := c.BodyParser(userdata); err != nil {
+// 		resp.Message = "error parsing application/json: " + err.Error()
+// 		return helper.SendResponse(c, fiber.StatusNotAcceptable, resp)
+// 	}
+
+// 	// Hash the user's password
+// 	hash, err := helper.HashPassword(userdata.Password)
+// 	if err != nil {
+// 		resp.Message = "Gagal Hash Password: " + err.Error()
+// 		return helper.SendResponse(c, fiber.StatusBadRequest, resp)
+// 	}
+// 	userdata.Password = hash
+
+// 	// Insert user data into the database
+// 	_, err = helper.InsertUserdata(db, userdata.Username, userdata.Email, userdata.Password, userdata.Salt, userdata.Role)
+// 	if err != nil {
+// 		resp.Message = "Failed to insert user: " + err.Error()
+// 		return helper.SendResponse(c, fiber.StatusInternalServerError, resp)
+// 	}
+
+// 	// Set successful response
+// 	resp.Status = true
+// 	resp.Message = "Berhasil Registrasi Data"
+// 	return helper.SendResponse(c, fiber.StatusOK, resp)
+// }
 
 // 	"go.mongodb.org/mongo-driver/bson"
 // 	"go.mongodb.org/mongo-driver/bson/primitive"

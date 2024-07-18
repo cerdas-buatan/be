@@ -86,8 +86,23 @@ func GCFHandlerLogin(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(Response)
 }
 
+// GetResponse generates a response based on the input message
+func GetResponse(message string, db *mongo.Database) (string, error) {
+	collection := db.Collection("chat_responses")
+
+	var chatResponse model.ChatResponse
+	filter := bson.M{"message": message}
+
+	err := collection.FindOne(context.TODO(), filter).Decode(&chatResponse)
+	if err != nil {
+		return "", err
+	}
+
+	return chatResponse.Response, nil
+}
+
 // ChatHandler handles chat requests
-func ChatHandler(w http.ResponseWriter, r *http.Request) {
+func ChatHandler(MongoString, dbname string, w http.ResponseWriter, r *http.Request) {
 	var chatReq model.ChatRequest
 	err := json.NewDecoder(r.Body).Decode(&chatReq)
 	if err != nil {
@@ -95,7 +110,14 @@ func ChatHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	response, err := GetResponse(chatReq.Message) // Implement GetResponse function
+	db := helper.MongoConnect(MongoString, dbname)
+	defer func() {
+		if err := db.Client().Disconnect(context.TODO()); err != nil {
+			log.Printf("Failed to disconnect from MongoDB: %v", err)
+		}
+	}()
+
+	response, err := GetResponse(chatReq.Message, db) // Pass db to GetResponse
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
