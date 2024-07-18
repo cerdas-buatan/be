@@ -1,6 +1,10 @@
 package model
 
-import "go.mongodb.org/mongo-driver/bson/primitive"
+import (
+	"time"
+
+	"go.mongodb.org/mongo-driver/bson/primitive"
+)
 
 // struct user
 type User struct {
@@ -27,7 +31,7 @@ type Response struct {
 
 // struct ChatRequest
 type ChatRequest struct {
-	Message string `json:"message"`
+	Message  string `json:"message"`
 	Response string `json:"response"`
 }
 
@@ -38,16 +42,16 @@ type Credential struct {
 }
 
 type Payload struct {
-	ID       string `json:"id"`
-	Role     string `json:"role"`
+	ID       string    `json:"id"`
+	Role     string    `json:"role"`
 	IssuedAt time.Time `json:"issued_at"`
 	Expiry   time.Time `json:"expiry"`
 }
 
 type Menu struct {
-    ID   primitive.ObjectID `bson:"_id,omitempty" json:"id,omitempty"`
-    Name string             `bson:"name" json:"name"`
-    Link string             `bson:"link" json:"link"`
+	ID   primitive.ObjectID `bson:"_id,omitempty" json:"id,omitempty"`
+	Name string             `bson:"name" json:"name"`
+	Link string             `bson:"link" json:"link"`
 }
 
 // package model
@@ -63,13 +67,13 @@ type Menu struct {
 // 	VerificationCode string             `bson:"verification_code"`
 // }
 
-// // type User struct {
-// // 	ID       primitive.ObjectID `bson:"_id,omitempty" json:"_id,omitempty"`
-// // 	Email    string             `bson:"email,omitempty" json:"email,omitempty"`
-// // 	Password string             `bson:"password,omitempty" json:"password,omitempty"`
-// // 	Salt     string             `bson:"salt,omitempty,omitempty" json:"salt,omitempty"`
-// // 	Role     string             `bson:"role,omitempty" json:"role,omitempty"`
-// // }
+// type User struct {
+//  	ID       primitive.ObjectID `bson:"_id,omitempty" json:"_id,omitempty"`
+//  	Email    string             `bson:"email,omitempty" json:"email,omitempty"`
+//  	Password string             `bson:"password,omitempty" json:"password,omitempty"`
+//  	Salt     string             `bson:"salt,omitempty,omitempty" json:"salt,omitempty"`
+//  	Role     string             `bson:"role,omitempty" json:"role,omitempty"`
+//  }
 
 // type User struct {
 // 	ID           primitive.ObjectID `bson:"_id,omitempty" json:"_id,omitempty"`
