@@ -31,8 +31,7 @@ type Response struct {
 
 // struct ChatRequest
 type ChatRequest struct {
-	Message  string `json:"message"`
-	
+	Message string `json:"message"`
 }
 
 // ChatResponse represents a chat response
@@ -63,19 +62,6 @@ type Menu struct {
 
 // type ChatRespons struct {
 // 	Response string `json:"response"`
-// }
-
-// package model
-
-// import (
-// 	"time"
-
-// type Verification struct {
-// 	ID               primitive.ObjectID `bson:"_id,omitempty"`
-// 	UserID           primitive.ObjectID `bson:"user_id"`
-// 	VerifiedAt       time.Time          `bson:"verified_at"`
-// 	IsVerified       bool               `bson:"is_verified"`
-// 	VerificationCode string             `bson:"verification_code"`
 // }
 
 // type User struct {
