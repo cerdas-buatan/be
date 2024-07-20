@@ -1,18 +1,15 @@
 package helper
 
 import (
-	"crypto/sha256"
 	"crypto/rand"
 	"encoding/hex"
 	"os"
 	"strings"
-	"github.com/google/uuid"
+
 	// "github.com/go-check/checkmail"
-	"golang.org/x/crypto/bcrypt"
-	"github.com/gofiber/fiber/v2"
-	"go.mongodb.org/mongo-driver/bson/primitive"
-	"go.mongodb.org/mongo-driver/mongo"
+
 	model "github.com/cerdas-buatan/be/model"
+	"github.com/gofiber/fiber/v2"
 	"golang.org/x/crypto/argon2"
 )
 
@@ -82,12 +79,6 @@ func GetAddress() (ipport string, network string) {
 // 	return uuid.New().String()
 // }
 
-// // HashPassword hashes the given password using bcrypt
-// func HashPassword(password string) (string, error) {
-// 	bytes, err := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
-// 	return string(bytes), err
-// }
-
 // // CheckPasswordHash checks if the given password matches the hashed password
 // func CheckPasswordHash(password, hash string) bool {
 // 	err := bcrypt.CompareHashAndPassword([]byte(hash), []byte(password))
@@ -99,4 +90,10 @@ func GetAddress() (ipport string, network string) {
 // 	hash := sha256.New()
 // 	hash.Write([]byte(input))
 // 	return hex.EncodeToString(hash.Sum(nil))
+// }
+
+// // HashPassword hashes the given password using bcrypt
+// func HashPassword(password string) (string, error) {
+// 	bytes, err := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
+// 	return string(bytes), err
 // }
