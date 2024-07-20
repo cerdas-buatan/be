@@ -161,33 +161,6 @@ func InsertUser(db *mongo.Database, collection string, userdata User) string {
 	return "username : " + userdata.Username + "password : " + userdata.Password
 }
 
-//  var (
-//  	Response model.Response
-//  	user model.User
-//  	pengguna model.Pengguna
-//  	driver model.Driver
-//  	obat model.Obat
-//  	order model.Order
-//  	password model.Password
-
-// // )
-
-// var (
-// 	Response model.Response
-// 	 user     model.User
-// 	 pengguna model.Pengguna
-// 	 password model.Password
-// )
-
-// func RegisterRoutes(app *fiber.App, db *mongo.Database) {
-// 	app.Use(func(c *fiber.Ctx) error {
-// 		c.Locals("db", db)
-// 		return c.Next()
-// 	})
-
-// 	app.Post("/register", RegisterUser)
-// }
-
 // get all
 func GCFHandlerGetAll(MONGOCONNSTRINGENV, dbname, col string, docs interface{}) string {
 	conn := MongoConnect(MONGOCONNSTRINGENV, dbname)
