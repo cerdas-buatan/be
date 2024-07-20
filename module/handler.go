@@ -102,9 +102,9 @@ func GetResponse(message string, db *mongo.Database) (string, error) {
 }
 
 // ChatHandler handles chat requests
-func ChatHandler(MongoString, dbname string, w http.ResponseWriter, r *http.Request) {
-	var chatReq model.ChatRequest
-	err := json.NewDecoder(r.Body).Decode(&chatReq)
+func GCFChat(MongoString, dbname string, w http.ResponseWriter, r *http.Request) {
+	var Reqchat model.ChatRequest
+	err := json.NewDecoder(r.Body).Decode(&Reqchat)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
@@ -117,15 +117,15 @@ func ChatHandler(MongoString, dbname string, w http.ResponseWriter, r *http.Requ
 		}
 	}()
 
-	response, err := GetResponse(chatReq.Message, db) // Pass db to GetResponse
+	response, err := GetResponse(Reqchat.Message, db) 
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
 
-	chatRes := model.ChatResponse{Response: response}
+	Reqchat := model.ChatResponse{Response: response}
 	w.Header().Set("Content-Type", "application/json")
-	json.NewEncoder(w).Encode(chatRes)
+	json.NewEncoder(w).Encode(Reqchat)
 }
 
 // func GCFPostHandler(PASETOPRIVATEKEYENV, MONGOCONNSTRINGENV, dbname, collectionname string, r *http.Request) string {
