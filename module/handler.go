@@ -188,55 +188,6 @@ func InsertUser(db *mongo.Database, collection string, userdata User) string {
 // 	app.Post("/register", RegisterUser)
 // }
 
-// // signup
-// func GCFHandlerSignUpPengguna(MONGOCONNSTRINGENV, dbname string, r *http.Request) string {
-// 	conn := MongoConnect(MONGOCONNSTRINGENV, dbname)
-// 	var Response model.Response
-// 	Response.Status = false
-// 	var datapengguna model.Pengguna
-// 	err := json.NewDecoder(r.Body).Decode(&datapengguna)
-// 	if err != nil {
-// 		Response.Message = "error parsing application/json: " + err.Error()
-// 		return GCFReturnStruct(Response)
-// 	}
-// 	err = SignUpPengguna(conn, datapengguna)
-// 	if err != nil {
-// 		Response.Message = err.Error()
-// 		return GCFReturnStruct(Response)
-// 	}
-// 	Response.Status = true
-// 	Response.Message = "Halo " + datapengguna.Username
-// 	return GCFReturnStruct(Response)
-// }
-
-// // login
-// func GCFHandlerLogin(PASETOPRIVATEKEYENV, MONGOCONNSTRINGENV, dbname string, r *http.Request) string {
-// 	conn := MongoConnect(MONGOCONNSTRINGENV, dbname)
-// 	var Response model.Credential
-// 	Response.Status = false
-// 	var datauser model.User
-// 	err := json.NewDecoder(r.Body).Decode(&datauser)
-// 	if err != nil {
-// 		Response.Message = "error parsing application/json: " + err.Error()
-// 		return GCFReturnStruct(Response)
-// 	}
-// 	user, err := LogIn(conn, datauser)
-// 	if err != nil {
-// 		Response.Message = err.Error()
-// 		return GCFReturnStruct(Response)
-// 	}
-// 	Response.Status = true
-// 	tokenstring, err := Encode(user.ID, user.Role, os.Getenv(PASETOPRIVATEKEYENV))
-// 	if err != nil {
-// 		Response.Message = "Gagal Encode Token : " + err.Error()
-// 	} else {
-// 		Response.Message = "Selamat Datang " + user.Email
-// 		Response.Token = tokenstring
-// 		Response.Role = user.Role
-// 	}
-// 	return GCFReturnStruct(Response)
-// }
-
 // get all
 func GCFHandlerGetAll(MONGOCONNSTRINGENV, dbname, col string, docs interface{}) string {
 	conn := MongoConnect(MONGOCONNSTRINGENV, dbname)
