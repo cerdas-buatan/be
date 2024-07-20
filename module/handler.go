@@ -16,15 +16,15 @@ import (
 )
 
 // GCFHandlerSignUpPengguna handles signup for Google Cloud Function
-func GCFHandlerSignUpPengguna(w http.ResponseWriter, r *http.Request) {
+func GCFHandlerSignUp(w http.ResponseWriter, r *http.Request) {
 	db := helper.ConnectMongoDB(os.Getenv("MONGOCONNSTRING"), os.Getenv("DBNAME"))
 	defer db.Client().Disconnect(r.Context())
 
 	var Response model.Response
 	Response.Status = false
 
-	var datapengguna model.Pengguna
-	err := json.NewDecoder(r.Body).Decode(&datapengguna)
+	var userdata model.Pengguna
+	err := json.NewDecoder(r.Body).Decode(&userdata)
 	if err != nil {
 		Response.Message = "error parsing application/json: " + err.Error()
 		w.WriteHeader(http.StatusBadRequest)
@@ -32,7 +32,7 @@ func GCFHandlerSignUpPengguna(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	err = helper.SignUpPengguna(db, datapengguna)
+	err = helper.SignUpPengguna(db, userdata)
 	if err != nil {
 		Response.Message = err.Error()
 		w.WriteHeader(http.StatusInternalServerError)
@@ -41,7 +41,7 @@ func GCFHandlerSignUpPengguna(w http.ResponseWriter, r *http.Request) {
 	}
 
 	Response.Status = true
-	Response.Message = "Halo " + datapengguna.Username
+	Response.Message = "Halo " + userdata.Username
 	w.WriteHeader(http.StatusOK)
 	json.NewEncoder(w).Encode(Response)
 }
