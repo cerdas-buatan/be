@@ -47,15 +47,15 @@ func GCFHandlerSignUp(w http.ResponseWriter, r *http.Request) {
 }
 
 // GCFHandlerLogin handles login for Google Cloud Function
-func GCFHandlerLogin(w http.ResponseWriter, r *http.Request) {
+func GCFLogin(w http.ResponseWriter, r *http.Request) {
 	db := helper.ConnectMongoDB(os.Getenv("MONGOCONNSTRING"), os.Getenv("DBNAME"))
 	defer db.Client().Disconnect(r.Context())
 
 	var Response model.Credential
 	Response.Status = false
 
-	var datauser model.User
-	err := json.NewDecoder(r.Body).Decode(&datauser)
+	var datapengguna model.User
+	err := json.NewDecoder(r.Body).Decode(&datapengguna)
 	if err != nil {
 		Response.Message = "error parsing application/json: " + err.Error()
 		w.WriteHeader(http.StatusBadRequest)
@@ -63,7 +63,7 @@ func GCFHandlerLogin(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	user, err := helper.LogIn(db, datauser)
+	user, err := helper.LogIn(db, datapengguna)
 	if err != nil {
 		Response.Message = err.Error()
 		w.WriteHeader(http.StatusUnauthorized)
