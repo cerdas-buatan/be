@@ -87,18 +87,18 @@ func GCFHandlerLogin(w http.ResponseWriter, r *http.Request) {
 }
 
 // GetResponse generates a response based on the input message
-func GetResponse(message string, db *mongo.Database) (string, error) {
+func GCFGetResponse(message string, db *mongo.Database) (string, error) {
 	collection := db.Collection("chat_responses")
 
-	var chatResponse model.ChatResponse
+	var Responsechat model.ChatResponse
 	filter := bson.M{"message": message}
 
-	err := collection.FindOne(context.TODO(), filter).Decode(&chatResponse)
+	err := collection.FindOne(context.TODO(), filter).Decode(&Responsechat)
 	if err != nil {
 		return "", err
 	}
 
-	return chatResponse.Response, nil
+	return Responsechat.Response, nil
 }
 
 // ChatHandler handles chat requests
