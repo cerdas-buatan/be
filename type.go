@@ -18,6 +18,8 @@ type Pengguna struct {
 	ID       primitive.ObjectID `bson:"_id,omitempty" json:"_id,omitempty"`  
 	Username string             `bson:"username,omitempty" json:"username,omitempty"`  
 	Akun     User               `bson:"akun,omitempty" json:"akun,omitempty"`  
+	Email    string             `bson:"email,omitempty" json:"email,omitempty"`
+	Password string             `bson:"password,omitempty" json:"password,omitempty"`
 }
 
 // struct response
