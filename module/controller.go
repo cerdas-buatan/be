@@ -4,17 +4,15 @@ import (
 	"context"
 	"crypto/rand"
 	"encoding/hex"
-	"encoding/json"
 	"errors"
 	"fmt"
-	"net/http"
 	"strings"
 
 	"github.com/badoux/checkmail"
-	"github.com/gofiber/fiber/v2"
 	"golang.org/x/crypto/argon2"
+
 	// helper "github.com/cerdas-buatan/be/helper"
-	"github.com/cerdas-buatan/be/helper"
+
 	model "github.com/cerdas-buatan/be/model"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
@@ -173,15 +171,6 @@ func GetUserFromID(_id primitive.ObjectID, db *mongo.Database) (doc model.User, 
 // 	resp.Message = "Berhasil Registrasi Data"
 // 	return helper.SendResponse(c, fiber.StatusOK, resp)
 // }
-
-// 	"go.mongodb.org/mongo-driver/bson"
-// 	"go.mongodb.org/mongo-driver/bson/primitive"
-// 	"go.mongodb.org/mongo-driver/mongo"
-// 	"go.mongodb.org/mongo-driver/mongo/options"
-// 	"golang.org/x/crypto/argon2"
-
-// 	model "github.com/cerdas-buatan/be/model"
-// )
 
 // //register
 
