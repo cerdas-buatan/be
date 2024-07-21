@@ -136,12 +136,12 @@ func InsertUser(db *mongo.Database, collection string, userdata User) string {
 	return "username : " + userdata.Username + "password : " + userdata.Password
 }
 
-// get all
-func GCFHandlerGetAll(MONGOCONNSTRINGENV, dbname, col string, docs interface{}) string {
-	conn := MongoConnect(MONGOCONNSTRINGENV, dbname)
-	data := GetAllDocs(conn, col, docs)
-	return GCFReturnStruct(data)
-}
+// // get all
+// func GCFHandlerGetAll(MONGOCONNSTRINGENV, dbname, col string, docs interface{}) string {
+// 	conn := MongoConnect(MONGOCONNSTRINGENV, dbname)
+// 	data := GetAllDocs(conn, col, docs)
+// 	return GCFReturnStruct(data)
+// }
 
 func GCFPredict(w http.ResponseWriter, r *http.Request) {
 	predictHandler(w, r)
