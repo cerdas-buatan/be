@@ -211,3 +211,8 @@ func UpdateOneDoc(id primitive.ObjectID, db *mongo.Database, col string, doc int
 	}
 	return nil
 }
+
+func GCFReturnStruct(DataStuct any) string {
+	jsondata, _ := json.Marshal(DataStuct)
+	return string(jsondata)
+}
