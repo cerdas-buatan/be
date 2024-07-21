@@ -47,6 +47,7 @@ func Web(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+
 // func Web(w http.ResponseWriter, r *http.Request) {
 // 	if config.SetAccessControlHeaders(w, r) {
 // 		return // If it's a preflight request, return early.
