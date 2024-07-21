@@ -13,7 +13,6 @@ func HomeGaysdisal(w http.ResponseWriter, r *http.Request) {
 	// Buat response dalam bentuk string
 	Response := fmt.Sprintf("Gaysdisal AI", "8081")
 
-
 	// Konversi response ke JSON
 	jsonResponse, err := json.Marshal(Response)
 	if err != nil {
@@ -21,13 +20,13 @@ func HomeGaysdisal(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+
 	// Set header Content-Type
 	w.Header().Set("Content-Type", "application/json")
 
 	// Tulis response ke http.ResponseWriter
 	w.Write(jsonResponse)
 }
-
 
 // NotFound handles 404 errors and provides a button to go back home
 func NotFound(respw http.ResponseWriter, req *http.Request) {
@@ -75,4 +74,3 @@ func NotFound(respw http.ResponseWriter, req *http.Request) {
         </html>
     `)
 }
-
