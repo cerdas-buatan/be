@@ -170,22 +170,3 @@ func InsertUser(db *mongo.Database, collection string, userdata User) string {
 	return "username : " + userdata.Username + "password : " + userdata.Password
 }
 
-// InsertUserdata insert user untuk register
-func InsertUserdata(database *mongo.Database, username, email, password, salt, role string) (InsertedID interface{}) {
-	// Create the User struct
-	user := model.User{
-		Email:    email,
-		Password: password,
-		Salt:     salt,
-		Role:     role,
-	}
-
-	// Create the Pengguna struct
-	pengguna := model.Pengguna{
-		Username: username,
-		Akun:     user,
-	}
-
-	return InsertTwoDoc(database, "users", pengguna)
-}
-
