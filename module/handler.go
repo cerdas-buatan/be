@@ -128,6 +128,7 @@ func GCFChat(MongoString, dbname string, w http.ResponseWriter, r *http.Request)
 	json.NewEncoder(w).Encode(Reqchat)
 }
 
+// insert user
 func InsertUser(db *mongo.Database, collection string, userdata User) string {
 	hash, _ := HashPassword(userdata.Password)
 	userdata.Password = hash
@@ -164,19 +165,17 @@ func GCFGetUserFromID(PASETOPUBLICKEYENV, MONGOCONNSTRINGENV, dbname string, r *
 	return GCFReturnStruct(data)
 }
 
-func GCFHandlerUpdateByPengguna(idparam, iduser primitive.ObjectID, pengguna model.Pengguna, conn *mongo.Database, r *http.Request) string {
-	Response.Status = false
-	//
-	err := UpdatePengguna(idparam, iduser, conn, pengguna)
-	if err != nil {
-		Response.Message = err.Error()
-		return GCFReturnStruct(Response)
-	}
-	//
-	Response.Status = true
-	Response.Message = "Berhasil Update Pengguna"
-	return GCFReturnStruct(Response)
-}
+// func GCFHandlerUpdateByPengguna(idparam, iduser primitive.ObjectID, pengguna model.Pengguna, conn *mongo.Database, r *http.Request) string {
+// 	Response.Status = false
+// 	err := UpdatePengguna(idparam, iduser, conn, pengguna)
+// 	if err != nil {
+// 		Response.Message = err.Error()
+// 		return GCFReturnStruct(Response)
+// 	}
+// 	Response.Status = true
+// 	Response.Message = "Berhasil Update Pengguna"
+// 	return GCFReturnStruct(Response)
+// }
 
 //ChatHandler
 func ChatHandler(w http.ResponseWriter, r *http.Request) {
