@@ -69,14 +69,6 @@ type Menu struct {
 // 	Newpassword string `bson:"newpass,omitempty" json:"newpass,omitempty"`
 // }
 
-// type Payload struct {
-// 	Id   primitive.ObjectID `json:"id"`
-// 	Role string             `json:"role"`
-// 	Exp  time.Time          `json:"exp"`
-// 	Iat  time.Time          `json:"iat"`
-// 	Nbf  time.Time          `json:"nbf"`
-// }
-
 // type Response struct {
 // 	Status  bool   `json:"status" bson:"status"`
 // 	Message string `json:"message,omitempty" bson:"message,omitempty"`
