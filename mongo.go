@@ -62,9 +62,9 @@ func InsertDoc(db *mongo.Database, col string, doc interface{}) (interface{}, er
 	result, err := collection.InsertOne(context.TODO(), doc)
 	if err != nil {
 		return nil, fmt.Errorf("error InsertDoc %s: %s", col, err)
-	}
-	return result.InsertedID, nil
-}
+	}  
+	return result.InsertedID, nil 
+}  
 
 // Update a document in a collection
 func UpdateDoc(db *mongo.Database, col string, filter, update interface{}) (*mongo.UpdateResult, error) {
