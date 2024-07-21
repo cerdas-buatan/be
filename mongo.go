@@ -70,11 +70,11 @@ func InsertDoc(db *mongo.Database, col string, doc interface{}) (interface{}, er
 func UpdateDoc(db *mongo.Database, col string, filter, update interface{}) (*mongo.UpdateResult, error) {
 	collection := db.Collection(col)
 	result, err := collection.UpdateOne(context.TODO(), filter, update)
-	if err != nil {
+	if err != nil {  
 		return nil, fmt.Errorf("error UpdateDoc %s: %s", col, err)
-	}
-	return result, nil
-}
+	}  
+	return result, nil  
+}  
 
 // Delete a document from a collection
 func DeleteDoc(db *mongo.Database, col string, filter interface{}) (*mongo.DeleteResult, error) {
