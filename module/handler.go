@@ -165,18 +165,6 @@ func GCFGetUserFromID(PASETOPUBLICKEYENV, MONGOCONNSTRINGENV, dbname string, r *
 	return GCFReturnStruct(data)
 }
 
-// func GCFHandlerUpdateByPengguna(idparam, iduser primitive.ObjectID, pengguna model.Pengguna, conn *mongo.Database, r *http.Request) string {
-// 	Response.Status = false
-// 	err := UpdatePengguna(idparam, iduser, conn, pengguna)
-// 	if err != nil {
-// 		Response.Message = err.Error()
-// 		return GCFReturnStruct(Response)
-// 	}
-// 	Response.Status = true
-// 	Response.Message = "Berhasil Update Pengguna"
-// 	return GCFReturnStruct(Response)
-// }
-
 //ChatHandler
 func ChatHandler(w http.ResponseWriter, r *http.Request) {
     var chatReq model.ChatRequest
