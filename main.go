@@ -5,6 +5,8 @@ import (
 	"encoding/json"
 	"net/http"
 
+	// 	"net/http"
+
 	"github.com/GoogleCloudPlatform/functions-framework-go/functions"
 	route "github.com/cerdas-buatan/be/route"
 )
@@ -22,5 +24,3 @@ func HomeGaysdisal(w http.ResponseWriter, r *http.Request) {
 		"message": "Welcome to Gaysdisal",
 	})
 }
-
-
