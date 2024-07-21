@@ -294,32 +294,6 @@ func GetUserFromID(_id primitive.ObjectID, db *mongo.Database) (doc model.User, 
 // 	return doc, nil
 // }
 
-
-// // pengguna
-// func UpdatePengguna(idparam, iduser primitive.ObjectID, db *mongo.Database, insertedDoc model.Pengguna) error {
-// 	pengguna, err := GetPenggunaFromAkun(iduser, db)
-// 	if err != nil {
-// 		return err
-// 	}
-// 	if pengguna.ID != idparam {
-// 		return fmt.Errorf("anda bukan pemilik data ini")
-// 	}
-// 	if insertedDoc.Username == "" {
-// 		return fmt.Errorf("dimohon untuk melengkapi data")
-// 	}
-// 	pgn := bson.M{
-// 		"username": insertedDoc.Username,
-// 		"akun": model.User{
-// 			ID: pengguna.Akun.ID,
-// 		},
-// 	}
-// 	err = UpdateOneDoc(idparam, db, "pengguna", pgn)
-// 	if err != nil {
-// 		return err
-// 	}
-// 	return nil
-// }
-
 func GetAllPengguna(db *mongo.Database) (pengguna []model.Pengguna, err error) {
 	collection := db.Collection("pengguna")
 	filter := bson.M{}
