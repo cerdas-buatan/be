@@ -73,18 +73,6 @@ func Decode(secret, token string) (model.Payload, error) {
 // 	return privateKey, publicKey
 // }
 
-// package module
-
-// import (
-// 	"encoding/json"
-// 	"fmt"
-// 	"time"
-
-// 	"aidanwoods.dev/go-paseto"
-// 	"github.com/cerdas-buatan/be/model"
-// 	"go.mongodb.org/mongo-driver/bson/primitive"
-// )
-
 func Encode(id primitive.ObjectID, role, privateKey string) (string, error) {
 	token := paseto.NewToken()
 	token.SetIssuedAt(time.Now())
@@ -120,5 +108,4 @@ func GenerateKey() (privateKey, publicKey string) {
 	return privateKey, publicKey
 }
 
-// module/module.go
 
