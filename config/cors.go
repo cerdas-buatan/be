@@ -23,6 +23,7 @@ var Cors= cors.config{
 	MaxAge: 3600,
 }
 
+
 // Fungsi untuk memeriksa apakah origin diizinkan
 func isAllowedOrigin(origin string) bool {
 	for _, o := range Origins {
@@ -35,12 +36,12 @@ func isAllowedOrigin(origin string) bool {
 
 var Internalhost string = os.Getenv("INTERNALHOST") + ":" os.Getenv("PORT")
 
-
 // Fungsi untuk mengatur header CORS
 func SetAccessControlHeaders(w http.ResponseWriter, r *http.Request) bool {
 	origin := r.Header.Get("Origin")
 
 	if isAllowedOrigin(origin) {
+
 		// Set CORS headers for the preflight request
 		if r.Method == http.MethodOptions {
 			w.Header().Set("Access-Control-Allow-Credentials", "true")
@@ -58,4 +59,3 @@ func SetAccessControlHeaders(w http.ResponseWriter, r *http.Request) bool {
 	}
 	return false
 }
-
