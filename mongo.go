@@ -57,11 +57,11 @@ func GetAllDocs(db *mongo.Database, col string, docs interface{}) interface{} {
 
 // Insert a document into a collection
 func InsertDoc(db *mongo.Database, col string, doc interface{}) (interface{}, error) {
-	//	collection := db.Collection(col)
-	//	result, err := collection.InsertOne(context.TODO(), doc)
-	//	if err != nil {
-	//		return nil, fmt.Errorf("error InsertDoc %s: %s", col, err)
-	//	}
+	collection := db.Collection(col)
+	result, err := collection.InsertOne(context.TODO(), doc)
+	if err != nil {
+		//		return nil, fmt.Errorf("error InsertDoc %s: %s", col, err)
+	}
 	return result.InsertedID, nil
 }
 
@@ -77,10 +77,10 @@ func UpdateDoc(db *mongo.Database, col string, filter, update interface{}) (*mon
 
 // Delete a document from a collection
 func DeleteDoc(db *mongo.Database, col string, filter interface{}) (*mongo.DeleteResult, error) {
-	//	collection := db.Collection(col)
-	//	result, err := collection.DeleteOne(context.TODO(), filter)
-	//	if err != nil {
-	return nil, fmt.Errorf("error DeleteDoc %s: %s", col, err)
-	//	}
+	collection := db.Collection(col)
+	result, err := collection.DeleteOne(context.TODO(), filter)
+	if err != nil {
+		return nil, fmt.Errorf("error DeleteDoc %s: %s", col, err)
+	}
 	return result, nil
 }
