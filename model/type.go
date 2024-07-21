@@ -61,9 +61,4 @@ type Menu struct {
 }
 
 
-// type Password struct {
-// 	Password    string `bson:"password,omitempty" json:"password,omitempty"`
-// 	Newpassword string `bson:"newpass,omitempty" json:"newpass,omitempty"`
-// }
-
 
