@@ -72,13 +72,6 @@ type Menu struct {
 //  	Role     string             `bson:"role,omitempty" json:"role,omitempty"`
 //  }
 
-// type User struct {
-// 	ID           primitive.ObjectID `bson:"_id,omitempty" json:"_id,omitempty"`
-// 	Username     string             `bson:"username,omitempty" json:"username,omitempty"`
-// 	Email        string             `bson:"email,omitempty" json:"email,omitempty"`
-// 	Password     string             `bson:"password,omitempty" json:"password,omitempty"`
-// }
-
 // type Pengguna struct {
 // 	ID           primitive.ObjectID `bson:"_id,omitempty" json:"_id,omitempty"`
 // 	Username     string			    `bson:"username,omitempty" json:"username,omitempty"`
