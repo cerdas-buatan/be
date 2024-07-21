@@ -64,14 +64,6 @@ type Menu struct {
 // 	Response string `json:"response"`
 // }
 
-// type User struct {
-//  	ID       primitive.ObjectID `bson:"_id,omitempty" json:"_id,omitempty"`
-//  	Email    string             `bson:"email,omitempty" json:"email,omitempty"`
-//  	Password string             `bson:"password,omitempty" json:"password,omitempty"`
-//  	Salt     string             `bson:"salt,omitempty,omitempty" json:"salt,omitempty"`
-//  	Role     string             `bson:"role,omitempty" json:"role,omitempty"`
-//  }
-
 // type Password struct {
 // 	Password    string `bson:"password,omitempty" json:"password,omitempty"`
 // 	Newpassword string `bson:"newpass,omitempty" json:"newpass,omitempty"`
