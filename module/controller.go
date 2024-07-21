@@ -22,35 +22,44 @@ import (
 // signup
 func SignUpPengguna(db *mongo.Database, insertedDoc model.Pengguna) error {
 	objectId := primitive.NewObjectID()
-	if insertedDoc.Username == "" ||
-		insertedDoc.Akun.Password == "" {
+	
+	// Validate mandatory fields
+	if insertedDoc.Username == "" || insertedDoc.Akun.Password == "" {
 		return fmt.Errorf("dimohon untuk melengkapi data")
 	}
+
+	// Validate email format
 	if err := checkmail.ValidateFormat(insertedDoc.Akun.Email); err != nil {
 		return fmt.Errorf("email tidak valid")
 	}
+
+	// Check if the email is already registered
 	userExists, _ := GetUserFromEmail(insertedDoc.Akun.Email, db)
-	if insertedDoc.Akun.Email == userExists.Email {
+	if userExists.Email != "" {
 		return fmt.Errorf("email sudah terdaftar")
 	}
+
+	// Validate password constraints
 	if strings.Contains(insertedDoc.Akun.Password, " ") {
 		return fmt.Errorf("password tidak boleh mengandung spasi")
 	}
 	if len(insertedDoc.Akun.Password) < 8 {
 		return fmt.Errorf("password terlalu pendek")
 	}
+
+	// Generate salt and hash the password
 	salt := make([]byte, 16)
-	_, err := rand.Read(salt)
-	if err != nil {
-		return fmt.Errorf("kesalahan server : salt")
+	if _, err := rand.Read(salt); err != nil {
+		return fmt.Errorf("kesalahan server: gagal membuat salt")
 	}
 	hashedPassword := argon2.IDKey([]byte(insertedDoc.Akun.Password), salt, 1, 64*1024, 4, 32)
+
+	// Create user and pengguna documents
 	user := bson.M{
 		"_id":      objectId,
 		"email":    insertedDoc.Akun.Email,
 		"password": hex.EncodeToString(hashedPassword),
 		"salt":     hex.EncodeToString(salt),
-		"role":     "pengguna",
 	}
 	pengguna := bson.M{
 		"username": insertedDoc.Username,
@@ -58,14 +67,15 @@ func SignUpPengguna(db *mongo.Database, insertedDoc model.Pengguna) error {
 			ID: objectId,
 		},
 	}
-	_, err = InsertOneDoc(db, "user", user)
-	if err != nil {
-		return fmt.Errorf("kesalahan server")
+
+	// Insert the documents into the database
+	if _, err := InsertOneDoc(db, "user", user); err != nil {
+		return fmt.Errorf("kesalahan server: gagal menyimpan user")
 	}
-	_, err = InsertOneDoc(db, "pengguna", pengguna)
-	if err != nil {
-		return fmt.Errorf("kesalahan server")
+	if _, err := InsertOneDoc(db, "pengguna", pengguna); err != nil {
+		return fmt.Errorf("kesalahan server: gagal menyimpan pengguna")
 	}
+
 	return nil
 }
 
