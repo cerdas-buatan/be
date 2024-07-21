@@ -1,5 +1,6 @@
 package module
 
+
 import (
 	"encoding/json"
 	"fmt"
@@ -9,6 +10,7 @@ import (
 	"github.com/o1egl/paseto"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
+
 
 func Encode(id, role, secret string) (string, error) {
 	now := time.Now()
@@ -22,6 +24,7 @@ func Encode(id, role, secret string) (string, error) {
 	v2 := paseto.NewV2()
 	return v2.Encrypt([]byte(secret), payload, nil)
 }
+
 
 func Decode(secret, token string) (model.Payload, error) {
 	var payload model.Payload
@@ -38,6 +41,7 @@ func Decode(secret, token string) (model.Payload, error) {
 	return payload, nil
 }
 
+
 func Encode(id primitive.ObjectID, role, privateKey string) (string, error) {
 	token := paseto.NewToken()
 	token.SetIssuedAt(time.Now())
@@ -48,6 +52,7 @@ func Encode(id primitive.ObjectID, role, privateKey string) (string, error) {
 	secretKey, err := paseto.NewV4AsymmetricSecretKeyFromHex(privateKey)
 	return token.V4Sign(secretKey, nil), err
 }
+
 
 func Decode(publicKey string, tokenstring string) (payload model.Payload, err error) {
 	var token *paseto.Token
@@ -66,11 +71,10 @@ func Decode(publicKey string, tokenstring string) (payload model.Payload, err er
 	return payload, err
 }
 
+
 func GenerateKey() (privateKey, publicKey string) {
 	secretKey := paseto.NewV4AsymmetricSecretKey() // don't share this!!!
 	publicKey = secretKey.Public().ExportHex()     // DO share this one
 	privateKey = secretKey.ExportHex()
 	return privateKey, publicKey
 }
-
-
