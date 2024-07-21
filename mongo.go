@@ -189,11 +189,3 @@ func InsertUserdata(database *mongo.Database, username, email, password, salt, r
 	return InsertTwoDoc(database, "users", pengguna)
 }
 
-func InsertOneDoc(db *mongo.Database, collection string, doc interface{}) (interface{}, error) {
-	coll := db.Collection(collection)
-	result, err := coll.InsertOne(context.Background(), doc)
-	if err != nil {
-		return nil, err
-	}
-	return result.InsertedID, nil
-}
