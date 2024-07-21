@@ -178,31 +178,31 @@ func GCFHandlerUpdateByPengguna(idparam, iduser primitive.ObjectID, pengguna mod
 	return GCFReturnStruct(Response)
 }
 
-// //ChatHandler
-// func ChatHandler(w http.ResponseWriter, r *http.Request) {
-//     var chatReq model.ChatRequest
-//     err := json.NewDecoder(r.Body).Decode(&chatReq)
-//     if err != nil {
-//         http.Error(w, err.Error(), http.StatusBadRequest)
-//         return
-//     }
+//ChatHandler
+func ChatHandler(w http.ResponseWriter, r *http.Request) {
+    var chatReq model.ChatRequest
+    err := json.NewDecoder(r.Body).Decode(&chatReq)
+    if err != nil {
+        http.Error(w, err.Error(), http.StatusBadRequest)
+        return
+    }
 
-//     response, err := module.GetResponse(chatReq.Message)
-//     if err != nil {
-//         http.Error(w, err.Error(), http.StatusInternalServerError)
-//         return
-//     }
+    response, err := module.GetResponse(chatReq.Message)
+    if err != nil {
+        http.Error(w, err.Error(), http.StatusInternalServerError)
+        return
+    }
 
-//     chatRes := model.ChatResponse{Response: response}
-//     w.Header().Set("Content-Type", "application/json")
-//     json.NewEncoder(w).Encode(chatRes)
-// }
+    chatRes := model.ChatResponse{Response: response}
+    w.Header().Set("Content-Type", "application/json")
+    json.NewEncoder(w).Encode(chatRes)
+}
 
-// // return struct
-// func GCFReturnStruct(DataStuct any) string {
-// 	jsondata, _ := json.Marshal(DataStuct)
-// 	return string(jsondata)
-// }
+// return struct
+func GCFReturnStruct(DataStuct any) string {
+	jsondata, _ := json.Marshal(DataStuct)
+	return string(jsondata)
+}
 
 // get user login
 func GetUserLogin(PASETOPUBLICKEYENV string, r *http.Request) (model.Payload, error) {
