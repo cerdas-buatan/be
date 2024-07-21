@@ -47,7 +47,7 @@ func GCFSignUp(w http.ResponseWriter, r *http.Request) {
 }
 
 // GCFHandlerLogin handles login for Google Cloud Function
-func GCFLogin(w http.ResponseWriter, r *http.Request) {
+func GCFSignIn(w http.ResponseWriter, r *http.Request) {
 	db := helper.ConnectMongoDB(os.Getenv("MONGOCONNSTRING"), os.Getenv("DBNAME"))
 	defer db.Client().Disconnect(r.Context())
 
@@ -77,7 +77,7 @@ func GCFLogin(w http.ResponseWriter, r *http.Request) {
 		Response.Message = "Gagal Encode Token : " + err.Error()
 		w.WriteHeader(http.StatusInternalServerError)
 	} else {
-		Response.Message = "Selamat Datang " + user.Email
+		Response.Message = "Halo, Selamat Datang " + user.Email
 		Response.Token = tokenstring
 		Response.Role = user.Role
 	}
