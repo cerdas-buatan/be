@@ -50,3 +50,11 @@ type LoginRequest struct {
 	Email    string `json:"email"`
 	Password string `json:"password"`
 }
+
+// struct LoginResponse
+type LoginResponse struct {
+	Status  bool   `json:"status"`
+	Message string `json:"message"`
+	Token   string `json:"token,omitempty"`
+	UserID  primitive.ObjectID `json:"user_id,omitempty"`
+}
