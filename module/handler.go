@@ -9,11 +9,10 @@ import (
 	model "github.com/cerdas-buatan/be/model"
 	"github.com/whatsauth/watoken"
 
-	// helper"github.com/cerdas-buatan/be/helper"
-	// "github.com/aiteung/atdb"
 
 	"go.mongodb.org/mongo-driver/mongo"
 )
+
 
 // GCFHandlerSignUpPengguna handles signup for Google Cloud Function
 func GCFSignUp(w http.ResponseWriter, r *http.Request) {
@@ -45,6 +44,7 @@ func GCFSignUp(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusOK)
 	json.NewEncoder(w).Encode(Response)
 }
+
 
 // GCFHandlerLogin handles login for Google Cloud Function
 func GCFSignIn(w http.ResponseWriter, r *http.Request) {
@@ -100,6 +100,7 @@ func GCFGetResponse(message string, db *mongo.Database) (string, error) {
 
 	return Responsechat.Response, nil
 }
+
 
 // ChatHandler handles chat requests
 func GCFChat(MongoString, dbname string, w http.ResponseWriter, r *http.Request) {
