@@ -66,12 +66,12 @@ func Encode2(id primitive.ObjectID, role, privateKey string) (string, error) {
 // 	return payload, err
 // }
 
-func GenerateKey() (privateKey, publicKey string) {
-	secretKey := paseto.NewV4AsymmetricSecretKey() // don't share this!!!
-	publicKey = secretKey.Public().ExportHex()     // DO share this one
-	privateKey = secretKey.ExportHex()
-	return privateKey, publicKey
-}
+// func GenerateKey() (privateKey, publicKey string) {
+// 	secretKey := paseto.NewV4AsymmetricSecretKey() // don't share this!!!
+// 	publicKey = secretKey.Public().ExportHex()     // DO share this one
+// 	privateKey = secretKey.ExportHex()
+// 	return privateKey, publicKey
+// }
 
 // package module
 
@@ -113,12 +113,12 @@ func Decode(publicKey string, tokenstring string) (payload model.Payload, err er
 	return payload, err
 }
 
-// func GenerateKey() (privateKey, publicKey string) {
-// 	secretKey := paseto.NewV4AsymmetricSecretKey() // don't share this!!!
-// 	publicKey = secretKey.Public().ExportHex()     // DO share this one
-// 	privateKey = secretKey.ExportHex()
-// 	return privateKey, publicKey
-// }
+func GenerateKey() (privateKey, publicKey string) {
+	secretKey := paseto.NewV4AsymmetricSecretKey() // don't share this!!!
+	publicKey = secretKey.Public().ExportHex()     // DO share this one
+	privateKey = secretKey.ExportHex()
+	return privateKey, publicKey
+}
 
 // module/module.go
 
