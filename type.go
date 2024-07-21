@@ -4,8 +4,6 @@ import (
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
-
-
 // struct user
 type User struct {
 	ID       primitive.ObjectID `bson:"_id,omitempty" json:"_id,omitempty"`
@@ -17,16 +15,13 @@ type User struct {
 }
 
 
-
 // struct Pengguna
 type Pengguna struct {
-//	ID       primitive.ObjectID `bson:"_id,omitempty" json:"_id,omitempty"`  
 //	Username string             `bson:"username,omitempty" json:"username,omitempty"`  
 	ID       primitive.ObjectID `bson:"_id,omitempty" json:"_id,omitempty"`  
 	Username string             `bson:"username,omitempty" json:"username,omitempty"`
 	Akun     User               `bson:"akun,omitempty" json:"akun,omitempty"`  
 }
-
 
 
 // struct response
