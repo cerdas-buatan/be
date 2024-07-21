@@ -227,46 +227,6 @@ func GetUserFromID(_id primitive.ObjectID, db *mongo.Database) (doc model.User, 
 //     return string(out), nil
 // }
 
-// func UpdateUser(iduser primitive.ObjectID, db *mongo.Database, insertedDoc model.User) error {
-// 	dataUser, err := GetUserFromID(iduser, db)
-// 	if err != nil {
-// 		return err
-// 	}
-// 	if insertedDoc.Email == "" || insertedDoc.Password == "" {
-// 		return fmt.Errorf("mohon untuk melengkapi data")
-// 	}
-// 	if err = checkmail.ValidateFormat(insertedDoc.Email); err != nil {
-// 		return fmt.Errorf("email tidak valid")
-// 	}
-// 	existsDoc, _ := GetUserFromEmail(insertedDoc.Email, db)
-// 	if existsDoc.Email == insertedDoc.Email {
-// 		return fmt.Errorf("email sudah terdaftar")
-// 	}
-// 	if strings.Contains(insertedDoc.Password, " ") {
-// 		return fmt.Errorf("password tidak boleh mengandung spasi")
-// 	}
-// 	if len(insertedDoc.Password) < 8 {
-// 		return fmt.Errorf("password terlalu pendek")
-// 	}
-// 	salt := make([]byte, 16)
-// 	_, err = rand.Read(salt)
-// 	if err != nil {
-// 		return fmt.Errorf("kesalahan server : salt")
-// 	}
-// 	hashedPassword := argon2.IDKey([]byte(insertedDoc.Password), salt, 1, 64*1024, 4, 32)
-// 	user := bson.M{
-// 		"email":    insertedDoc.Email,
-// 		"password": hex.EncodeToString(hashedPassword),
-// 		"salt":     hex.EncodeToString(salt),
-// 		"role":     dataUser.Role,
-// 	}
-// 	err = UpdateOneDoc(iduser, db, "user", user)
-// 	if err != nil {
-// 		return err
-// 	}
-// 	return nil
-// }
-
 
 func GetAllPengguna(db *mongo.Database) (pengguna []model.Pengguna, err error) {
 	collection := db.Collection("pengguna")
