@@ -150,15 +150,3 @@ func GetAllDocs(db *mongo.Database, col string, docs interface{}) interface{} {
 	return docs
 }
 
-
-func InsertTwoDoc(database *mongo.Database, collection string, document interface{}) (InsertedID interface{}) {
-	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
-	defer cancel()
-
-	result, err := database.Collection(collection).InsertOne(ctx, document)
-	if err != nil {
-		return nil
-	}
-
-	return result.InsertedID
-}
