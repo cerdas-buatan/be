@@ -6,12 +6,6 @@ import (
 	"net/http"
 )
 
-func WriteJSON(respw http.ResponseWriter, statusCode int, content interface{}) {
-	respw.Header().Set("Content-Type", "application/json")
-	respw.WriteHeader(statusCode)
-	respw.Write([]byte(Jsonstr(content)))
-}
-
 func Jsonstr(strc interface{}) string {
 	jsonData, err := json.Marshal(strc)
 	if err != nil {
@@ -25,10 +19,16 @@ func GCFReturnStruct(DataStruct interface{}) string {
 	return string(jsonData)
 }
 
+func WriteJSON(respw http.ResponseWriter, statusCode int, content interface{}) {
+    respw.Header().Set("Content-Type", "application/json")
+    respw.WriteHeader(statusCode)
+    respw.Write([]byte(Jsonstr(content)))
+}
+
 // func WriteJSON(respw http.ResponseWriter, statusCode int, content interface{}) {
-//     respw.Header().Set("Content-Type", "application/json")
-//     respw.WriteHeader(statusCode)
-//     respw.Write([]byte(Jsonstr(content)))
+// 	respw.Header().Set("Content-Type", "application/json")
+// 	respw.WriteHeader(statusCode)
+// 	respw.Write([]byte(Jsonstr(content)))
 // }
 
 //func SendResponse(c *fiber.Ctx, statusCode int, message string, data interface{}) error {
