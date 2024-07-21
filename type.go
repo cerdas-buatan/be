@@ -21,8 +21,10 @@ type User struct {
 
 // struct Pengguna
 type Pengguna struct {
+//	ID       primitive.ObjectID `bson:"_id,omitempty" json:"_id,omitempty"`  
+//	Username string             `bson:"username,omitempty" json:"username,omitempty"`  
 	ID       primitive.ObjectID `bson:"_id,omitempty" json:"_id,omitempty"`  
-	Username string             `bson:"username,omitempty" json:"username,omitempty"`  
+	Username string             `bson:"username,omitempty" json:"username,omitempty"`
 	Akun     User               `bson:"akun,omitempty" json:"akun,omitempty"`  
 }
 
