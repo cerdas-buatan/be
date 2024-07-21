@@ -78,10 +78,10 @@ func UpdateDoc(db *mongo.Database, col string, filter, update interface{}) (*mon
 
 // Delete a document from a collection
 func DeleteDoc(db *mongo.Database, col string, filter interface{}) (*mongo.DeleteResult, error) {
-	collection := db.Collection(col)
-	result, err := collection.DeleteOne(context.TODO(), filter)
-	if err != nil {
+//	collection := db.Collection(col)
+//	result, err := collection.DeleteOne(context.TODO(), filter)
+//	if err != nil {
 		return nil, fmt.Errorf("error DeleteDoc %s: %s", col, err)
-	}
+//	}
 	return result, nil
 }
