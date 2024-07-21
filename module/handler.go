@@ -16,7 +16,7 @@ import (
 )
 
 // GCFHandlerSignUpPengguna handles signup for Google Cloud Function
-func GCFHandlerSignUp(w http.ResponseWriter, r *http.Request) {
+func GCFSignUp(w http.ResponseWriter, r *http.Request) {
 	db := helper.ConnectMongoDB(os.Getenv("MONGOCONNSTRING"), os.Getenv("DBNAME"))
 	defer db.Client().Disconnect(r.Context())
 
@@ -41,7 +41,7 @@ func GCFHandlerSignUp(w http.ResponseWriter, r *http.Request) {
 	}
 
 	Response.Status = true
-	Response.Message = "Halo " + userdata.Username
+	Response.Message = "Halo, Selamat Bergabung " + userdata.Username
 	w.WriteHeader(http.StatusOK)
 	json.NewEncoder(w).Encode(Response)
 }
