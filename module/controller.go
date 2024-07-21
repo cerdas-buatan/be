@@ -116,15 +116,26 @@ func LogIn(db *mongo.Database, insertedDoc model.User) (user model.User, err err
 }
 
 func GetUserFromEmail(email string, db *mongo.Database) (doc model.User, err error) {
+	// Mendapatkan koleksi "user" dari database
 	collection := db.Collection("user")
+	
+	// Membuat filter untuk pencarian berdasarkan email
 	filter := bson.M{"email": email}
+	
+	// Mencari satu dokumen yang sesuai dengan filter
 	err = collection.FindOne(context.TODO(), filter).Decode(&doc)
+	
+	// Memeriksa apakah terjadi error
 	if err != nil {
+		// Jika tidak ada dokumen yang ditemukan, mengembalikan error "email tidak ditemukan"
 		if err == mongo.ErrNoDocuments {
 			return doc, fmt.Errorf("email tidak ditemukan")
 		}
+		// Jika terjadi kesalahan lain, mengembalikan error "kesalahan server"
 		return doc, fmt.Errorf("kesalahan server")
 	}
+	
+	// Mengembalikan dokumen pengguna jika ditemukan
 	return doc, nil
 }
 
