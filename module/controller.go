@@ -132,13 +132,6 @@ func GetUserFromID(_id primitive.ObjectID, db *mongo.Database) (doc model.User, 
 	return doc, nil
 }
 
-// Logout handles user logout (example implementation)
-// func Logout(c *fiber.Ctx) error {
-// 	// Perform logout logic here, such as clearing session or token
-// 	return helper.SendResponse(c, fiber.StatusOK, "Logout successful", nil)
-// }
-
-
 func GetAllPengguna(db *mongo.Database) (pengguna []model.Pengguna, err error) {
 	collection := db.Collection("pengguna")
 	filter := bson.M{}
