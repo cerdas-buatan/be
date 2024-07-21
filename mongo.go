@@ -1,19 +1,15 @@
 package helper
-
 import (
 	"context"
-	"encoding/json"
 	"fmt"
-	"log"
 	"os"
-	"time"
-
-	"github.com/aiteung/atdb"
-	"github.com/cerdas-buatan/be/model"
+	"go.mongodb.org/mongo-driver/mongo/options"
+	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
-	"go.mongodb.org/mongo-driver/mongo"
-	"go.mongodb.org/mongo-driver/mongo/options"
+	"time"
+	model "github.com/cerdas-buatan/be/model"
+	atdb "github.com/aiteung/atdb"
 )
 
 // connection db
@@ -130,4 +126,12 @@ func UpdateOneDoc(id primitive.ObjectID, db *mongo.Database, col string, doc int
 func GCFReturnStruct(DataStuct any) string {
 	jsondata, _ := json.Marshal(DataStuct)
 	return string(jsondata)
+
+// mongo connec
+func MongoConnect(MongoString, dbname string) *mongo.Database {
+	client, err := mongo.Connect(context.TODO(), options.Client().ApplyURI(os.Getenv(MongoString)))
+	if err != nil {
+		fmt.Printf("MongoConnect: %v\n", err)
+	}
+	return client.Database(dbname)
 }
