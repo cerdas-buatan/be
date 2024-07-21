@@ -81,25 +81,38 @@ func SignUpPengguna(db *mongo.Database, insertedDoc model.Pengguna) error {
 
 // login
 func LogIn(db *mongo.Database, insertedDoc model.User) (user model.User, err error) {
-	if insertedDoc.Email == "" || insertedDoc.Password == "" {
-		return user, fmt.Errorf("mohon untuk melengkapi data")
-	}
-	if err = checkmail.ValidateFormat(insertedDoc.Email); err != nil {
-		return user, fmt.Errorf("email tidak valid")
-	}
-	existsDoc, err := GetUserFromEmail(insertedDoc.Email, db)
-	if err != nil {
-		return
-	}
-	salt, err := hex.DecodeString(existsDoc.Salt)
-	if err != nil {
-		return user, fmt.Errorf("kesalahan server : salt")
-	}
-	hash := argon2.IDKey([]byte(insertedDoc.Password), salt, 1, 64*1024, 4, 32)
-	if hex.EncodeToString(hash) != existsDoc.Password {
-		return user, fmt.Errorf("password salah")
-	}
-	return existsDoc, nil
+    // Validate mandatory fields
+    if insertedDoc.Email == "" || insertedDoc.Password == "" {
+        return user, fmt.Errorf("mohon untuk melengkapi data")
+    }
+
+    // Validate email format
+    if err = checkmail.ValidateFormat(insertedDoc.Email); err != nil {
+        return user, fmt.Errorf("email tidak valid")
+    }
+
+    // Retrieve the user from the database
+    existsDoc, err := GetUserFromEmail(insertedDoc.Email, db)
+    if err != nil {
+        return user, fmt.Errorf("kesalahan server : gagal mengambil data pengguna")
+    }
+
+    // Decode the stored salt
+    salt, err := hex.DecodeString(existsDoc.Salt)
+    if err != nil {
+        return user, fmt.Errorf("kesalahan server : salt tidak valid")
+    }
+
+    // Hash the provided password with the stored salt
+    hash := argon2.IDKey([]byte(insertedDoc.Password), salt, 1, 64*1024, 4, 32)
+
+    // Compare the hashed password with the stored password
+    if hex.EncodeToString(hash) != existsDoc.Password {
+        return user, fmt.Errorf("password salah")
+    }
+
+    // Successful login, return the existing user document
+    return existsDoc, nil
 }
 
 func GetUserFromEmail(email string, db *mongo.Database) (doc model.User, err error) {
