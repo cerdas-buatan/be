@@ -294,18 +294,6 @@ func GetUserFromID(_id primitive.ObjectID, db *mongo.Database) (doc model.User, 
 // 	return doc, nil
 // }
 
-// func GetUserFromEmail(email string, db *mongo.Database) (doc model.User, err error) {
-// 	collection := db.Collection("user")
-// 	filter := bson.M{"email": email}
-// 	err = collection.FindOne(context.TODO(), filter).Decode(&doc)
-// 	if err != nil {
-// 		if err == mongo.ErrNoDocuments {
-// 			return doc, fmt.Errorf("email tidak ditemukan")
-// 		}
-// 		return doc, fmt.Errorf("kesalahan server")
-// 	}
-// 	return doc, nil
-// }
 
 // // pengguna
 // func UpdatePengguna(idparam, iduser primitive.ObjectID, db *mongo.Database, insertedDoc model.Pengguna) error {
