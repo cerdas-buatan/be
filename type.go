@@ -65,3 +65,10 @@ type RegisterRequest struct {
 	Email    string `json:"email"`
 	Password string `json:"password"`
 }
+
+// struct RegisterResponse
+type RegisterResponse struct {
+	Status  bool   `json:"status"`
+	Message string `json:"message"`
+	UserID  primitive.ObjectID `json:"user_id,omitempty"`
+}
