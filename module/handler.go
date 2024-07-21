@@ -178,18 +178,6 @@ func GCFHandlerUpdateByPengguna(idparam, iduser primitive.ObjectID, pengguna mod
 	return GCFReturnStruct(Response)
 }
 
-// func GCFHandlerGetPenggunaByPengguna(iduser primitive.ObjectID, conn *mongo.Database) string {
-// 	Response.Status = false
-// 	//
-// 	pengguna, err := GetPenggunaFromAkun(iduser, conn)
-// 	if err != nil {
-// 		Response.Message = err.Error()
-// 		return GCFReturnStruct(Response)
-// 	}
-// 	//
-// 	return GCFReturnStruct(pengguna)
-// }
-
 // //ChatHandler
 // func ChatHandler(w http.ResponseWriter, r *http.Request) {
 //     var chatReq model.ChatRequest
