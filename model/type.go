@@ -60,9 +60,6 @@ type Menu struct {
 	Link string             `bson:"link" json:"link"`
 }
 
-// type ChatRespons struct {
-// 	Response string `json:"response"`
-// }
 
 // type Password struct {
 // 	Password    string `bson:"password,omitempty" json:"password,omitempty"`
