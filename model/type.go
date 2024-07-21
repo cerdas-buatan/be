@@ -103,14 +103,6 @@ type Menu struct {
 // 	Message string `json:"message,omitempty" bson:"message,omitempty"`
 // }
 
-// type Credential struct {
-// 	Status  bool   `json:"status" bson:"status"`
-// 	Token   string `json:"token,omitempty" bson:"token,omitempty"`
-// 	Message string `json:"message,omitempty" bson:"message,omitempty"`
-// 	Data    []User `json:"data,omitempty" bson:"data,omitempty"`
-// 	Role    string `json:"role,omitempty" bson:"role,omitempty"`
-// }
-
 // type ChatRequest struct {
 // 	Message string `json:"message"`
 // }
