@@ -11,7 +11,8 @@ import (
 	"github.com/badoux/checkmail"
 	"golang.org/x/crypto/argon2"
 
-
+//	"github.com/badoux/checkmail"
+//	"golang.org/x/crypto/argon2"
 
 	model "github.com/cerdas-buatan/be/model"
 	"go.mongodb.org/mongo-driver/bson"
@@ -24,18 +25,15 @@ import (
 func SignUpPengguna(db *mongo.Database, insertedDoc model.Pengguna) error {
 	objectId := primitive.NewObjectID()
 
-	
-	// Validate mandatory fields
+		// Validate mandatory fields
 	if insertedDoc.Username == "" || insertedDoc.Akun.Password == "" {
 		return fmt.Errorf("dimohon untuk melengkapi data")
 	}
-
 
 	// Validate email format
 	if err := checkmail.ValidateFormat(insertedDoc.Akun.Email); err != nil {
 		return fmt.Errorf("email tidak valid")
 	}
-
 
 	// Check if the email is already registered
 	userExists, _ := GetUserFromEmail(insertedDoc.Akun.Email, db)
