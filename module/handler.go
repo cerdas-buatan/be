@@ -146,23 +146,23 @@ func GCFPredict(w http.ResponseWriter, r *http.Request) {
 	predictHandler(w, r)
 }
 
-// func GCFHandlerGetUserFromID(PASETOPUBLICKEYENV, MONGOCONNSTRINGENV, dbname string, r *http.Request) string {
-// 	conn := MongoConnect(MONGOCONNSTRINGENV, dbname)
-// 	var Response model.Response
-// 	Response.Status = false
-// 	tokenstring := r.Header.Get("Authorization")
-// 	payload, err := Decode(os.Getenv(PASETOPUBLICKEYENV), tokenstring)
-// 	if err != nil {
-// 		Response.Message = "Gagal Decode Token : " + err.Error()
-// 		return GCFReturnStruct(Response)
-// 	}
-// 	data, err := GetUserFromID(payload.Id, conn)
-// 	if err != nil {
-// 		Response.Message = err.Error()
-// 		return GCFReturnStruct(Response)
-// 	}
-// 	return GCFReturnStruct(data)
-// }
+func GCFGetUserFromID(PASETOPUBLICKEYENV, MONGOCONNSTRINGENV, dbname string, r *http.Request) string {
+	conn := MongoConnect(MONGOCONNSTRINGENV, dbname)
+	var Response model.Response
+	Response.Status = false
+	tokenstring := r.Header.Get("Authorization")
+	payload, err := Decode(os.Getenv(PASETOPUBLICKEYENV), tokenstring)
+	if err != nil {
+		Response.Message = "Gagal Decode Token : " + err.Error()
+		return GCFReturnStruct(Response)
+	}
+	data, err := GetUserFromID(payload.Id, conn)
+	if err != nil {
+		Response.Message = err.Error()
+		return GCFReturnStruct(Response)
+	}
+	return GCFReturnStruct(data)
+}
 
 // func GCFHandlerUpdateByPengguna(idparam, iduser primitive.ObjectID, pengguna model.Pengguna, conn *mongo.Database, r *http.Request) string {
 // 	Response.Status = false
