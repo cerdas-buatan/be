@@ -49,9 +49,8 @@ type Credential struct {
 }
 
 type Payload struct {
-//	ID       string    `json:"id"`
 	ID       string    `json:"id"`
-	Role     string    `json:"role"`
+	// Role     string    `json:"role"`
 	IssuedAt time.Time `json:"issued_at"`
 	Expiry   time.Time `json:"expiry"`
 }
