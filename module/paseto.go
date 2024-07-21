@@ -49,22 +49,22 @@ func Encode2(id primitive.ObjectID, role, privateKey string) (string, error) {
 	return token.V4Sign(secretKey, nil), err
 }
 
-func Decode2(publicKey string, tokenstring string) (payload model.Payload, err error) {
-	var token *paseto.Token
-	var pubKey paseto.V4AsymmetricPublicKey
-	pubKey, err = paseto.NewV4AsymmetricPublicKeyFromHex(publicKey) // this wil fail if given key in an invalid format
-	if err != nil {
-		fmt.Println("Decode NewV4AsymmetricPublicKeyFromHex : ", err)
-	}
-	parser := paseto.NewParser()                                // only used because this example token has expired, use NewParser() (which checks expiry by default)
-	token, err = parser.ParseV4Public(pubKey, tokenstring, nil) // this will fail if parsing failes, cryptographic checks fail, or validation rules fail
-	if err != nil {
-		fmt.Println("Decode ParseV4Public : ", err)
-	} else {
-		json.Unmarshal(token.ClaimsJSON(), &payload)
-	}
-	return payload, err
-}
+// func Decode2(publicKey string, tokenstring string) (payload model.Payload, err error) {
+// 	var token *paseto.Token
+// 	var pubKey paseto.V4AsymmetricPublicKey
+// 	pubKey, err = paseto.NewV4AsymmetricPublicKeyFromHex(publicKey) // this wil fail if given key in an invalid format
+// 	if err != nil {
+// 		fmt.Println("Decode NewV4AsymmetricPublicKeyFromHex : ", err)
+// 	}
+// 	parser := paseto.NewParser()                                // only used because this example token has expired, use NewParser() (which checks expiry by default)
+// 	token, err = parser.ParseV4Public(pubKey, tokenstring, nil) // this will fail if parsing failes, cryptographic checks fail, or validation rules fail
+// 	if err != nil {
+// 		fmt.Println("Decode ParseV4Public : ", err)
+// 	} else {
+// 		json.Unmarshal(token.ClaimsJSON(), &payload)
+// 	}
+// 	return payload, err
+// }
 
 func GenerateKey() (privateKey, publicKey string) {
 	secretKey := paseto.NewV4AsymmetricSecretKey() // don't share this!!!
@@ -72,12 +72,6 @@ func GenerateKey() (privateKey, publicKey string) {
 	privateKey = secretKey.ExportHex()
 	return privateKey, publicKey
 }
-
-
-
-
-
-
 
 // package module
 
@@ -102,22 +96,22 @@ func GenerateKey() (privateKey, publicKey string) {
 // 	return token.V4Sign(secretKey, nil), err
 // }
 
-// func Decode(publicKey string, tokenstring string) (payload model.Payload, err error) {
-// 	var token *paseto.Token
-// 	var pubKey paseto.V4AsymmetricPublicKey
-// 	pubKey, err = paseto.NewV4AsymmetricPublicKeyFromHex(publicKey) // this wil fail if given key in an invalid format
-// 	if err != nil {
-// 		fmt.Println("Decode NewV4AsymmetricPublicKeyFromHex : ", err)
-// 	}
-// 	parser := paseto.NewParser()                                  // only used because this example token has expired, use NewParser() (which checks expiry by default)
-// 	token, err = parser.ParseV4Public(pubKey, tokenstring, nil) // this will fail if parsing failes, cryptographic checks fail, or validation rules fail
-// 	if err != nil {
-// 		fmt.Println("Decode ParseV4Public : ", err)
-// 	} else {
-// 		json.Unmarshal(token.ClaimsJSON(), &payload)
-// 	}
-// 	return payload, err
-// }
+func Decode(publicKey string, tokenstring string) (payload model.Payload, err error) {
+	var token *paseto.Token
+	var pubKey paseto.V4AsymmetricPublicKey
+	pubKey, err = paseto.NewV4AsymmetricPublicKeyFromHex(publicKey) // this wil fail if given key in an invalid format
+	if err != nil {
+		fmt.Println("Decode NewV4AsymmetricPublicKeyFromHex : ", err)
+	}
+	parser := paseto.NewParser()                                  // only used because this example token has expired, use NewParser() (which checks expiry by default)
+	token, err = parser.ParseV4Public(pubKey, tokenstring, nil) // this will fail if parsing failes, cryptographic checks fail, or validation rules fail
+	if err != nil {
+		fmt.Println("Decode ParseV4Public : ", err)
+	} else {
+		json.Unmarshal(token.ClaimsJSON(), &payload)
+	}
+	return payload, err
+}
 
 // func GenerateKey() (privateKey, publicKey string) {
 // 	secretKey := paseto.NewV4AsymmetricSecretKey() // don't share this!!!
