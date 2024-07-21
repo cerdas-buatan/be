@@ -11,7 +11,7 @@ import (
 	"github.com/badoux/checkmail"
 	"golang.org/x/crypto/argon2"
 
-	// helper "github.com/cerdas-buatan/be/helper"
+
 
 	model "github.com/cerdas-buatan/be/model"
 	"go.mongodb.org/mongo-driver/bson"
@@ -19,26 +19,30 @@ import (
 	"go.mongodb.org/mongo-driver/mongo"
 )
 
+
 // signup
 func SignUpPengguna(db *mongo.Database, insertedDoc model.Pengguna) error {
 	objectId := primitive.NewObjectID()
+
 	
 	// Validate mandatory fields
 	if insertedDoc.Username == "" || insertedDoc.Akun.Password == "" {
 		return fmt.Errorf("dimohon untuk melengkapi data")
 	}
 
+
 	// Validate email format
 	if err := checkmail.ValidateFormat(insertedDoc.Akun.Email); err != nil {
 		return fmt.Errorf("email tidak valid")
 	}
+
 
 	// Check if the email is already registered
 	userExists, _ := GetUserFromEmail(insertedDoc.Akun.Email, db)
 	if userExists.Email != "" {
 		return fmt.Errorf("email sudah terdaftar")
 	}
-
+\
 	// Validate password constraints
 	if strings.Contains(insertedDoc.Akun.Password, " ") {
 		return fmt.Errorf("password tidak boleh mengandung spasi")
@@ -47,12 +51,14 @@ func SignUpPengguna(db *mongo.Database, insertedDoc model.Pengguna) error {
 		return fmt.Errorf("password terlalu pendek")
 	}
 
+
 	// Generate salt and hash the password
 	salt := make([]byte, 16)
 	if _, err := rand.Read(salt); err != nil {
 		return fmt.Errorf("kesalahan server: gagal membuat salt")
 	}
 	hashedPassword := argon2.IDKey([]byte(insertedDoc.Akun.Password), salt, 1, 64*1024, 4, 32)
+\
 
 	// Create user and pengguna documents
 	user := bson.M{
@@ -68,6 +74,7 @@ func SignUpPengguna(db *mongo.Database, insertedDoc model.Pengguna) error {
 		},
 	}
 
+	
 	// Insert the documents into the database
 	if _, err := InsertOneDoc(db, "user", user); err != nil {
 		return fmt.Errorf("kesalahan server: gagal menyimpan user")
