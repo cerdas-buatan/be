@@ -68,10 +68,3 @@ type User struct {
 	Salt     string             `bson:"salt,omitempty" json:"salt,omitempty"`
 	Role     string             `bson:"role,omitempty" json:"role,omitempty"`
 }
-
-// struct response
-type Response struct {
-	Status  bool        `json:"status"` 
-	Message string      `json:"message"` 
-	Data    interface{} `json:"data"` 
-}
