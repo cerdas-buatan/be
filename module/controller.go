@@ -138,35 +138,6 @@ func GetUserFromID(_id primitive.ObjectID, db *mongo.Database) (doc model.User, 
 // 	return helper.SendResponse(c, fiber.StatusOK, "Logout successful", nil)
 // }
 
-// //register
-
-// func RegisterUser(c *fiber.Ctx) error {
-// 	db := c.Locals("db").(*mongo.Database)
-
-// 	username := c.FormValue("username")
-// 	email := c.FormValue("email")
-// 	password := c.FormValue("password")
-
-// 	passwordHash, err := helper.HashPassword(password)
-// 	if err != nil {
-// 		return helper.SendResponse(c, fiber.StatusInternalServerError, "Failed to hash password", nil)
-// 	}
-
-// 	user := model.User{
-// 		Username:     username,
-// 		Email:        email,
-// 		Password:     password,
-// 		PasswordHash: passwordHash,
-// 	}
-
-// 	_, err = helper.InsertOneDoc(db, "users", user)
-// 	if err != nil {
-// 		return helper.SendResponse(c, fiber.StatusInternalServerError, "Failed to insert user", nil)
-// 	}
-
-// 	return helper.SendResponse(c, fiber.StatusCreated, "User registered successfully", user)
-// }
-
 // // signup
 // func SignUpPengguna(db *mongo.Database, insertedDoc model.Pengguna) error {
 // 	objectId := primitive.NewObjectID()
