@@ -10,6 +10,7 @@ var Origins = []string{
 	"http://cerdas-buatan.projsonal.online/be",
 	"http://cerdas-buatan.projsonal.online",
 	"http://www.cerdas-buatan.projsonal.online",
+
 	// "https://whatsauth.github.io",
 	// "https://www.do.my.id",
 }
@@ -23,7 +24,6 @@ var Cors= cors.config{
 	MaxAge: 3600,
 }
 
-
 // Fungsi untuk memeriksa apakah origin diizinkan
 func isAllowedOrigin(origin string) bool {
 	for _, o := range Origins {
@@ -35,6 +35,7 @@ func isAllowedOrigin(origin string) bool {
 }
 
 var Internalhost string = os.Getenv("INTERNALHOST") + ":" os.Getenv("PORT")
+
 
 // Fungsi untuk mengatur header CORS
 func SetAccessControlHeaders(w http.ResponseWriter, r *http.Request) bool {
@@ -59,3 +60,4 @@ func SetAccessControlHeaders(w http.ResponseWriter, r *http.Request) bool {
 	}
 	return false
 }
+
