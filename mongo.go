@@ -135,3 +135,17 @@ func MongoConnect(MongoString, dbname string) *mongo.Database {
 	}
 	return client.Database(dbname)
 }
+
+func GetAllDocs(db *mongo.Database, col string, docs interface{}) interface{} {
+	collection := db.Collection(col)
+	filter := bson.M{}
+	cursor, err := collection.Find(context.TODO(), filter)
+	if err != nil {
+		return fmt.Errorf("error GetAllDocs %s: %s", col, err)
+	}
+	err = cursor.All(context.TODO(), &docs)
+	if err != nil {
+		return err
+	}
+	return docs
+}
