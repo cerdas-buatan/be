@@ -168,15 +168,26 @@ func GetAllPengguna(db *mongo.Database) (pengguna []model.Pengguna, err error) {
 }
 
 func GetPenggunaFromID(_id primitive.ObjectID, db *mongo.Database) (doc model.Pengguna, err error) {
+	// Mendapatkan koleksi "pengguna" dari database
 	collection := db.Collection("pengguna")
+	
+	// Membuat filter untuk pencarian berdasarkan ID
 	filter := bson.M{"_id": _id}
+	
+	// Mencari satu dokumen yang sesuai dengan filter
 	err = collection.FindOne(context.TODO(), filter).Decode(&doc)
+	
+	// Memeriksa apakah terjadi error
 	if err != nil {
+		// Jika tidak ada dokumen yang ditemukan, mengembalikan error "tidak ada data untuk ID <id>"
 		if errors.Is(err, mongo.ErrNoDocuments) {
-			return doc, fmt.Errorf("no data found for ID %s", _id)
+			return doc, fmt.Errorf("tidak ada data untuk ID %s", _id.Hex())
 		}
-		return doc, fmt.Errorf("error retrieving data for ID %s: %s", _id, err.Error())
+		// Jika terjadi kesalahan lain, mengembalikan error "kesalahan saat mengambil data untuk ID <id>: <pesan error>"
+		return doc, fmt.Errorf("kesalahan saat mengambil data untuk ID %s: %s", _id.Hex(), err.Error())
 	}
+	
+	// Mengembalikan dokumen pengguna jika ditemukan
 	return doc, nil
 }
 
