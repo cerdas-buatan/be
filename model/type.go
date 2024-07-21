@@ -42,12 +42,14 @@ type ChatResponse struct {
 }
 
 type Credential struct {
+//	ID       string    `json:"id"`
 	Status  bool   `json:"status" bson:"status"`
 	Token   string `json:"token,omitempty" bson:"token,omitempty"`
 	Message string `json:"message,omitempty" bson:"message,omitempty"`
 }
 
 type Payload struct {
+//	ID       string    `json:"id"`
 	ID       string    `json:"id"`
 	Role     string    `json:"role"`
 	IssuedAt time.Time `json:"issued_at"`
