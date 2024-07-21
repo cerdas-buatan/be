@@ -44,11 +44,3 @@ type Payload struct {
 	IssuedAt time.Time `json:"issued_at"`
 	Expiry   time.Time `json:"expiry"`
 }
-
-type Menu struct {
-	ID   primitive.ObjectID `bson:"_id,omitempty" json:"id,omitempty"`  
-	Name string             `bson:"name" json:"name"`  
-	Link string             `bson:"link" json:"link"`  
-}
-
-// delete from here 
