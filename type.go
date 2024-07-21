@@ -4,6 +4,8 @@ import (
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
+
+
 // struct user
 type User struct {
 	ID       primitive.ObjectID `bson:"_id,omitempty" json:"_id,omitempty"`
@@ -15,6 +17,8 @@ type User struct {
 	UpdatedAt time.Time         `bson:"updated_at,omitempty" json:"updated_at,omitempty"`
 }
 
+
+
 // struct Pengguna
 type Pengguna struct {
 	ID       primitive.ObjectID `bson:"_id,omitempty" json:"_id,omitempty"`  
@@ -22,17 +26,20 @@ type Pengguna struct {
 	Akun     User               `bson:"akun,omitempty" json:"akun,omitempty"`  
 }
 
+
+
 // struct response
 type Response struct {
 	Status  bool        `json:"status"` 
 	Message string      `json:"message"` 
 	Data    interface{} `json:"data"` 
 }
-
+\\
 // struct ChatRequest
 type ChatRequest struct {  
 	Message  string `json:"message"`     
 }
+
 
 type Credential struct {
 	Status  bool   `json:"status" bson:"status"`  
@@ -40,12 +47,15 @@ type Credential struct {
 	Message string `json:"message,omitempty" bson:"message,omitempty"`  
 }
 
+
+
 type ChatResponse struct {
 //	ResponseID primitive.ObjectID `bson:"response_id,omitempty" json:"response_id,omitempty"`
 	Message    string             `json:"message"`   
 //	Timestamp  int64              `json:"timestamp"` 
 //	UserID     primitive.ObjectID `bson:"user_id,omitempty" json:"user_id,omitempty"`
 }
+
 
 // struct LoginRequest
 type LoginRequest struct {
