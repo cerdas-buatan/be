@@ -1,6 +1,5 @@
 package module
 
-
 import (
 	"encoding/json"
 	"fmt"
@@ -41,7 +40,6 @@ func Decode(secret, token string) (model.Payload, error) {
 	return payload, nil
 }
 
-
 func Encode(id primitive.ObjectID, role, privateKey string) (string, error) {
 	token := paseto.NewToken()
 	token.SetIssuedAt(time.Now())
@@ -52,7 +50,6 @@ func Encode(id primitive.ObjectID, role, privateKey string) (string, error) {
 	secretKey, err := paseto.NewV4AsymmetricSecretKeyFromHex(privateKey)
 	return token.V4Sign(secretKey, nil), err
 }
-
 
 func Decode(publicKey string, tokenstring string) (payload model.Payload, err error) {
 	var token *paseto.Token
@@ -71,10 +68,10 @@ func Decode(publicKey string, tokenstring string) (payload model.Payload, err er
 	return payload, err
 }
 
-
 func GenerateKey() (privateKey, publicKey string) {
 	secretKey := paseto.NewV4AsymmetricSecretKey() // don't share this!!!
 	publicKey = secretKey.Public().ExportHex()     // DO share this one
 	privateKey = secretKey.ExportHex()
 	return privateKey, publicKey
 }
+
