@@ -42,7 +42,7 @@ func SignUpPengguna(db *mongo.Database, insertedDoc model.Pengguna) error {
 	if userExists.Email != "" {
 		return fmt.Errorf("email sudah terdaftar")
 	}
-\
+
 	// Validate password constraints
 	if strings.Contains(insertedDoc.Akun.Password, " ") {
 		return fmt.Errorf("password tidak boleh mengandung spasi")
@@ -58,7 +58,7 @@ func SignUpPengguna(db *mongo.Database, insertedDoc model.Pengguna) error {
 		return fmt.Errorf("kesalahan server: gagal membuat salt")
 	}
 	hashedPassword := argon2.IDKey([]byte(insertedDoc.Akun.Password), salt, 1, 64*1024, 4, 32)
-\
+
 
 	// Create user and pengguna documents
 	user := bson.M{
@@ -183,4 +183,3 @@ func GetPenggunaFromID(_id primitive.ObjectID, db *mongo.Database) (doc model.Pe
 	// Mengembalikan dokumen pengguna jika ditemukan
 	return doc, nil
 }
-
