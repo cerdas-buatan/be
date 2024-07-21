@@ -197,3 +197,17 @@ func InsertOneDoc(db *mongo.Database, collection string, doc interface{}) (inter
 	}
 	return result.InsertedID, nil
 }
+
+// updateonedoc
+func UpdateOneDoc(id primitive.ObjectID, db *mongo.Database, col string, doc interface{}) (err error) {
+	filter := bson.M{"_id": id}
+	result, err := db.Collection(col).UpdateOne(context.Background(), filter, bson.M{"$set": doc})
+	if err != nil {
+		return fmt.Errorf("error update: %v", err)
+	}
+	if result.ModifiedCount == 0 {
+		err = fmt.Errorf("tidak ada data yang diubah")
+		return
+	}
+	return nil
+}
