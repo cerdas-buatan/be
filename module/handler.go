@@ -178,18 +178,6 @@ func GCFHandlerUpdateByPengguna(idparam, iduser primitive.ObjectID, pengguna mod
 	return GCFReturnStruct(Response)
 }
 
-// func GCFHandlerGetAllPengguna(MONGOCONNSTRINGENV, dbname string) string {
-// 	conn := MongoConnect(MONGOCONNSTRINGENV, dbname)
-// 	var Response model.Response
-// 	Response.Status = false
-// 	data, err := GetAllPengguna(conn)
-// 	if err != nil {
-// 		Response.Message = err.Error()
-// 		return GCFReturnStruct(Response)
-// 	}
-// 	return GCFReturnStruct(data)
-// }
-
 // func GCFHandlerGetPenggunaByPengguna(iduser primitive.ObjectID, conn *mongo.Database) string {
 // 	Response.Status = false
 // 	//
