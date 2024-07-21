@@ -146,7 +146,6 @@ func GCFPredict(w http.ResponseWriter, r *http.Request) {
 	predictHandler(w, r)
 }
 
-
 // func GCFHandlerGetUserFromID(PASETOPUBLICKEYENV, MONGOCONNSTRINGENV, dbname string, r *http.Request) string {
 // 	conn := MongoConnect(MONGOCONNSTRINGENV, dbname)
 // 	var Response model.Response
@@ -239,7 +238,3 @@ func GetUserLogin(PASETOPUBLICKEYENV string, r *http.Request) (model.Payload, er
 	return payload, nil
 }
 
-// // get id
-// func GetID(r *http.Request) string {
-// 	return r.URL.Query().Get("id")
-// }
