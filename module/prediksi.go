@@ -24,6 +24,8 @@ func predictHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+
+
 	// Preprocess input
 	// Note: Customize preprocessing according to your model's needs
 	// Here is an example of converting input to tensor
@@ -32,6 +34,7 @@ func predictHandler(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Failed to preprocess input", http.StatusInternalServerError)
 		return
 	}
+
 
 	// Run the model
 	result, err := model.Session.Run(
@@ -44,6 +47,7 @@ func predictHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+
 	// Postprocess output
 	response, err := postprocessOutput(result)
 	if err != nil {
@@ -51,10 +55,12 @@ func predictHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+
 	// Send response
 	w.Header().Set("Content-Type", "application/json")
 	json.NewEncoder(w).Encode(response)
 }
+
 
 // preprocessInput converts input data to tensor
 func preprocessInput(input map[string]interface{}) (*tf.Tensor, error) {
@@ -63,6 +69,7 @@ func preprocessInput(input map[string]interface{}) (*tf.Tensor, error) {
 	data := []float32{} // Convert input to the appropriate tensor data
 	return tf.NewTensor(data)
 }
+
 
 // postprocessOutput converts model output to the response format
 func postprocessOutput(result []*tf.Tensor) (map[string]interface{}, error) {
