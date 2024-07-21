@@ -101,7 +101,6 @@ func GCFGetResponse(message string, db *mongo.Database) (string, error) {
 	return Responsechat.Response, nil
 }
 
-
 // ChatHandler handles chat requests
 func GCFChat(MongoString, dbname string, w http.ResponseWriter, r *http.Request) {
 	var Reqchat model.ChatRequest
@@ -128,6 +127,7 @@ func GCFChat(MongoString, dbname string, w http.ResponseWriter, r *http.Request)
 	w.Header().Set("Content-Type", "application/json")
 	json.NewEncoder(w).Encode(Reqchat)
 }
+
 
 // insert user
 func InsertUser(db *mongo.Database, collection string, userdata User) string {
@@ -159,6 +159,7 @@ func GCFGetUserFromID(PASETOPUBLICKEYENV, MONGOCONNSTRINGENV, dbname string, r *
 	return GCFReturnStruct(data)
 }
 
+
 //ChatHandler
 func ChatHandler(w http.ResponseWriter, r *http.Request) {
     var chatReq model.ChatRequest
@@ -185,6 +186,7 @@ func GCFReturnStruct(DataStuct any) string {
 	return string(jsondata)
 }
 
+
 // get user login
 func GetUserLogin(PASETOPUBLICKEYENV string, r *http.Request) (model.Payload, error) {
 	tokenstring := r.Header.Get("Authorization")
@@ -194,4 +196,3 @@ func GetUserLogin(PASETOPUBLICKEYENV string, r *http.Request) (model.Payload, er
 	}
 	return payload, nil
 }
-
