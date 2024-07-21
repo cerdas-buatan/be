@@ -34,10 +34,13 @@ type Response struct {
 	Message string      `json:"message"` 
 	Data    interface{} `json:"data"` 
 }
-\\
+
+
+
 // struct ChatRequest
 type ChatRequest struct {  
 	Message  string `json:"message"`     
+//	UserID     primitive.ObjectID `bson:"user_id,omitempty" json:"user_id,omitempty"`
 }
 
 
