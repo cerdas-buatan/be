@@ -20,10 +20,10 @@ func HomeGaysdisal(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
-\
+
 	// Set header Content-Type
 	w.Header().Set("Content-Type", "application/json")
-\
+
 	// Tulis response ke http.ResponseWriter
 	w.Write(jsonResponse)
 }
