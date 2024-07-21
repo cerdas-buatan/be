@@ -12,7 +12,6 @@ type User struct {
 	Email    string             `bson:"email,omitempty" json:"email,omitempty"`
 	Password string             `bson:"password,omitempty" json:"password,omitempty"`
 	Salt     string             `bson:"salt,omitempty" json:"salt,omitempty"`
-	Role     string             `bson:"role,omitempty" json:"role,omitempty"`
 	CreatedAt time.Time         `bson:"created_at,omitempty" json:"created_at,omitempty"`
 	UpdatedAt time.Time         `bson:"updated_at,omitempty" json:"updated_at,omitempty"`
 }
