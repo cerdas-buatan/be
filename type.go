@@ -50,3 +50,12 @@ type Menu struct {
 	Name string             `bson:"name" json:"name"`  
 	Link string             `bson:"link" json:"link"`  
 }
+
+// delete from here 
+
+// struct Pengguna
+type Pengguna struct {
+	ID       primitive.ObjectID `bson:"_id,omitempty" json:"_id,omitempty"`  
+	Username string             `bson:"username,omitempty" json:"username,omitempty"`  
+	Akun     User               `bson:"akun,omitempty" json:"akun,omitempty"`  
+}
