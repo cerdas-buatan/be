@@ -66,13 +66,6 @@ func Decode(secret, token string) (model.Payload, error) {
 // 	return payload, err
 // }
 
-// func GenerateKey() (privateKey, publicKey string) {
-// 	secretKey := paseto.NewV4AsymmetricSecretKey() // don't share this!!!
-// 	publicKey = secretKey.Public().ExportHex()     // DO share this one
-// 	privateKey = secretKey.ExportHex()
-// 	return privateKey, publicKey
-// }
-
 func Encode(id primitive.ObjectID, role, privateKey string) (string, error) {
 	token := paseto.NewToken()
 	token.SetIssuedAt(time.Now())
