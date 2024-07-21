@@ -66,10 +66,6 @@ type Menu struct {
 // 	Newpassword string `bson:"newpass,omitempty" json:"newpass,omitempty"`
 // }
 
-// type ChatRequest struct {
-// 	Message string `json:"message"`
-// }
-
 // type ChatResponse struct {
 //     Response string `json:"response"`
 // }
