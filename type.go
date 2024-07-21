@@ -44,3 +44,9 @@ type ChatResponse struct {
 	Timestamp  int64              `json:"timestamp"` 
 	UserID     primitive.ObjectID `bson:"user_id,omitempty" json:"user_id,omitempty"`
 }
+
+// struct LoginRequest
+type LoginRequest struct {
+	Email    string `json:"email"`
+	Password string `json:"password"`
+}
