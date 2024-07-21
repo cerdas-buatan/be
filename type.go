@@ -70,7 +70,7 @@ type RegisterRequest struct {
 
 // struct RegisterResponse
 type RegisterResponse struct {
-	Status  bool   `json:"status"`
+//	Status  bool   `json:"status"`
 	Message string `json:"message"`
-	UserID  primitive.ObjectID `json:"user_id,omitempty"`
+//	UserID  primitive.ObjectID `json:"user_id,omitempty"`
 }
