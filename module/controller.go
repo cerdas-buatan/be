@@ -138,45 +138,6 @@ func GetUserFromID(_id primitive.ObjectID, db *mongo.Database) (doc model.User, 
 // 	return helper.SendResponse(c, fiber.StatusOK, "Logout successful", nil)
 // }
 
-// // user
-// func UpdateEmailUser(iduser primitive.ObjectID, db *mongo.Database, insertedDoc model.User) error {
-// 	dataUser, err := GetUserFromID(iduser, db)
-// 	if err != nil {
-// 		return err
-// 	}
-// 	if insertedDoc.Email == "" {
-// 		return fmt.Errorf("dimohon untuk melengkapi data")
-// 	}
-// 	if err = checkmail.ValidateFormat(insertedDoc.Email); err != nil {
-// 		return fmt.Errorf("email tidak valid")
-// 	}
-// 	existsDoc, _ := GetUserFromEmail(insertedDoc.Email, db)
-// 	if existsDoc.Email == insertedDoc.Email {
-// 		return fmt.Errorf("email sudah terdaftar")
-// 	}
-// 	user := bson.M{
-// 		"email":    insertedDoc.Email,
-// 		"password": dataUser.Password,
-// 		"salt":     dataUser.Salt,
-// 		"role":     dataUser.Role,
-// 	}
-// 	err = UpdateOneDoc(iduser, db, "user", user)
-// 	if err != nil {
-// 		return err
-// 	}
-// 	return nil
-// }
-
-// //responsechat
-// func GetResponse(input string) (string, error) {
-//     cmd := exec.Command("python3", "model/model.py", input)
-//     out, err := cmd.Output()
-//     if err != nil {
-//         return "", err
-//     }
-//     return string(out), nil
-// }
-
 
 func GetAllPengguna(db *mongo.Database) (pengguna []model.Pengguna, err error) {
 	collection := db.Collection("pengguna")
