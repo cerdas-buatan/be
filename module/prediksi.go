@@ -73,3 +73,5 @@ func postprocessOutput(result []*tf.Tensor) (map[string]interface{}, error) {
 		"prediction": output,
 	}, nil
 }
+
+// file ini mau dihapus silakan
