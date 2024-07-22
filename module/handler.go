@@ -49,7 +49,7 @@ func Register(MONGOCONNSTRINGENV, dbname string, r *http.Request) string {
 
 	// Validasi email sebelum proses pendaftaran
 	if !strings.Contains(datapengguna.Akun.Email, "@") {
-		Response.Message = "Email tidak benar karena tidaka ada simbol '@'"
+		Response.Message = "Email tidak benar karena tidak menggunakan simbol '@'. Jadi Anda bukan input nilai"
 		return GCFReturnStruct(Response)
 	}
 
@@ -62,6 +62,68 @@ func Register(MONGOCONNSTRINGENV, dbname string, r *http.Request) string {
 	Response.Message = "Halo " + datapengguna.Username
 	return GCFReturnStruct(Response)
 }
+
+//<--- Login --->
+func GCFHandlerLogin(PASETOPRIVATEKEYENV, MONGOCONNSTRINGENV, dbname string, r *http.Request) string {
+	conn := MongoConnect(MONGOCONNSTRINGENV, dbname)
+	var Response model.Credential
+	Response.Status = false
+	var datauser model.User
+	err := json.NewDecoder(r.Body).Decode(&datauser)
+	if err != nil {
+		Response.Message = "error parsing application/json: " + err.Error()
+		return GCFReturnStruct(Response)
+	}
+	user, err := LogIn(conn, datauser)
+	if err != nil {
+		Response.Message = err.Error()
+		return GCFReturnStruct(Response)
+	}
+	Response.Status = true
+	tokenstring, err := Encode(user.ID, user.Role, os.Getenv(PASETOPRIVATEKEYENV))
+	if err != nil {
+		Response.Message = "Gagal Encode Token : " + err.Error()
+	} else {
+		Response.Message = "Selamat Datang " + user.Email
+		Response.Token = tokenstring
+		Response.Role = user.Role
+	}
+	return GCFReturnStruct(Response)
+}
+
+func Login(PASETOPRIVATEKEYENV, MONGOCONNSTRINGENV, dbname string, r *http.Request) string {
+	conn := MongoConnect(MONGOCONNSTRINGENV, dbname)
+	var Response model.Credential
+	Response.Status = false
+	var datauser model.User
+	err := json.NewDecoder(r.Body).Decode(&datauser)
+	if err != nil {
+		Response.Message = "error parsing application/json: " + err.Error()
+		return GCFReturnStruct(Response)
+	}
+
+	// Validasi email sebelum proses login
+	if !strings.Contains(datauser.Email, "@") {
+		Response.Message = "Email tidak benar karena tidak menggunakan simbol '@'. Jadi Anda bukan input email"
+		return GCFReturnStruct(Response)
+	}
+
+	user, err := LogIn(conn, datauser)
+	if err != nil {
+		Response.Message = err.Error()
+		return GCFReturnStruct(Response)
+	}
+	Response.Status = true
+	tokenstring, err := Encode(user.ID, user.Role, os.Getenv(PASETOPRIVATEKEYENV))
+	if err != nil {
+		Response.Message = "Gagal Encode Token : " + err.Error()
+	} else {
+		Response.Message = "Selamat Datang " + user.Email
+		Response.Token = tokenstring
+	}
+	return GCFReturnStruct(Response)
+}
+
 
 // GetResponse generates a response based on the input message
 func GCFGetResponse(message string, db *mongo.Database) (string, error) {
@@ -135,7 +197,6 @@ func GCFReturnStruct(DataStuct any) string {
 	jsondata, _ := json.Marshal(DataStuct)
 	return string(jsondata)
 }
-
 
 // get user login
 func GetUserLogin(PASETOPUBLICKEYENV string, r *http.Request) (model.Payload, error) {
