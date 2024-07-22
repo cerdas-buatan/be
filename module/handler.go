@@ -134,24 +134,6 @@ func SignIn(db *mongo.Database, insertedDoc model.User) (user model.User, err er
 	return existsDoc, nil
 }
 
-// func GCFGetUserFromID(PASETOPUBLICKEYENV, MONGOCONNSTRINGENV, dbname string, r *http.Request) string {
-// 	conn := MongoConnect(MONGOCONNSTRINGENV, dbname)
-// 	var Response model.Response
-// 	Response.Status = false
-// 	tokenstring := r.Header.Get("Authorization")
-// 	payload, err := Decode(os.Getenv(PASETOPUBLICKEYENV), tokenstring)
-// 	if err != nil {
-// 		Response.Message = "Gagal Decode Token : " + err.Error()
-// 		return GCFReturnStruct(Response)
-// 	}
-// 	data, err := GetUserFromID(payload.Id, conn)
-// 	if err != nil {
-// 		Response.Message = err.Error()
-// 		return GCFReturnStruct(Response)
-// 	}
-// 	return GCFReturnStruct(data)
-// }
-
 func GetUserFromEmail(email string, db *mongo.Database) (doc model.User, err error) {
 	collection := db.Collection("user")
 	filter := bson.M{"email": email}
