@@ -91,37 +91,26 @@ func GCFHandlerLogin(PASETOPRIVATEKEYENV, MONGOCONNSTRINGENV, dbname string, r *
 	return GCFReturnStruct(Response)
 }
 
-func Login(PASETOPRIVATEKEYENV, MONGOCONNSTRINGENV, dbname string, r *http.Request) string {
-	conn := MongoConnect(MONGOCONNSTRINGENV, dbname)
-	var Response model.Credential
-	Response.Status = false
-	var datauser model.User
-	err := json.NewDecoder(r.Body).Decode(&datauser)
+func SignIn(db *mongo.Database, insertedDoc model.User) (user model.User, err error) {
+	if insertedDoc.Email == "" || insertedDoc.Password == "" {
+		return user, fmt.Errorf("mohon untuk melengkapi data")
+	}
+	if err = checkmail.ValidateFormat(insertedDoc.Email); err != nil {
+		return user, fmt.Errorf("email tidak valid")
+	}
+	existsDoc, err := GetUserFromEmail(insertedDoc.Email, db)
 	if err != nil {
-		Response.Message = "error parsing application/json: " + err.Error()
-		return GCFReturnStruct(Response)
+		return
 	}
-
-	// Validasi email sebelum proses login
-	if !strings.Contains(datauser.Email, "@") {
-		Response.Message = "Email tidak benar karena tidak menggunakan simbol '@'. Jadi Anda bukan input email"
-		return GCFReturnStruct(Response)
-	}
-
-	user, err := LogIn(conn, datauser)
+	salt, err := hex.DecodeString(existsDoc.Salt)
 	if err != nil {
-		Response.Message = err.Error()
-		return GCFReturnStruct(Response)
+		return user, fmt.Errorf("kesalahan server : salt")
 	}
-	Response.Status = true
-	tokenstring, err := Encode(user.ID, user.Role, os.Getenv(PASETOPRIVATEKEYENV))
-	if err != nil {
-		Response.Message = "Gagal Encode Token : " + err.Error()
-	} else {
-		Response.Message = "Selamat Datang " + user.Email
-		Response.Token = tokenstring
+	hash := argon2.IDKey([]byte(insertedDoc.Password), salt, 1, 64*1024, 4, 32)
+	if hex.EncodeToString(hash) != existsDoc.Password {
+		return user, fmt.Errorf("password salah")
 	}
-	return GCFReturnStruct(Response)
+	return existsDoc, nil
 }
 
 
