@@ -35,32 +35,53 @@ func GCFHandlerSignUpPengguna(MONGOCONNSTRINGENV, dbname string, r *http.Request
 	return GCFReturnStruct(Response)
 }
 
-// RegisterHandler 
-func Register(MONGOCONNSTRINGENV, dbname string, r *http.Request) string {
-	conn := MongoConnect(MONGOCONNSTRINGENV, dbname)
-	var Response model.Response
-	Response.Status = false
-	var datapengguna model.Pengguna
-	err := json.NewDecoder(r.Body).Decode(&datapengguna)
+// signup
+func SignUp(db *mongo.Database, insertedDoc model.Pengguna) error {
+	objectId := primitive.NewObjectID()
+	if insertedDoc.Username == "" ||
+		insertedDoc.Akun.Password == "" {
+		return fmt.Errorf("dimohon untuk melengkapi data")
+	}
+	if err := checkmail.ValidateFormat(insertedDoc.Akun.Email); err != nil {
+		return fmt.Errorf("email tidak valid")
+	}
+	userExists, _ := GetUserFromEmail(insertedDoc.Akun.Email, db)
+	if insertedDoc.Akun.Email == userExists.Email {
+		return fmt.Errorf("email sudah terdaftar")
+	}
+	if strings.Contains(insertedDoc.Akun.Password, " ") {
+		return fmt.Errorf("password tidak boleh mengandung spasi")
+	}
+	if len(insertedDoc.Akun.Password) < 8 {
+		return fmt.Errorf("password terlalu pendek")
+	}
+	salt := make([]byte, 16)
+	_, err := rand.Read(salt)
 	if err != nil {
-		Response.Message = "error parsing application/json: " + err.Error()
-		return GCFReturnStruct(Response)
+		return fmt.Errorf("kesalahan server : salt")
 	}
-
-	// Validasi email sebelum proses pendaftaran
-	if !strings.Contains(datapengguna.Akun.Email, "@") {
-		Response.Message = "Email tidak benar karena tidak menggunakan simbol '@'. Jadi Anda bukan input nilai"
-		return GCFReturnStruct(Response)
+	hashedPassword := argon2.IDKey([]byte(insertedDoc.Akun.Password), salt, 1, 64*1024, 4, 32)
+	user := bson.M{
+		"_id":      objectId,
+		"email":    insertedDoc.Akun.Email,
+		"password": hex.EncodeToString(hashedPassword),
+		"salt":     hex.EncodeToString(salt),
 	}
-
-	err = SignUpPengguna(conn, datapengguna)
+	pengguna := bson.M{
+		"username": insertedDoc.Username,
+		"akun": model.User{
+			ID: objectId,
+		},
+	}
+	_, err = InsertOneDoc(db, "user", user)
 	if err != nil {
-		Response.Message = err.Error()
-		return GCFReturnStruct(Response)
+		return fmt.Errorf("kesalahan server")
 	}
-	Response.Status = true
-	Response.Message = "Halo " + datapengguna.Username
-	return GCFReturnStruct(Response)
+	_, err = InsertOneDoc(db, "pengguna", pengguna)
+	if err != nil {
+		return fmt.Errorf("kesalahan server")
+	}
+	return nil
 }
 
 //<--- Login --->
