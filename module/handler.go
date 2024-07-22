@@ -15,7 +15,7 @@ import (
 
 
 // GCFHandlerSignUpPengguna handles signup for Google Cloud Function
-func GCFHandlerSignUpPengguna(MONGOCONNSTRINGENV, dbname string, r *http.Request) string {
+func GCFHandlerSignUp(MONGOCONNSTRINGENV, dbname string, r *http.Request) string {
 	conn := MongoConnect(MONGOCONNSTRINGENV, dbname)
 	var Response model.Response
 	Response.Status = false
@@ -25,7 +25,7 @@ func GCFHandlerSignUpPengguna(MONGOCONNSTRINGENV, dbname string, r *http.Request
 		Response.Message = "error parsing application/json: " + err.Error()
 		return GCFReturnStruct(Response)
 	}
-	err = SignUpPengguna(conn, datapengguna)
+	err = SignUp(conn, datapengguna)
 	if err != nil {
 		Response.Message = err.Error()
 		return GCFReturnStruct(Response)
