@@ -85,7 +85,7 @@ func SignUp(db *mongo.Database, insertedDoc model.Pengguna) error {
 }
 
 //<--- Login --->
-func GCFHandlerLogin(PASETOPRIVATEKEYENV, MONGOCONNSTRINGENV, dbname string, r *http.Request) string {
+func GCFHandlerSignIn(PASETOPRIVATEKEYENV, MONGOCONNSTRINGENV, dbname string, r *http.Request) string {
 	conn := MongoConnect(MONGOCONNSTRINGENV, dbname)
 	var Response model.Credential
 	Response.Status = false
@@ -95,7 +95,7 @@ func GCFHandlerLogin(PASETOPRIVATEKEYENV, MONGOCONNSTRINGENV, dbname string, r *
 		Response.Message = "error parsing application/json: " + err.Error()
 		return GCFReturnStruct(Response)
 	}
-	user, err := LogIn(conn, datauser)
+	user, err := SignIn(conn, datauser)
 	if err != nil {
 		Response.Message = err.Error()
 		return GCFReturnStruct(Response)
