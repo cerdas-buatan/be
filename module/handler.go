@@ -134,8 +134,6 @@ func SignIn(db *mongo.Database, insertedDoc model.User) (user model.User, err er
 	return existsDoc, nil
 }
 
-
-
 func GCFGetUserFromID(PASETOPUBLICKEYENV, MONGOCONNSTRINGENV, dbname string, r *http.Request) string {
 	conn := MongoConnect(MONGOCONNSTRINGENV, dbname)
 	var Response model.Response
@@ -152,6 +150,19 @@ func GCFGetUserFromID(PASETOPUBLICKEYENV, MONGOCONNSTRINGENV, dbname string, r *
 		return GCFReturnStruct(Response)
 	}
 	return GCFReturnStruct(data)
+}
+
+func GetUserFromEmail(email string, db *mongo.Database) (doc model.User, err error) {
+	collection := db.Collection("user")
+	filter := bson.M{"email": email}
+	err = collection.FindOne(context.TODO(), filter).Decode(&doc)
+	if err != nil {
+		if err == mongo.ErrNoDocuments {
+			return doc, fmt.Errorf("email tidak ditemukan")
+		}
+		return doc, fmt.Errorf("kesalahan server")
+	}
+	return doc, nil
 }
 
 // return struct
