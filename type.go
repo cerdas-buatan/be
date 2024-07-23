@@ -74,9 +74,3 @@ type RegisterResponse struct {
 	Message string `json:"message"`
 	UserID  primitive.ObjectID `json:"user_id,omitempty"`
 }
-
-
-
-
-
-
