@@ -10,7 +10,6 @@ import (
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
-
 func Encode(id, role, secret string) (string, error) {
 	now := time.Now()
 	payload := model.Payload{
@@ -23,7 +22,6 @@ func Encode(id, role, secret string) (string, error) {
 	v2 := paseto.NewV2()
 	return v2.Encrypt([]byte(secret), payload, nil)
 }
-
 
 func Decode(secret, token string) (model.Payload, error) {
 	var payload model.Payload
@@ -58,7 +56,7 @@ func Decode(publicKey string, tokenstring string) (payload model.Payload, err er
 	if err != nil {
 		fmt.Println("Decode NewV4AsymmetricPublicKeyFromHex : ", err)
 	}
-	parser := paseto.NewParser()                                  // only used because this example token has expired, use NewParser() (which checks expiry by default)
+	parser := paseto.NewParser()                                // only used because this example token has expired, use NewParser() (which checks expiry by default)
 	token, err = parser.ParseV4Public(pubKey, tokenstring, nil) // this will fail if parsing failes, cryptographic checks fail, or validation rules fail
 	if err != nil {
 		fmt.Println("Decode ParseV4Public : ", err)
@@ -74,4 +72,3 @@ func GenerateKey() (privateKey, publicKey string) {
 	privateKey = secretKey.ExportHex()
 	return privateKey, publicKey
 }
-
