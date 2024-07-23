@@ -12,7 +12,6 @@ type User struct {
 	Email    string             `bson:"email,omitempty" json:"email,omitempty"`
 	Password string             `bson:"password,omitempty" json:"password,omitempty"`
 	Salt     string             `bson:"salt,omitempty" json:"salt,omitempty"`
-	Role     string             `bson:"role,omitempty" json:"role,omitempty"`
 }
 
 // struct Pengguna
@@ -50,7 +49,6 @@ type Credential struct {
 
 type Payload struct {
 	ID       string    `json:"id"`
-	// Role     string    `json:"role"`
 	IssuedAt time.Time `json:"issued_at"`
 	Expiry   time.Time `json:"expiry"`
 }
