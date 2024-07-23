@@ -64,14 +64,4 @@ func preprocessInput(input map[string]interface{}) (*tf.Tensor, error) {
 	return tf.NewTensor(data)
 }
 
-// postprocessOutput converts model output to the response format
-func postprocessOutput(result []*tf.Tensor) (map[string]interface{}, error) {
-	// Customize this function to process output from your model
-	// This is a placeholder example
-	output := result[0].Value().([]float32)
-	return map[string]interface{}{
-		"prediction": output,
-	}, nil
-}
-
 // file ini mau dihapus silakan
