@@ -14,7 +14,6 @@ type User struct {
 	UpdatedAt time.Time         `bson:"updated_at,omitempty" json:"updated_at,omitempty"`
 }
 
-
 // struct Pengguna
 type Pengguna struct {
 	Username string             `bson:"username,omitempty" json:"username,omitempty"`  
@@ -22,7 +21,6 @@ type Pengguna struct {
 	Username string             `bson:"username,omitempty" json:"username,omitempty"` 
 	Akun     User               `bson:"akun,omitempty" json:"akun,omitempty"`   
 } 
-
 
 // struct response
 type Response struct {
@@ -76,3 +74,9 @@ type RegisterResponse struct {
 	Message string `json:"message"`
 	UserID  primitive.ObjectID `json:"user_id,omitempty"`
 }
+
+
+
+
+
+
