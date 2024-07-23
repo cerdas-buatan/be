@@ -56,12 +56,4 @@ func predictHandler(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(response)
 }
 
-// preprocessInput converts input data to tensor
-func preprocessInput(input map[string]interface{}) (*tf.Tensor, error) {
-	// Customize this function to preprocess input for your model
-	// This is a placeholder example
-	data := []float32{} // Convert input to the appropriate tensor data
-	return tf.NewTensor(data)
-}
-
 // file ini mau dihapus silakan
