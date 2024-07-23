@@ -17,11 +17,11 @@ type User struct {
 
 // struct Pengguna
 type Pengguna struct {
-//	Username string             `bson:"username,omitempty" json:"username,omitempty"`  
+	Username string             `bson:"username,omitempty" json:"username,omitempty"`  
 	ID       primitive.ObjectID `bson:"_id,omitempty" json:"_id,omitempty"`  
-	Username string             `bson:"username,omitempty" json:"username,omitempty"`
-	Akun     User               `bson:"akun,omitempty" json:"akun,omitempty"`  
-}
+	Username string             `bson:"username,omitempty" json:"username,omitempty"` 
+	Akun     User               `bson:"akun,omitempty" json:"akun,omitempty"`   
+} 
 
 
 // struct response
@@ -30,8 +30,6 @@ type Response struct {
 	Message string      `json:"message"` 
 	Data    interface{} `json:"data"` 
 }
-
-
 
 // struct ChatRequest 
 type ChatRequest struct {    
