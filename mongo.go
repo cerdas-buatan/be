@@ -67,9 +67,9 @@ func InsertDoc(db *mongo.Database, col string, doc interface{}) (interface{}, er
 func UpdateDoc(db *mongo.Database, col string, filter, update interface{}) (*mongo.UpdateResult, error) {
 	collection := db.Collection(col)
 	result, err := collection.UpdateOne(context.TODO(), filter, update)
-	if err != nil {
+	if err != nil { //
 		return nil, fmt.Errorf("error UpdateDoc %s: %s", col, err)
-	}
+	} //
 	return result, nil
 }
 
@@ -77,8 +77,8 @@ func UpdateDoc(db *mongo.Database, col string, filter, update interface{}) (*mon
 func DeleteDoc(db *mongo.Database, col string, filter interface{}) (*mongo.DeleteResult, error) {
 	collection := db.Collection(col)
 	result, err := collection.DeleteOne(context.TODO(), filter)
-	if err != nil { //
-		return nil, fmt.Errorf("error DeleteDoc %s: %s", col, err) //
-	} //
-	return result, nil //
-} //
+	if err != nil {
+		return nil, fmt.Errorf("error DeleteDoc %s: %s", col, err)
+	}
+	return result, nil
+}
