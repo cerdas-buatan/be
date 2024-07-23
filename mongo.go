@@ -84,10 +84,10 @@ func DeleteDoc(db *mongo.Database, col string, filter interface{}) (*mongo.Delet
 }
 
 // Insert a document into a collection
-func InsertDoc(db *mongo.Database, col string, doc interface{}) (interface{}, error) { //
-	collection := db.Collection(col) //
+func InsertDoc(db *mongo.Database, col string, doc interface{}) (interface{}, error) {
+	collection := db.Collection(col)
 	result, err := collection.InsertOne(context.TODO(), doc)
-	if err != nil { //
+	if err != nil {
 		return nil, fmt.Errorf("error InsertDoc %s: %s", col, err)
 	}
 	return result.InsertedID, nil
