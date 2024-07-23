@@ -34,18 +34,18 @@ import (
 // 	Message  string `json:"message"`      
 // }
 
-type Credential struct {
-	Status  bool   `json:"status" bson:"status"`  
-	Token   string `json:"token,omitempty" bson:"token,omitempty"`    
-	Message string `json:"message,omitempty" bson:"message,omitempty"`    
-}  
+// type Credential struct {
+// 	Status  bool   `json:"status" bson:"status"`  
+// 	Token   string `json:"token,omitempty" bson:"token,omitempty"`    
+// 	Message string `json:"message,omitempty" bson:"message,omitempty"`    
+// }  
 
-type ChatResponse struct {
-	ResponseID primitive.ObjectID `bson:"response_id,omitempty" json:"response_id,omitempty"`
-	Message    string             `json:"message"`   
-	Timestamp  int64              `json:"timestamp"` 
-	UserID     primitive.ObjectID `bson:"user_id,omitempty" json:"user_id,omitempty"`
-}
+// type ChatResponse struct {
+// 	ResponseID primitive.ObjectID `bson:"response_id,omitempty" json:"response_id,omitempty"`
+// 	Message    string             `json:"message"`   
+// 	Timestamp  int64              `json:"timestamp"` 
+// 	UserID     primitive.ObjectID `bson:"user_id,omitempty" json:"user_id,omitempty"`
+// }
   
 // struct LoginRequest
 type LoginRequest struct {
