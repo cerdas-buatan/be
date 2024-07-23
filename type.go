@@ -64,12 +64,12 @@ type LoginRequest struct {
 
 // struct LoginResponse
 type LoginResponse struct {
-//	Status  bool   `json:"status"`
+	Status  bool   `json:"status"`
 	Message string `json:"message"`
 	Token   string `json:"token,omitempty"`
-//	UserID  primitive.ObjectID `json:"user_id,omitempty"`
+	UserID  primitive.ObjectID `json:"user_id,omitempty"`
 }
-
+  
 // struct RegisterRequest
 type RegisterRequest struct {
 	Username string `json:"username"` 
