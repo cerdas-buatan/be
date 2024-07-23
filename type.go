@@ -4,15 +4,15 @@ import (
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
-// struct user
-type User struct {
-	ID       primitive.ObjectID `bson:"_id,omitempty" json:"_id,omitempty"`
-	Email    string             `bson:"email,omitempty" json:"email,omitempty"`
-	Password string             `bson:"password,omitempty" json:"password,omitempty"`
-	Salt     string             `bson:"salt,omitempty" json:"salt,omitempty"`
-	CreatedAt time.Time         `bson:"created_at,omitempty" json:"created_at,omitempty"`
-	UpdatedAt time.Time         `bson:"updated_at,omitempty" json:"updated_at,omitempty"`
-}
+// // struct user
+// type User struct {
+// 	ID       primitive.ObjectID `bson:"_id,omitempty" json:"_id,omitempty"`
+// 	Email    string             `bson:"email,omitempty" json:"email,omitempty"`
+// 	Password string             `bson:"password,omitempty" json:"password,omitempty"`
+// 	Salt     string             `bson:"salt,omitempty" json:"salt,omitempty"`
+// 	CreatedAt time.Time         `bson:"created_at,omitempty" json:"created_at,omitempty"`
+// 	UpdatedAt time.Time         `bson:"updated_at,omitempty" json:"updated_at,omitempty"`
+// }
 
 // struct Pengguna
 type Pengguna struct {
