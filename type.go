@@ -33,16 +33,14 @@ type Response struct {
 
 
 
-// struct ChatRequest
-type ChatRequest struct {  
-	Message  string `json:"message"`     
-
+// struct ChatRequest 
+type ChatRequest struct {    
+	Message  string `json:"message"`      
 }
-
 
 type Credential struct {
 	Status  bool   `json:"status" bson:"status"`  
-	Token   string `json:"token,omitempty" bson:"token,omitempty"`    s
+	Token   string `json:"token,omitempty" bson:"token,omitempty"`    
 	Message string `json:"message,omitempty" bson:"message,omitempty"`    
 }  
 
