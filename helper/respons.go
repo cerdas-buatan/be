@@ -26,10 +26,3 @@ func WriteJSON(respw http.ResponseWriter, statusCode int, content interface{}) {
     respw.Write([]byte(Jsonstr(content)))
 }
 
-
-
-//func SendResponse(c *fiber.Ctx, statusCode int, message string, data interface{}) error {
-//	return c.Status(statusCode).JSON(fiber.Map{
-//		"message": message,
-//		"data":    data,
-//	})
