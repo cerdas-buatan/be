@@ -65,19 +65,12 @@ type LoginResponse struct {
 type RegisterRequest struct {
 	Username string `json:"username"` 
 	Email    string `json:"email"` 
-	Password string `json:"password"` 
+	Password string `json:"password"`   
 } 
 
 // struct RegisterResponse
 type RegisterResponse struct {
 	Status  bool   `json:"status"`
 	Message string `json:"message"`
-	UserID  primitive.ObjectID `json:"user_id,omitempty"`
-}
-
-// struct RegisterResponse
-type RegisterRequest struct {
-	Status  bool   `json:"status"`  
-	Message string `json:"message"`  
-	UserID  primitive.ObjectID `json:"user_id,omitempty"`  
+//	UserID  primitive.ObjectID `json:"user_id,omitempty"`
 }
