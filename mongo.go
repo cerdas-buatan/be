@@ -82,5 +82,3 @@ func DeleteDoc(db *mongo.Database, col string, filter interface{}) (*mongo.Delet
 	}
 	return result, nil
 }
-
-//
