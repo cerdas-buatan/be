@@ -42,11 +42,9 @@ type ChatRequest struct {
 
 type Credential struct {
 	Status  bool   `json:"status" bson:"status"`  
-	Token   string `json:"token,omitempty" bson:"token,omitempty"`  
-	Message string `json:"message,omitempty" bson:"message,omitempty"`  
-}
-
-
+	Token   string `json:"token,omitempty" bson:"token,omitempty"`    s
+	Message string `json:"message,omitempty" bson:"message,omitempty"`    
+}  
 
 type ChatResponse struct {
 	ResponseID primitive.ObjectID `bson:"response_id,omitempty" json:"response_id,omitempty"`
