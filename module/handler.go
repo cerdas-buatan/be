@@ -4,15 +4,11 @@ import (
 	"encoding/json"
 	"net/http"
 	"os"
-
 	"github.com/aiteung/atdb"
 	model "github.com/cerdas-buatan/be/model"
 	"github.com/whatsauth/watoken"
-
-
 	"go.mongodb.org/mongo-driver/mongo"
 )
-
 
 // GCFHandlerSignUpPengguna handles signup for Google Cloud Function
 func GCFHandlerSignUp(MONGOCONNSTRINGENV, dbname string, r *http.Request) string {
@@ -133,7 +129,7 @@ func SignIn(db *mongo.Database, insertedDoc model.User) (user model.User, err er
 	}
 	return existsDoc, nil
 }
-
+// get user from email
 func GetUserFromEmail(email string, db *mongo.Database) (doc model.User, err error) {
 	collection := db.Collection("user")
 	filter := bson.M{"email": email}
