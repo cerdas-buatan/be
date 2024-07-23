@@ -74,3 +74,10 @@ type RegisterResponse struct {
 	Message string `json:"message"`
 	UserID  primitive.ObjectID `json:"user_id,omitempty"`
 }
+
+// struct RegisterResponse
+type RegisterRequest struct {
+	Status  bool   `json:"status"`
+	Message string `json:"message"`
+	UserID  primitive.ObjectID `json:"user_id,omitempty"`
+}
