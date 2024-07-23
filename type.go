@@ -14,13 +14,13 @@ import (
 // 	UpdatedAt time.Time         `bson:"updated_at,omitempty" json:"updated_at,omitempty"`
 // }
 
-// struct Pengguna
-type Pengguna struct {
-	Username string             `bson:"username,omitempty" json:"username,omitempty"`  
-	ID       primitive.ObjectID `bson:"_id,omitempty" json:"_id,omitempty"`  
-	Username string             `bson:"username,omitempty" json:"username,omitempty"` 
-	Akun     User               `bson:"akun,omitempty" json:"akun,omitempty"`   
-} 
+// // struct Pengguna
+// type Pengguna struct {
+// 	Username string             `bson:"username,omitempty" json:"username,omitempty"`  
+// 	ID       primitive.ObjectID `bson:"_id,omitempty" json:"_id,omitempty"`  
+// 	Username string             `bson:"username,omitempty" json:"username,omitempty"` 
+// 	Akun     User               `bson:"akun,omitempty" json:"akun,omitempty"`   
+// } 
 
 // struct response
 type Response struct {
