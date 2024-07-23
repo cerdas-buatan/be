@@ -72,6 +72,3 @@ func GenerateKey() (privateKey, publicKey string) {
 	privateKey = secretKey.ExportHex()
 	return privateKey, publicKey
 }
-
-//
-//
