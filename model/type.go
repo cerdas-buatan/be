@@ -12,6 +12,7 @@ type User struct {
 	Email    string             `bson:"email,omitempty" json:"email,omitempty"`
 	Password string             `bson:"password,omitempty" json:"password,omitempty"`
 	Salt     string             `bson:"salt,omitempty" json:"salt,omitempty"`
+	Role     string             `bson:"role,omitempty" json:"role,omitempty"`
 }
 
 // struct Pengguna
@@ -49,6 +50,7 @@ type Credential struct {
 
 type Payload struct {
 	ID       string    `json:"id"`
+	// Role     string    `json:"role"`
 	IssuedAt time.Time `json:"issued_at"`
 	Expiry   time.Time `json:"expiry"`
 }
@@ -57,4 +59,17 @@ type Menu struct {
 	ID   primitive.ObjectID `bson:"_id,omitempty" json:"id,omitempty"`
 	Name string             `bson:"name" json:"name"`
 	Link string             `bson:"link" json:"link"`
+}
+
+type Chats struct {
+	IDChats   string `json:"idchats"`
+	Message   string `json:"message"`
+	Responses string `json:"responses"`
+	Score     float64
+}
+
+type Dataset struct {
+	ID       primitive.ObjectID `bson:"_id,omitempty" json:"id,omitempty"`
+	Question string             `bson:"question" json:"question"`
+	Answer   string             `bson:"answer" json:"answer"`
 }
