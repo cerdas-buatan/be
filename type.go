@@ -30,7 +30,6 @@
 // }
 
 // // struct ChatRequest 
-// type ChatRequest struct {    
 // 	Message  string `json:"message"`      
 // }
 // // struct ChatRequest 
@@ -53,9 +52,10 @@
   
 // struct LoginRequest
 //type LoginRequest struct {
-	Email    string `json:"email"`
-	Password string `json:"password"`
-}
+//	Email    string `json:"email"`
+//	Password string `json:"password"`
+//}
+
 
 // struct LoginResponse
 type LoginResponse struct {
