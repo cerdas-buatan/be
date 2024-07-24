@@ -1,8 +1,11 @@
 package module
 
+
 import (
 	"context"
 	"encoding/hex"
+//	"context"
+//	"encoding/hex"
 	"encoding/json"
 	"errors"
 	"fmt"
@@ -18,6 +21,7 @@ import (
 	"go.mongodb.org/mongo-driver/mongo"
 )
 
+
 // Helper function to generate BoW representation
 func generateBoW(message string) map[string]int {
 	words := strings.Fields(message)
@@ -27,6 +31,7 @@ func generateBoW(message string) map[string]int {
 	}
 	return bow
 }
+
 
 // Function to send BoW to the IndoBERT API for prediction
 func getPredictionFromIndoBERT(bow map[string]int) (string, error) {
@@ -54,6 +59,7 @@ func getPredictionFromIndoBERT(bow map[string]int) (string, error) {
 
 	return result["response"], nil
 }
+
 
 // GCFGetResponse generates a response based on the input message using BoW and IndoBERT
 func GCFGetResponse(message string, db *mongo.Database) (string, error) {
