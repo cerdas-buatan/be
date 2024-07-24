@@ -47,6 +47,7 @@ func getPredictionFromIndoBERT(bow map[string]int) (string, error) {
 		return "", fmt.Errorf("error marshalling BoW to JSON: %v", err)
 	}
 
+
 	// Send request to the IndoBERT API
 	resp, err := http.Post("YOUR_INDOBERT_API_URL", "application/json", strings.NewReader(string(jsonData)))
 	if err != nil {
@@ -54,15 +55,18 @@ func getPredictionFromIndoBERT(bow map[string]int) (string, error) {
 	}
 	defer resp.Body.Close()
 
+
 	if resp.StatusCode != http.StatusOK {
 		return "", fmt.Errorf("IndoBERT API returned status: %v", resp.StatusCode)
 	}
+
 
 	var result map[string]string
 	if err := json.NewDecoder(resp.Body).Decode(&result); err != nil {
 		return "", fmt.Errorf("error decoding IndoBERT API response: %v", err)
 	}
 
+	
 	return result["response"], nil
 }
 
