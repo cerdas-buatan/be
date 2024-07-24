@@ -14,7 +14,6 @@ import (
 
 // connection db
 
-
 func ConnectDB(uri string) *mongo.Database {
 	client, err := mongo.NewClient(options.Client().ApplyURI(uri))
 	if err != nil {
@@ -55,6 +54,7 @@ func GetAllDocs(db *mongo.Database, col string, docs interface{}) interface{} {
 	}
 	return docs
 }
+
 
 // Insert a document into a collection
 func InsertDoc(db *mongo.Database, col string, doc interface{}) (interface{}, error) {
