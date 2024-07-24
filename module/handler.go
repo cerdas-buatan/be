@@ -114,6 +114,7 @@ func GCFHandlerSignIn(PASETOPRIVATEKEYENV, MONGOCONNSTRINGENV, dbname string, r 
 	return GCFReturnStruct(Response)
 }
 
+
 func SignIn(db *mongo.Database, insertedDoc model.User) (user model.User, err error) {
 	if insertedDoc.Email == "" || insertedDoc.Password == "" {
 		return user, fmt.Errorf("mohon untuk melengkapi data")
@@ -135,6 +136,8 @@ func SignIn(db *mongo.Database, insertedDoc model.User) (user model.User, err er
 	}
 	return existsDoc, nil
 }
+
+
 // get user from email
 func GetUserFromEmail(email string, db *mongo.Database) (doc model.User, err error) {
 	collection := db.Collection("user")
