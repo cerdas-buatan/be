@@ -10,7 +10,3 @@ import (
     "go.mongodb.org/mongo-driver/mongo"
     "go.mongodb.org/mongo-driver/mongo/options"
 )
-
-type MenuService struct {
-    collection *mongo.Collection
-}
