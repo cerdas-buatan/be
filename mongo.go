@@ -31,6 +31,7 @@ func ConnectDB(uri string) *mongo.Database {
 }
 
 // mongo connec
+
 func MongoConnect(MongoString, dbname string) *mongo.Database {
 	client, err := mongo.Connect(context.TODO(), options.Client().ApplyURI(os.Getenv(MongoString)))
 	if err != nil {
@@ -82,3 +83,7 @@ func DeleteDoc(db *mongo.Database, col string, filter interface{}) (*mongo.Delet
 	}
 	return result, nil
 }
+
+
+
+
