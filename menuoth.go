@@ -40,11 +40,6 @@ func (s *MenuService) UpdateMenu(ctx context.Context, id primitive.ObjectID, men
     return err
 }
 
-func (s *MenuService) UpdateMenu(ctx context.Context, id primitive.ObjectID, menu model.Menu) error {
-    _, err := s.collection.UpdateOne(ctx, bson.M{"_id": id}, bson.M{"$set": menu})
-    return err
-}
-
 func (s *MenuService) DeleteMenu(ctx context.Context, id primitive.ObjectID) error {
     _, err := s.collection.DeleteOne(ctx, bson.M{"_id": id})
     return err
