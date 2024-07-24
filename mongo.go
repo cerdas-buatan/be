@@ -66,6 +66,7 @@ func InsertDoc(db *mongo.Database, col string, doc interface{}) (interface{}, er
 	return result.InsertedID, nil
 }
 
+
 // Update a document in a collection
 func UpdateDoc(db *mongo.Database, col string, filter, update interface{}) (*mongo.UpdateResult, error) {
 	collection := db.Collection(col)
@@ -76,6 +77,7 @@ func UpdateDoc(db *mongo.Database, col string, filter, update interface{}) (*mon
 	return result, nil
 }
 
+
 // Delete a document from a collection
 func DeleteDoc(db *mongo.Database, col string, filter interface{}) (*mongo.DeleteResult, error) {
 	collection := db.Collection(col)
@@ -85,7 +87,4 @@ func DeleteDoc(db *mongo.Database, col string, filter interface{}) (*mongo.Delet
 	}
 	return result, nil
 }
-
-
-
 
