@@ -14,10 +14,3 @@ import (
 type MenuService struct {
     collection *mongo.Collection
 }
-
-
-func NewMenuService(db *mongo.Database) *MenuService {
-    return &MenuService{
-        collection: db.Collection("menus"),
-    }
-}
