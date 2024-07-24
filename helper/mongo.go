@@ -11,23 +11,7 @@ import (
 	model "github.com/cerdas-buatan/be/model"
 	atdb "github.com/aiteung/atdb"
 )
-// connection db
-func ConnectDB(uri string) *mongo.Database {
-	client, err := mongo.NewClient(options.Client().ApplyURI(uri))
-	if err != nil {
-		log.Fatal(err)
-	}
 
-	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
-	defer cancel()
-
-	err = client.Connect(ctx)
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	return client.Database(dbName)
-}
 
 // mongo connec
 func MongoConnect(MongoString, dbname string) *mongo.Database {
@@ -50,6 +34,14 @@ func GetAllDocs(db *mongo.Database, col string, docs interface{}) interface{} {
 		return err
 	}
 	return docs
+}
+
+func SetConnection() *mongo.Database {
+	var DBmongoinfo = atdb.DBInfo{
+		DBString: os.Getenv("MONGOSTRING"),
+		DBName:   "AI",
+	}
+	return atdb.MongoConnect(DBmongoinfo)
 }
 
 func InsertTwoDoc(database *mongo.Database, collection string, document interface{}) (InsertedID interface{}) {
