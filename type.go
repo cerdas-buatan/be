@@ -29,7 +29,10 @@
 // 	Data    interface{} `json:"data"` 
 // }
 
-
+// // struct ChatRequest 
+// type ChatRequest struct {    
+// 	Message  string `json:"message"`      
+// }
 // // struct ChatRequest 
 // type ChatRequest struct {    
 // 	Message  string `json:"message"`      
@@ -49,7 +52,7 @@
 // }
   
 // struct LoginRequest
-type LoginRequest struct {
+//type LoginRequest struct {
 	Email    string `json:"email"`
 	Password string `json:"password"`
 }
