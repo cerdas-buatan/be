@@ -34,6 +34,8 @@ func GCFHandlerSignUp(MONGOCONNSTRINGENV, dbname string, r *http.Request) string
 	return GCFReturnStruct(Response)
 }
 
+
+// signup
 // signup
 func SignUp(db *mongo.Database, insertedDoc model.Pengguna) error {
 	objectId := primitive.NewObjectID()
@@ -83,6 +85,7 @@ func SignUp(db *mongo.Database, insertedDoc model.Pengguna) error {
 	return nil
 }
 
+//<--- Login --->
 //<--- Login --->
 func GCFHandlerSignIn(PASETOPRIVATEKEYENV, MONGOCONNSTRINGENV, dbname string, r *http.Request) string {
 	conn := MongoConnect(MONGOCONNSTRINGENV, dbname)
