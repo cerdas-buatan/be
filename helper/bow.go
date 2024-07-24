@@ -50,9 +50,16 @@ func cosineSimilarity(v1, v2 map[string]int) float64 {
 }
 
 // BagOfWordsSimilarity calculates the similarity between two strings using the Bag of Words model
+// func BagOfWordsSimilarity(s1, s2 string) float64 {
+// 	vocab := createVocab(s1, s2)
+// 	vector1 := vectorize(s1, vocab)
+// 	vector2 := vectorize(s2, vocab)
+// 	return cosineSimilarity(vector1, vector2)
+// }
+
 func BagOfWordsSimilarity(s1, s2 string) float64 {
-	vocab := createVocab(s1, s2)
-	vector1 := vectorize(s1, vocab)
-	vector2 := vectorize(s2, vocab)
-	return cosineSimilarity(vector1, vector2)
-}
+		vocab := createVocab(s1, s2)
+		vector1 := vectorize(s1, vocab)
+		vector2 := vectorize(s2, vocab)
+		return cosineSimilarity(vector1, vector2)
+	}
