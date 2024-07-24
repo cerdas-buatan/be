@@ -66,7 +66,7 @@ func getPredictionFromIndoBERT(bow map[string]int) (string, error) {
 		return "", fmt.Errorf("error decoding IndoBERT API response: %v", err)
 	}
 
-	
+
 	return result["response"], nil
 }
 
@@ -76,14 +76,17 @@ func GCFGetResponse(message string, db *mongo.Database) (string, error) {
 	// Generate BoW representation
 	bow := generateBoW(message)
 
+
 	// Get prediction from IndoBERT API
 	response, err := getPredictionFromIndoBERT(bow)
 	if err != nil {
 		return "", err
 	}
 
+
 	return response, nil
 }
+
 
 
 // ChatHandler handles chat requests and generates responses using IndoBERT
