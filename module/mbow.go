@@ -4,9 +4,9 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	"github.com/kimseokgis/backend-ai/config"
-	"github.com/kimseokgis/backend-ai/helper"
-	"github.com/kimseokgis/backend-ai/model"
+	"github.com/cerdas-buatan/be/config"
+	"github.com/cerdas-buatan/be/helper"
+	"github.com/cerdas-buatan/be/model"
 	"net/http"
 	"strings"
 )
