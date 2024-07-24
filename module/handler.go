@@ -152,11 +152,13 @@ func GetUserFromEmail(email string, db *mongo.Database) (doc model.User, err err
 	return doc, nil
 }
 
+
 // return struct
 func GCFReturnStruct(DataStuct any) string {
 	jsondata, _ := json.Marshal(DataStuct)
 	return string(jsondata)
 }
+
 
 // get user login
 func GetUserLogin(PASETOPUBLICKEYENV string, r *http.Request) (model.Payload, error) {
