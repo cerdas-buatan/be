@@ -152,3 +152,13 @@ func GCFReturnStruct(DataStuct any) string {
 	jsondata, _ := json.Marshal(DataStuct)
 	return string(jsondata)
 }
+
+// get user login
+func GetUserLogin(PASETOPUBLICKEYENV string, r *http.Request) (model.Payload, error) {
+	tokenstring := r.Header.Get("Authorization")
+	payload, err := Decode(os.Getenv(PASETOPUBLICKEYENV), tokenstring)
+	if err != nil {
+		return payload, err
+	}
+	return payload, nil
+}
