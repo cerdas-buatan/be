@@ -34,6 +34,11 @@ func generateBoW(message string) map[string]int {
 }
 
 
+
+
+
+
+
 // Function to send BoW to the IndoBERT API for prediction
 func getPredictionFromIndoBERT(bow map[string]int) (string, error) {
 	// Convert BoW to JSON
