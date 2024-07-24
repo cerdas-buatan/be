@@ -1,4 +1,4 @@
-//package type
+package type
 
 //import (
 //	"go.mongodb.org/mongo-driver/bson/primitive"
@@ -50,11 +50,11 @@
 // 	UserID     primitive.ObjectID `bson:"user_id,omitempty" json:"user_id,omitempty"`
 // }
   
-// struct LoginRequest
-//type LoginRequest struct {
-//	Email    string `json:"email"`
-//	Password string `json:"password"`
-//}
+ struct LoginRequest
+ type LoginRequest struct {
+	Email    string `json:"email"`
+	Password string `json:"password"`
+}
 
 
 // struct LoginResponse
