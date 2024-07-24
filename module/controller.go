@@ -11,23 +11,15 @@ import(
 )
 
 
-// Buat response dalam bentuk string
-func HomeGaysdisal(w http.ResponseWriter, r *http.Request) {
-	// Buat response dalam bentuk string
-	Response := fmt.Sprintf("Gaysdisal AI", "8081")
-
-	// Konversi response ke JSON
-	jsonResponse, err := json.Marshal(Response)
+func HomeMakmur(w http.ResponseWriter, r *http.Request) {
+	Response := fmt.Sprintf("Makmur AI chooy %s", "8080")
+	response, err := json.Marshal(Response)
 	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
+		http.Error(w, "Internal server error: JSON marshaling failed", http.StatusInternalServerError)
 		return
 	}
-
-	// Set header Content-Type
-	w.Header().Set("Content-Type", "application/json")
-
-	// Tulis response ke http.ResponseWriter
-	w.Write(jsonResponse)
+	w.Write(response)
+	return
 }
 
 
