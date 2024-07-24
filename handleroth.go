@@ -82,3 +82,31 @@ func SignUp(db *mongo.Database, insertedDoc model.Pengguna) error {
 	}
 	return nil
 }
+
+//<--- Login --->
+func GCFHandlerSignIn(PASETOPRIVATEKEYENV, MONGOCONNSTRINGENV, dbname string, r *http.Request) string {
+	conn := MongoConnect(MONGOCONNSTRINGENV, dbname)
+	var Response model.Credential
+	Response.Status = false
+	var datauser model.User
+	err := json.NewDecoder(r.Body).Decode(&datauser)
+	if err != nil {
+		Response.Message = "error parsing application/json: " + err.Error()
+		return GCFReturnStruct(Response)
+	}
+	user, err := SignIn(conn, datauser)
+	if err != nil {
+		Response.Message = err.Error()
+		return GCFReturnStruct(Response)
+	}
+	Response.Status = true
+	tokenstring, err := Encode(user.ID, user.Role, os.Getenv(PASETOPRIVATEKEYENV))
+	if err != nil {
+		Response.Message = "Gagal Encode Token : " + err.Error()
+	} else {
+		Response.Message = "Selamat Datang " + user.Email
+		Response.Token = tokenstring
+		Response.Role = user.Role
+	}
+	return GCFReturnStruct(Response)
+}
