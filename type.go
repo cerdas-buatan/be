@@ -1,8 +1,9 @@
-package type
+//package type
 
-import (
-	"go.mongodb.org/mongo-driver/bson/primitive"
-)
+//import (
+//	"go.mongodb.org/mongo-driver/bson/primitive"
+//)
+
 
 // // struct user
 // type User struct {
