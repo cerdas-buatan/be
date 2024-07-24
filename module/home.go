@@ -8,7 +8,7 @@ import(
 	
 )
 
-
+// Buat response dalam bentuk string
 func HomeGaysdisal(w http.ResponseWriter, r *http.Request) {
 	// Buat response dalam bentuk string
 	Response := fmt.Sprintf("Gaysdisal AI", "8081")
@@ -74,3 +74,4 @@ func NotFound(respw http.ResponseWriter, req *http.Request) {
         </html>
     `)
 }
+
