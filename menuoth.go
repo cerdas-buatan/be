@@ -21,3 +21,9 @@ func NewMenuService(db *mongo.Database) *MenuService {
         collection: db.Collection("menus"),
     }
 }
+
+func (s *MenuService) CreateMenu(ctx context.Context, menu model.Menu) (model.Menu, error) {
+    menu.ID = primitive.NewObjectID()
+    _, err := s.collection.InsertOne(ctx, menu)
+    return menu, err
+}
