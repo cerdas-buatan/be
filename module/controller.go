@@ -98,12 +98,14 @@ func ChatHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+
 	response, err := GCFGetResponse(chatReq.Message, db)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
 
+	
 	chatRes := model.ChatResponse{Response: response}
 	w.Header().Set("Content-Type", "application/json")
 	json.NewEncoder(w).Encode(chatRes)
