@@ -126,3 +126,14 @@ func GCFReturnStruct(DataStuct any) string {
 	jsondata, _ := json.Marshal(DataStuct)
 	return string(jsondata)
 }
+
+func FindUserByUsername(db *mongo.Database, username string) (model.Pengguna, error) {
+	pengguna := model.Pengguna{}
+	filter := bson.M{"username
+	": username}
+	err := db.Collection("pengguna").FindOne(context.Background(), filter).Decode(&pengguna)
+	if err != nil {
+		return model.Pengguna{}, err
+	}
+	return pengguna, nil
+}

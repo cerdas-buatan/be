@@ -98,7 +98,7 @@ func ChatPredict(w http.ResponseWriter, r *http.Request) {
 	fmt.Printf("%+v\n", mess.Messages)
 	reply, score, err := helper.QueriesDataRegexpALL(db, context.TODO(), mess.Messages)
 	if err != nil {
-		resp.Message = "Aduh aduh aduhhhaiii, aku ga ngerti nihh coba nanya yang lain dongg biar aku ngertiin kamu..."
+		resp.Message = "Waduh, maaf saya tak mengerti apa yang kau tanyakan. Coba susun ulang pertanyaan:)"
 		resp.Status = false
 		chat.Responses = resp.Message
 		helper.WriteJSON(w, http.StatusNotFound, resp)
@@ -110,7 +110,7 @@ func ChatPredict(w http.ResponseWriter, r *http.Request) {
 	chat.Responses = reply.Answer
 	chat.Score = score
 	if reply.Answer == "" {
-		chat.Message = "Adududududu aku ga ngerti nih kakak"
+		chat.Message = "Waduh tak ku mengerti kak"
 	}
 	defer db.Client().Disconnect(context.Background())
 
