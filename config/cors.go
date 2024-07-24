@@ -12,8 +12,11 @@ var Origins = []string{
 	"http://www.cerdas-buatan.projsonal.online",
 
 	// "https://whatsauth.github.io",
+	// "https://whatsauth.github.io",
+	// "https://whatsauth.github.io",
 	// "https://www.do.my.id",
 }
+
 
 var Cors= cors.config{
 	AllowOrigins: Origins,
@@ -24,6 +27,7 @@ var Cors= cors.config{
 	MaxAge: 3600,
 }
 
+// Fungsi untuk memeriksa apakah origin diizinkan
 // Fungsi untuk memeriksa apakah origin diizinkan
 func isAllowedOrigin(origin string) bool {
 	for _, o := range Origins {
