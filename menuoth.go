@@ -44,20 +44,3 @@ func (s *MenuService) DeleteMenu(ctx context.Context, id primitive.ObjectID) err
     _, err := s.collection.DeleteOne(ctx, bson.M{"_id": id})
     return err
 }
-
-func (s *MenuService) ListMenus(ctx context.Context) ([]model.Menu, error) {
-    var menus []model.Menu
-    cursor, err := s.collection.Find(ctx, bson.M{})
-    if err != nil {
-        return nil, err
-    }
-    defer cursor.Close(ctx)
-    for cursor.Next(ctx) {
-        var menu model.Menu
-        if err := cursor.Decode(&menu); err != nil {
-            return nil, err
-        }
-        menus = append(menus, menu)
-    }
-    return menus, nil
-}
