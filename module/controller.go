@@ -1,6 +1,5 @@
 package module
 
-
 import (
 	"context"
 	"encoding/hex"
@@ -23,7 +22,6 @@ import (
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
 )
-
 
 // Helper function to generate BoW representation
 func generateBoW(message string) map[string]int {
@@ -78,6 +76,7 @@ func GCFGetResponse(message string, db *mongo.Database) (string, error) {
 	return response, nil
 }
 
+
 // ChatHandler handles chat requests and generates responses using IndoBERT
 func ChatHandler(w http.ResponseWriter, r *http.Request) {
 	var chatReq model.ChatRequest
@@ -97,5 +96,4 @@ func ChatHandler(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	json.NewEncoder(w).Encode(chatRes)
 }
-
 
