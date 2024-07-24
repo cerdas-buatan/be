@@ -38,7 +38,7 @@ func GetAllDocs(db *mongo.Database, col string, docs interface{}) interface{} {
 
 func SetConnection() *mongo.Database {
 	var DBmongoinfo = atdb.DBInfo{
-		DBString: os.Getenv("MONGOSTRING"),
+		DBString: os.Getenv("Mongoenv"),
 		DBName:   "AI",
 	}
 	return atdb.MongoConnect(DBmongoinfo)

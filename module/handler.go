@@ -14,8 +14,8 @@ import (
 )
 
 // GCFHandlerSignUpPengguna handles signup for Google Cloud Function
-func GCFHandlerSignUp(MONGOCONNSTRINGENV, dbname string, r *http.Request) string {
-	conn := MongoConnect(MONGOCONNSTRINGENV, dbname)
+func GCFHandlerSignUp(Mongoenv, dbname string, r *http.Request) string {
+	conn := MongoConnect(Mongoenv, dbname)
 	var Response model.Response
 	Response.Status = false
 	var datauser model.Pengguna
@@ -87,8 +87,8 @@ func SignUp(db *mongo.Database, insertedDoc model.Pengguna) error {
 
 //<--- Login --->
 //<--- Login --->
-func GCFHandlerSignIn(PASETOPRIVATEKEYENV, MONGOCONNSTRINGENV, dbname string, r *http.Request) string {
-	conn := MongoConnect(MONGOCONNSTRINGENV, dbname)
+func GCFHandlerSignIn(PASETOPRIVATEKEYENV, Mongoenv, dbname string, r *http.Request) string {
+	conn := MongoConnect(Mongoenv, dbname)
 	var Response model.Credential
 	Response.Status = false
 	var datauser model.User
