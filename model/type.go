@@ -13,6 +13,7 @@ type User struct {
 	Password string             `bson:"password,omitempty" json:"password,omitempty"`
 	Salt     string             `bson:"salt,omitempty" json:"salt,omitempty"`
 	Role     string             `bson:"role,omitempty" json:"role,omitempty"`
+	Verified bool               `bson:"verified" json:"verified,omitempty"` 
 }
 
 // struct Pengguna
