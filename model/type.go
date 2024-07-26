@@ -58,9 +58,16 @@ type Payload struct {
 }
 
 type Menu struct {
-	ID   primitive.ObjectID `bson:"_id,omitempty" json:"id,omitempty"`
-	Name string             `bson:"name" json:"name"`
-	Link string             `bson:"link" json:"link"`
+    ID   primitive.ObjectID `bson:"_id,omitempty"`
+    Name string             `bson:"name"`
+
+}
+
+type ChatHistory struct {
+    ID        primitive.ObjectID `bson:"_id,omitempty"`
+    UserID    string             `bson:"user_id"`
+    Timestamp string             `bson:"timestamp"`
+    Message   string             `bson:"message"`
 }
 
 type Chats struct {
