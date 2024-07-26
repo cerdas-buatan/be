@@ -13,8 +13,6 @@ type User struct {
 	Password string             `bson:"password,omitempty" json:"password,omitempty"`
 	Salt     string             `bson:"salt,omitempty" json:"salt,omitempty"`
 	Role     string             `bson:"role,omitempty" json:"role,omitempty"`
-	FailedLogins  int           `bson:"failed_logins" json:"failed_logins,omitempty`
-	LockoutUntil  time.Time     `bson:"lockout_until" json:"lockout_until,omitempty` 
 }
 
 // struct Pengguna
