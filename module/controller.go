@@ -12,7 +12,7 @@ import(
 
 
 func HomeMakmur(w http.ResponseWriter, r *http.Request) {
-	Response := fmt.Sprintf("Makmur AI chooy %s", "8080")
+	Response := fmt.Sprintf("Gaysdisal AI %s", "8080")
 	response, err := json.Marshal(Response)
 	if err != nil {
 		http.Error(w, "Internal server error: JSON marshaling failed", http.StatusInternalServerError)
