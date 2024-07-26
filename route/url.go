@@ -1,34 +1,10 @@
-package route
+package url
 
 import (
+	"github.com/kimseokgis/backend-ai/config"
+	"github.com/kimseokgis/backend-ai/controller"
 	"net/http"
-
-	module "github.com/cerdas-buatan/be/module"
-	"github.com/gofiber/fiber/v2"
-	"go.mongodb.org/mongo-driver/mongo"
 )
-
-var db *mongo.Database
-
-func SetupRouter(app *fiber.App, database *mongo.Database) {
-	db = database
-
-	app.Get("/", func(c *fiber.Ctx) error {
-		return module.HomeGaysdisal(c, db)
-	})
-
-	app.Post("/registerai", func(c *fiber.Ctx) error {
-		return module.RegisterUsers(c, db)
-	})
-
-	app.Post("/loginai", func(c *fiber.Ctx) error {
-		return module.LoginUsers(c, db)
-	})
-
-	app.Use(func(c *fiber.Ctx) error {
-		return module.NotFound(c)
-	})
-}
 
 func Web(w http.ResponseWriter, r *http.Request) {
 	if config.SetAccessControlHeaders(w, r) {
@@ -37,12 +13,20 @@ func Web(w http.ResponseWriter, r *http.Request) {
 	var method, path string = r.Method, r.URL.Path
 	switch {
 	case method == "GET" && path == "/":
-		module.HomeGaysdisal(w, r)
+		controller.HomeMakmur(w, r)
 	case method == "POST" && path == "/registerai":
-		module.RegisterUsers(w, r)
+		controller.RegisterUsers(w, r)
 	case method == "POST" && path == "/loginai":
-		module.LoginUsers(w, r)
+		controller.LoginUsers(w, r)
+	case method == "GET" && path == "/getuser":
+		controller.GetUser(w, r)
+	case method == "GET" && path == "/getallusers":
+		controller.GetAllUsers(w, r)
+	case method == "POST" && path == "/chatGaysdisal":
+		controller.ChatPredict(w, r)
+	case method == "POST" && path == "/chatRegex":
+		controller.ChatPredictRegex(w, r)
 	default:
-		module.NotFound(w, r)
+		controller.NotFound(w, r)
 	}
 }
