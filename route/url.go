@@ -1,8 +1,8 @@
 package url
 
 import (
-	"github.com/kimseokgis/backend-ai/config"
-	"github.com/kimseokgis/backend-ai/controller"
+	"github.com/cerdas-buatan/be/config"
+	"github.com/cerdas-buatan/be/module"
 	"net/http"
 )
 
@@ -29,4 +29,9 @@ func Web(w http.ResponseWriter, r *http.Request) {
 	default:
 		controller.NotFound(w, r)
 	}
+}
+
+func InitRoutes(menuService *module.MenuService) {
+	MenuRoutes(menuService) // Initialize menu routes
+	http.HandleFunc("/", Web) // Initialize main routes
 }

@@ -9,77 +9,32 @@ import (
     "github.com/cerdas-buatan/be/model"
 )
 
-type MenuService struct {
-    collection *mongo.Collection
+// RenameMenu renames an existing menu item
+func (s *MenuService) RenameMenu(ctx context.Context, id primitive.ObjectID, newName string) error {
+    update := bson.M{"$set": bson.M{"name": newName}}
+    _, err := s.collection.UpdateOne(ctx, bson.M{"_id": id}, update)
+    return err
 }
 
-func NewMenuService(db *mongo.Database) *MenuService {
-    return &MenuService{
-        collection: db.Collection("menus"),
+// ArchiveMenu moves a menu item to the archive collection
+func (s *MenuService) ArchiveMenu(ctx context.Context, id primitive.ObjectID) error {
+    var menu model.Menu
+    err := s.collection.FindOne(ctx, bson.M{"_id": id}).Decode(&menu)
+    if err != nil {
+        return err
     }
+    _, err = s.collection.DeleteOne(ctx, bson.M{"_id": id})
+    if err != nil {
+        return err
+    }
+    archiveCollection := s.collection.Database().Collection("archive_menus")
+    _, err = archiveCollection.InsertOne(ctx, menu)
+    return err
 }
 
-// CreateMenu creates a new menu item and stores it in the database
-func (s *MenuService) CreateMenu(ctx context.Context, menu model.Menu) (model.Menu, error) {
+// AddMenu adds a new menu item
+func (s *MenuService) AddMenu(ctx context.Context, menu model.Menu) (model.Menu, error) {
     menu.ID = primitive.NewObjectID()
     _, err := s.collection.InsertOne(ctx, menu)
     return menu, err
-}
-
-// GetMenu retrieves a menu item by its ID
-func (s *MenuService) GetMenu(ctx context.Context, id primitive.ObjectID) (model.Menu, error) {
-    var menu model.Menu
-    err := s.collection.FindOne(ctx, bson.M{"_id": id}).Decode(&menu)
-    return menu, err
-}
-
-// UpdateMenu updates the details of an existing menu item
-func (s *MenuService) UpdateMenu(ctx context.Context, id primitive.ObjectID, updateFields map[string]interface{}) error {
-    update := bson.M{"$set": updateFields}
-    _, err := s.collection.UpdateOne(ctx, bson.M{"_id": id}, update)
-    return err
-}
-
-// DeleteMenu removes a menu item from the database
-func (s *MenuService) DeleteMenu(ctx context.Context, id primitive.ObjectID) error {
-    _, err := s.collection.DeleteOne(ctx, bson.M{"_id": id})
-    return err
-}
-
-// ListMenus retrieves all menu items from the database
-func (s *MenuService) ListMenus(ctx context.Context) ([]model.Menu, error) {
-    var menus []model.Menu
-    cursor, err := s.collection.Find(ctx, bson.M{})
-    if err != nil {
-        return nil, err
-    }
-    defer cursor.Close(ctx)
-    for cursor.Next(ctx) {
-        var menu model.Menu
-        if err := cursor.Decode(&menu); err != nil {
-            return nil, err
-        }
-        menus = append(menus, menu)
-    }
-    return menus, nil
-}
-
-// AddChatHistory creates a new chat history entry
-func (s *MenuService) AddChatHistory(ctx context.Context, chat model.ChatHistory) (model.ChatHistory, error) {
-    chat.ID = primitive.NewObjectID()
-    _, err := s.collection.InsertOne(ctx, chat)
-    return chat, err
-}
-
-// DeleteChatHistory removes a chat history entry by its ID
-func (s *MenuService) DeleteChatHistory(ctx context.Context, id primitive.ObjectID) error {
-    _, err := s.collection.DeleteOne(ctx, bson.M{"_id": id})
-    return err
-}
-
-// UpdateChatHistory updates a specific chat history entry
-func (s *MenuService) UpdateChatHistory(ctx context.Context, id primitive.ObjectID, updateFields map[string]interface{}) error {
-    update := bson.M{"$set": updateFields}
-    _, err := s.collection.UpdateOne(ctx, bson.M{"_id": id}, update)
-    return err
 }

@@ -22,6 +22,70 @@ func HomeMakmur(w http.ResponseWriter, r *http.Request) {
 	return
 }
 
+// RenameMenuHandler handles renaming a menu
+func RenameMenuHandler(s *MenuService) http.HandlerFunc {
+    return func(w http.ResponseWriter, r *http.Request) {
+        var request struct {
+            ID      string `json:"id"`
+            NewName string `json:"new_name"`
+        }
+        if err := json.NewDecoder(r.Body).Decode(&request); err != nil {
+            http.Error(w, err.Error(), http.StatusBadRequest)
+            return
+        }
+        id, err := primitive.ObjectIDFromHex(request.ID)
+        if err != nil {
+            http.Error(w, err.Error(), http.StatusBadRequest)
+            return
+        }
+        if err := s.RenameMenu(r.Context(), id, request.NewName); err != nil {
+            http.Error(w, err.Error(), http.StatusInternalServerError)
+            return
+        }
+        json.NewEncoder(w).Encode(model.Response{Status: true, Message: "Menu renamed successfully"})
+    }
+}
+
+// ArchiveMenuHandler handles moving a menu to the archive
+func ArchiveMenuHandler(s *MenuService) http.HandlerFunc {
+    return func(w http.ResponseWriter, r *http.Request) {
+        var request struct {
+            ID string `json:"id"`
+        }
+        if err := json.NewDecoder(r.Body).Decode(&request); err != nil {
+            http.Error(w, err.Error(), http.StatusBadRequest)
+            return
+        }
+        id, err := primitive.ObjectIDFromHex(request.ID)
+        if err != nil {
+            http.Error(w, err.Error(), http.StatusBadRequest)
+            return
+        }
+        if err := s.ArchiveMenu(r.Context(), id); err != nil {
+            http.Error(w, err.Error(), http.StatusInternalServerError)
+            return
+        }
+        json.NewEncoder(w).Encode(model.Response{Status: true, Message: "Menu moved to archive successfully"})
+    }
+}
+
+// AddMenuHandler handles adding a new menu
+func AddMenuHandler(s *MenuService) http.HandlerFunc {
+    return func(w http.ResponseWriter, r *http.Request) {
+        var menu model.Menu
+        if err := json.NewDecoder(r.Body).Decode(&menu); err != nil {
+            http.Error(w, err.Error(), http.StatusBadRequest)
+            return
+        }
+        menu, err := s.AddMenu(r.Context(), menu)
+        if err != nil {
+            http.Error(w, err.Error(), http.StatusInternalServerError)
+            return
+        }
+        json.NewEncoder(w).Encode(model.Response{Status: true, Message: "New menu added successfully", Data: menu})
+    }
+}
+
 
 // NotFound handles 404 errors
 func NotFound(respw http.ResponseWriter, req *http.Request) {
