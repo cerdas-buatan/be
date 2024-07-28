@@ -1,9 +1,12 @@
 package helper
-import{
-	"math/rand"
+
+import (
 	"fmt"
-	"github.com/whatsauth"
-}
+	"math/rand"
+	"time"
+
+	"github.com/whatsauth/whatsauth"
+)
 
 // Helper function to generate a verification code
 func generateVerificationCode() string {
@@ -17,14 +20,12 @@ func generateVerificationCode() string {
 
 // Helper function to send a WhatsApp message using the whatsauth library
 func sendWhatsAppMessage(phoneNumber, code string) error {
-	waToken, err := watoken.GenerateToken(phoneNumber, code, "Your WhatsApp Message Content", "Your WhatsApp API Key")
+	// Use the whatsauth library to send the message
+	waToken := whatsauth.NewToken(phoneNumber, code)
+	err := waToken.Send("Your WhatsApp API Key")
 	if err != nil {
-		return fmt.Errorf("error generating WhatsApp token: %v", err)
+		return fmt.Errorf("error sending WhatsApp message: %v", err)
 	}
 	fmt.Printf("Sending WhatsApp message to %s with code %s\n", phoneNumber, code)
-	return waToken.Send()
-}
-
-func init() {
-	rand.Seed(time.Now().UnixNano()) // Seed the random number generator
+	return nil
 }
