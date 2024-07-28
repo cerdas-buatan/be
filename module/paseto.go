@@ -10,7 +10,7 @@ import (
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
-func Encode(id, role, secret string) (string, error) {
+func Encode1(id, role, secret string) (string, error) {
 	now := time.Now()
 	payload := model.Payload{
 		ID:       id,
@@ -23,7 +23,7 @@ func Encode(id, role, secret string) (string, error) {
 	return v2.Encrypt([]byte(secret), payload, nil)
 }
 
-func Decode(secret, token string) (model.Payload, error) {
+func Decode1(secret, token string) (model.Payload, error) {
 	var payload model.Payload
 	v2 := paseto.NewV2()
 	err := v2.Decrypt(token, []byte(secret), &payload, nil)

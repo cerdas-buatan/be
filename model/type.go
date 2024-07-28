@@ -4,6 +4,7 @@ import (
 	"time"
 
 	"go.mongodb.org/mongo-driver/bson/primitive"
+	"go.mongodb.org/mongo-driver/mongo"
 )
 
 // struct user
@@ -59,6 +60,10 @@ type Menu struct {
     ID   primitive.ObjectID `bson:"_id,omitempty"`
     Name string             `bson:"name"`
 
+}
+
+type MenuService struct {
+    collection *mongo.Collection
 }
 
 type ChatHistory struct {

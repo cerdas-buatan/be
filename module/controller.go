@@ -5,11 +5,12 @@ import(
 //   	"encoding/json"
 //  	"fmt"
 	"net/http"
+    // "github.com/cerdas-buatan/module"
+    "go.mongodb.org/mongo-driver/bson/primitive"
 	"strconv"
 	"time"
 	
 )
-
 
 func HomeMakmur(w http.ResponseWriter, r *http.Request) {
 	Response := fmt.Sprintf("Gaysdisal AI %s", "8080")
@@ -22,8 +23,8 @@ func HomeMakmur(w http.ResponseWriter, r *http.Request) {
 	return
 }
 
-// RenameMenuHandler handles renaming a menu
-func RenameMenuHandler(s *MenuService) http.HandlerFunc {
+/// RenameMenuHandler handles renaming a menu
+func RenameMenuHandler(s *module.MenuService) http.HandlerFunc {
     return func(w http.ResponseWriter, r *http.Request) {
         var request struct {
             ID      string `json:"id"`
@@ -47,7 +48,7 @@ func RenameMenuHandler(s *MenuService) http.HandlerFunc {
 }
 
 // ArchiveMenuHandler handles moving a menu to the archive
-func ArchiveMenuHandler(s *MenuService) http.HandlerFunc {
+func ArchiveMenuHandler(s *module.MenuService) http.HandlerFunc {
     return func(w http.ResponseWriter, r *http.Request) {
         var request struct {
             ID string `json:"id"`
@@ -70,7 +71,7 @@ func ArchiveMenuHandler(s *MenuService) http.HandlerFunc {
 }
 
 // AddMenuHandler handles adding a new menu
-func AddMenuHandler(s *MenuService) http.HandlerFunc {
+func AddMenuHandler(s *module.MenuService) http.HandlerFunc {
     return func(w http.ResponseWriter, r *http.Request) {
         var menu model.Menu
         if err := json.NewDecoder(r.Body).Decode(&menu); err != nil {

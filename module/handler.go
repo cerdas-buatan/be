@@ -258,7 +258,7 @@ func GetUserLogin(PASETOPUBLICKEYENV string, r *http.Request) (model.Payload, er
 
 //<--- Forgot Password --->
 // GCFHandlerForgotPassword handles forgot password requests
-func ForgotPassword(db *mongo.Database, request ForgotPasswordRequest) error {
+func ForgotPassword(db *mongo.Database, request model.ForgotPasswordRequest) error {
 	if request.PhoneNumber == "" {
 		return fmt.Errorf("nomor telepon tidak boleh kosong")
 	}
@@ -295,7 +295,7 @@ func GCFHandlerForgotPassword(Mongoenv, dbname string, r *http.Request) string {
 	conn := MongoConnect(Mongoenv, dbname)
 	var Response model.Response
 	Response.Status = false
-	var forgotRequest ForgotPasswordRequest
+	var forgotRequest model.ForgotPasswordRequest
 	err := json.NewDecoder(r.Body).Decode(&forgotRequest)
 	if err != nil {
 		Response.Message = "error parsing application/json: " + err.Error()
