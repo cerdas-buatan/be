@@ -1,4 +1,5 @@
 package helper
+
 import (
 	"context"
 	"encoding/json"
@@ -14,8 +15,7 @@ import (
 	atdb "github.com/aiteung/atdb"
 )
 
-
-// mongo connec
+// mongo connect
 func MongoConnect(MongoString, dbname string) *mongo.Database {
 	client, err := mongo.Connect(context.TODO(), options.Client().ApplyURI(os.Getenv(MongoString)))
 	if err != nil {
@@ -58,14 +58,14 @@ func InsertTwoDoc(database *mongo.Database, collection string, document interfac
 	return result.InsertedID
 }
 
-func InsertUser(db *mongo.Database, collection string, userdata User) string {
+func InsertUser(db *mongo.Database, collection string, userdata model.User) string {
 	hash, _ := HashPassword(userdata.Password)
 	userdata.Password = hash
 	atdb.InsertOneDoc(db, collection, userdata)
 	return "username : " + userdata.Username + "password : " + userdata.Password
 }
 
-func GCFReturnStruct(DataStuct any) string {
+func GCFReturnStruct(DataStuct interface{}) string {
 	jsondata, _ := json.Marshal(DataStuct)
 	return string(jsondata)
 }
@@ -103,28 +103,21 @@ func FindOneDoc(db *mongo.Database, collection string, filter bson.M) *mongo.Sin
 }
 
 // updateonedoc
-func UpdateOneDoc(id primitive.ObjectID, db *mongo.Database, col string, doc interface{}) (err error) {
+func UpdateOneDoc(id primitive.ObjectID, db *mongo.Database, col string, doc interface{}) error {
 	filter := bson.M{"_id": id}
 	result, err := db.Collection(col).UpdateOne(context.Background(), filter, bson.M{"$set": doc})
 	if err != nil {
 		return fmt.Errorf("error update: %v", err)
 	}
 	if result.ModifiedCount == 0 {
-		err = fmt.Errorf("tidak ada data yang diubah")
-		return
+		return fmt.Errorf("tidak ada data yang diubah")
 	}
 	return nil
 }
 
-func GCFReturnStruct(DataStuct any) string {
-	jsondata, _ := json.Marshal(DataStuct)
-	return string(jsondata)
-}
-
 func FindUserByUsername(db *mongo.Database, username string) (model.Pengguna, error) {
 	pengguna := model.Pengguna{}
-	filter := bson.M{"username
-	": username}
+	filter := bson.M{"username": username}
 	err := db.Collection("pengguna").FindOne(context.Background(), filter).Decode(&pengguna)
 	if err != nil {
 		return model.Pengguna{}, err
