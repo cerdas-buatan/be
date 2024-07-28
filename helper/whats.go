@@ -24,3 +24,7 @@ func sendWhatsAppMessage(phoneNumber, code string) error {
 	fmt.Printf("Sending WhatsApp message to %s with code %s\n", phoneNumber, code)
 	return waToken.Send()
 }
+
+func init() {
+	rand.Seed(time.Now().UnixNano()) // Seed the random number generator
+}
