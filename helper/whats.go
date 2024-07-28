@@ -3,7 +3,7 @@ package helper
 import (
 	"fmt"
 	"math/rand"
-	"time"
+	// "time"
 
 	"github.com/whatsauth/whatsauth"
 )
