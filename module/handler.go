@@ -246,3 +246,59 @@ func GetUserLogin(PASETOPUBLICKEYENV string, r *http.Request) (model.Payload, er
 	}
 	return payload, nil
 }
+
+
+//<--- Forgot Password --->
+// GCFHandlerForgotPassword handles forgot password requests
+func GCFHandlerForgotPassword(Mongoenv, dbname string, r *http.Request) string {
+	conn := MongoConnect(Mongoenv, dbname)
+	var Response model.Response
+	Response.Status = false
+	var forgotRequest model.ForgotPasswordRequest
+	err := json.NewDecoder(r.Body).Decode(&forgotRequest)
+	if err != nil {
+		Response.Message = "error parsing application/json: " + err.Error()
+		return GCFReturnStruct(Response)
+	}
+	err = ForgotPassword(conn, forgotRequest)
+	if err != nil {
+		Response.Message = err.Error()
+		return GCFReturnStruct(Response)
+	}
+	Response.Status = true
+	Response.Message = "Instruksi reset password telah dikirim via WhatsApp"
+	return GCFReturnStruct(Response)
+}
+
+// ForgotPassword handles the logic for the forgot password feature
+func ForgotPassword(db *mongo.Database, request model.ForgotPasswordRequest) error {
+	if request.PhoneNumber == "" {
+		return fmt.Errorf("nomor telepon tidak boleh kosong")
+	}
+
+	// Validate phone number format (add your own validation logic if needed)
+	if !strings.HasPrefix(request.PhoneNumber, "+") {
+		return fmt.Errorf("nomor telepon harus diawali dengan kode negara")
+	}
+
+	// Generate a verification code
+	code := generateVerificationCode()
+
+	// Send the verification code via WhatsApp
+	err := sendWhatsAppMessage(request.PhoneNumber, code)
+	if err != nil {
+		return fmt.Errorf("gagal mengirim pesan WhatsApp: %v", err)
+	}
+
+	// Store the verification code and phone number in the database
+	_, err = db.Collection("forgot_password").InsertOne(context.TODO(), bson.M{
+		"phone_number": request.PhoneNumber,
+		"code":         code,
+		"timestamp":    time.Now(),
+	})
+	if err != nil {
+		return fmt.Errorf("kesalahan server: %v", err)
+	}
+
+	return nil
+}
