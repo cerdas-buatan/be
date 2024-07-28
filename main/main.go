@@ -7,7 +7,7 @@ import (
 
 	"github.com/cerdas-buatan/be/config"
 	"github.com/cerdas-buatan/be/module"
-	"github.com/cerdas-buatan/be/url"
+	"github.com/cerdas-buatan/be/route"
 )
 
 func main() {
