@@ -9,10 +9,11 @@ import (
 //	"os"
 	"github.com/aiteung/atdb"
 	model "github.com/cerdas-buatan/be/model"
-	"go.mongodb.org/mongo-driver/bson"
 	helper "github.com/cerdas-buatan/be/helper"
 	"github.com/whatsauth/watoken"
+	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
+	
 )
 
 // GCFHandlerSignUpPengguna handles signup for Google Cloud Function
@@ -257,43 +258,21 @@ func GetUserLogin(PASETOPUBLICKEYENV string, r *http.Request) (model.Payload, er
 
 //<--- Forgot Password --->
 // GCFHandlerForgotPassword handles forgot password requests
-// GCFHandlerForgotPassword handles forgot password requests
-func GCFHandlerForgotPassword(Mongoenv, dbname string, r *http.Request) string {
-	conn := MongoConnect(Mongoenv, dbname)
-	var Response model.Response
-	Response.Status = false
-	var forgotRequest model.ForgotPasswordRequest
-	err := json.NewDecoder(r.Body).Decode(&forgotRequest)
-	if err != nil {
-		Response.Message = "error parsing application/json: " + err.Error()
-		return GCFReturnStruct(Response)
-	}
-	err = ForgotPassword(conn, forgotRequest)
-	if err != nil {
-		Response.Message = err.Error()
-		return GCFReturnStruct(Response)
-	}
-	Response.Status = true
-	Response.Message = "Instruksi reset password telah dikirim via WhatsApp"
-	return GCFReturnStruct(Response)
-}
-
-// ForgotPassword handles the logic for the forgot password feature
-func ForgotPassword(db *mongo.Database, request model.ForgotPasswordRequest) error {
+func ForgotPassword(db *mongo.Database, request ForgotPasswordRequest) error {
 	if request.PhoneNumber == "" {
 		return fmt.Errorf("nomor telepon tidak boleh kosong")
 	}
 
-	// Validate phone number format (add your own validation logic if needed)
+	// Validate phone number format
 	if !strings.HasPrefix(request.PhoneNumber, "+") {
 		return fmt.Errorf("nomor telepon harus diawali dengan kode negara")
 	}
 
 	// Generate a verification code
-	code := helper.generateVerificationCode()
+	code := generateVerificationCode()
 
 	// Send the verification code via WhatsApp
-	err := helper.sendWhatsAppMessage(request.PhoneNumber, code)
+	err := sendWhatsAppMessage(request.PhoneNumber, code)
 	if err != nil {
 		return fmt.Errorf("gagal mengirim pesan WhatsApp: %v", err)
 	}
@@ -310,3 +289,25 @@ func ForgotPassword(db *mongo.Database, request model.ForgotPasswordRequest) err
 
 	return nil
 }
+
+// GCFHandlerForgotPassword handles the forgot password request
+func GCFHandlerForgotPassword(Mongoenv, dbname string, r *http.Request) string {
+	conn := MongoConnect(Mongoenv, dbname)
+	var Response model.Response
+	Response.Status = false
+	var forgotRequest ForgotPasswordRequest
+	err := json.NewDecoder(r.Body).Decode(&forgotRequest)
+	if err != nil {
+		Response.Message = "error parsing application/json: " + err.Error()
+		return GCFReturnStruct(Response)
+	}
+	err = ForgotPassword(conn, forgotRequest)
+	if err != nil {
+		Response.Message = err.Error()
+		return GCFReturnStruct(Response)
+	}
+	Response.Status = true
+	Response.Message = "Instruksi reset password telah dikirim via WhatsApp"
+	return GCFReturnStruct(Response)
+}
+

@@ -85,3 +85,9 @@ type Dataset struct {
 type ForgotPasswordRequest struct {
 	PhoneNumber string `json:"phone_number" bson:"phone_number"`
 }
+
+type VerificationCode struct {
+	PhoneNumber string `json:"phone_number" bson:"phone_number"`
+	Code        string `json:"code" bson:"code"`
+	ExpiresAt   int64  `json:"expires_at" bson:"expires_at"`
+}
