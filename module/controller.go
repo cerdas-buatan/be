@@ -1,4 +1,4 @@
-packagemodule
+package module
 import(
 	"encoding/json"
 	"fmt"
