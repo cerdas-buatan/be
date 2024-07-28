@@ -9,6 +9,8 @@ import (
 //	"os"
 	"github.com/aiteung/atdb"
 	model "github.com/cerdas-buatan/be/model"
+	"go.mongodb.org/mongo-driver/bson"
+	helper "github.com/cerdas-buatan/be/helper"
 	"github.com/whatsauth/watoken"
 	"go.mongodb.org/mongo-driver/mongo"
 )
@@ -250,6 +252,7 @@ func GetUserLogin(PASETOPUBLICKEYENV string, r *http.Request) (model.Payload, er
 
 //<--- Forgot Password --->
 // GCFHandlerForgotPassword handles forgot password requests
+// GCFHandlerForgotPassword handles forgot password requests
 func GCFHandlerForgotPassword(Mongoenv, dbname string, r *http.Request) string {
 	conn := MongoConnect(Mongoenv, dbname)
 	var Response model.Response
@@ -282,10 +285,10 @@ func ForgotPassword(db *mongo.Database, request model.ForgotPasswordRequest) err
 	}
 
 	// Generate a verification code
-	code := generateVerificationCode()
+	code := helper.generateVerificationCode()
 
 	// Send the verification code via WhatsApp
-	err := sendWhatsAppMessage(request.PhoneNumber, code)
+	err := helper.sendWhatsAppMessage(request.PhoneNumber, code)
 	if err != nil {
 		return fmt.Errorf("gagal mengirim pesan WhatsApp: %v", err)
 	}
