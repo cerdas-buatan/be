@@ -1,4 +1,4 @@
-package url
+package route
 
 import (
 	"github.com/cerdas-buatan/be/config"
