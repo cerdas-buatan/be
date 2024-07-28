@@ -2,7 +2,6 @@ package helper
 
 import (
 	"context"
-	"encoding/json"
 	"fmt"
 	"os"
 	"time"
@@ -62,12 +61,7 @@ func InsertUser(db *mongo.Database, collection string, userdata model.User) stri
 	hash, _ := HashPassword(userdata.Password)
 	userdata.Password = hash
 	atdb.InsertOneDoc(db, collection, userdata)
-	return "username : " + userdata.Username + "password : " + userdata.Password
-}
-
-func GCFReturnStruct(DataStuct interface{}) string {
-	jsondata, _ := json.Marshal(DataStuct)
-	return string(jsondata)
+	return "username : " + userdata.Email + " password : " + userdata.Password
 }
 
 // InsertUserdata insert user untuk register

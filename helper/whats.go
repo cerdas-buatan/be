@@ -3,7 +3,6 @@ package helper
 import (
 	"fmt"
 	"math/rand"
-	// "time"
 
 	"github.com/whatsauth/whatsauth"
 )
@@ -21,7 +20,7 @@ func generateVerificationCode() string {
 // Helper function to send a WhatsApp message using the whatsauth library
 func sendWhatsAppMessage(phoneNumber, code string) error {
 	// Use the whatsauth library to send the message
-	waToken := whatsauth.NewToken(phoneNumber, code)
+	waToken := whatsauth.New(phoneNumber, code)
 	err := waToken.Send("Your WhatsApp API Key")
 	if err != nil {
 		return fmt.Errorf("error sending WhatsApp message: %v", err)

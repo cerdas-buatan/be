@@ -7,12 +7,6 @@ import (
 	//"os"
 )
 
-//import (
-//	"github.com/gofiber/fiber/v2"
-	// helper "github.com/cerdas-buaatan/be/helper"
-//	"os"
-	//"os"
-//)
 
 var Iteung = fiber.Config{
 	Prefork:       true,
