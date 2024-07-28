@@ -15,7 +15,34 @@ var Iteung = fiber.Config{
 	ServerHeader:  "Gaysdisal",
 	AppName:       "Gaysdisal",
 }
-var IPort, netString = helper.GetAddress()
+
+func GetAddress() (ipport string, network string) {
+	port := os.Getenv("PORT")
+	ip := os.Getenv("IP")
+
+	// Default values
+	if port == "" {
+		port = ":8080"
+	} else if port[0:1] != ":" {
+		port = ":" + port
+	}
+
+	network = "tcp4"
+	ipport = port
+
+	if ip != "" {
+		if strings.Contains(ip, ".") {
+			ipport = ip + port
+		} else {
+			ipport = "[" + ip + "]" + port
+			network = "tcp6"
+		}
+	}
+
+	return ipport, network
+}
+
+var IPort, netString = GetAddress()
 
 
 var PrivateKey = os.Getenv("PRIVATEKEY")
