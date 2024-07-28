@@ -80,3 +80,8 @@ type Dataset struct {
 	Question string             `bson:"question" json:"question"`
 	Answer   string             `bson:"answer" json:"answer"`
 }
+
+// struct ForgotPasswordRequest
+type ForgotPasswordRequest struct {
+	PhoneNumber string `json:"phone_number" bson:"phone_number"`
+}
