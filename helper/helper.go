@@ -60,15 +60,6 @@ func GetAddress() (ipport string, network string) {
 }
 
 // KOMEN FUNCT DIBAWAH BOLEH DIHAPUS 
-
-// GetEnv gets the value of an environment variable or returns a default value if not set
-// func GetEnv(key, defaultValue string) string {
-// 	if value, exists := os.LookupEnv(key); exists {
-// 		return value
-// 	}
-// 	return defaultValue
-// }
-
 // // IsIPv6 checks if the given IP address is IPv6
 // func IsIPv6(ip string) bool {
 // 	return strings.Contains(ip, ":")
