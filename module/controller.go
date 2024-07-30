@@ -134,13 +134,3 @@ func NotFound(respw http.ResponseWriter, req *http.Request) {
 //             </style>
 //         </head>
 //         <body>
-//             <div class="container">
-//                 <h1>404 - Not Found</h1>
-//                 <p>The page you are looking for does not exist.</p>
-//                 <a href="http://cerdas-buatan.projsonal.online/fe/" class="button">Home</a>
-//             </div>
-//         </body>
-//         </html>
-//     `)
-// }
-
