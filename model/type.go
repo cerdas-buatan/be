@@ -96,3 +96,11 @@ type VerificationCode struct {
 	Code        string `json:"code" bson:"code"`
 	ExpiresAt   int64  `json:"expires_at" bson:"expires_at"`
 }
+
+//Buat Komit
+// struct response
+//type Response struct {
+//	Status  bool        `json:"status"`
+//	Message string      `json:"message"`
+//	Data    interface{} `json:"data"`
+//}
