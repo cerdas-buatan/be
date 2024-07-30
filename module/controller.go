@@ -12,6 +12,7 @@ import(
 	
 )
 
+
 func HomeMakmur(w http.ResponseWriter, r *http.Request) {
 	Response := fmt.Sprintf("Gaysdisal AI %s", "8080")
 	response, err := json.Marshal(Response)
@@ -22,6 +23,7 @@ func HomeMakmur(w http.ResponseWriter, r *http.Request) {
 	w.Write(response)
 	return
 }
+
 
 /// RenameMenuHandler handles renaming a menu
 func RenameMenuHandler(s *module.MenuService) http.HandlerFunc {
@@ -46,6 +48,7 @@ func RenameMenuHandler(s *module.MenuService) http.HandlerFunc {
         json.NewEncoder(w).Encode(model.Response{Status: true, Message: "Menu renamed successfully"})
     }
 }
+
 
 // ArchiveMenuHandler handles moving a menu to the archive
 func ArchiveMenuHandler(s *module.MenuService) http.HandlerFunc {
@@ -118,9 +121,3 @@ func NotFound(respw http.ResponseWriter, req *http.Request) {
 //                     max-width: 600px;
 //                     margin: auto;
 //                 }
-//                 .button {
-//                     display: inline-block;
-//                     margin-top: 20px;
-//                     padding: 10px 20px;
-//                     font-size: 16px;
-//                     color: #fff;
