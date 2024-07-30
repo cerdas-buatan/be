@@ -11,6 +11,7 @@ import (
 	"golang.org/x/crypto/argon2"
 )
 
+
 // hash
 func HashPassword(password string) (string, error) {
 	salt := make([]byte, 16)
@@ -22,6 +23,7 @@ func HashPassword(password string) (string, error) {
 	return hex.EncodeToString(hashedPassword), nil
 }
 
+
 // sendresponse
 func SendResponse(c *fiber.Ctx, status int, message string, data interface{}) error {
 	response := model.Response{
@@ -31,6 +33,7 @@ func SendResponse(c *fiber.Ctx, status int, message string, data interface{}) er
 	}
 	return c.Status(status).JSON(response)
 }
+
 
 // GetAddress is a function to get IP and Port from environment variable
 func GetAddress() (ipport string, network string) {
@@ -58,6 +61,7 @@ func GetAddress() (ipport string, network string) {
 
 	return ipport, network
 }
+
 
 // KOMEN FUNCT DIBAWAH BOLEH DIHAPUS 
 // // IsIPv6 checks if the given IP address is IPv6
