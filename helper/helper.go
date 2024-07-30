@@ -84,10 +84,3 @@ func GetAddress() (ipport string, network string) {
 // 	err := bcrypt.CompareHashAndPassword([]byte(hash), []byte(password))
 // 	return err == nil
 // }
-
-// // HashString hashes a string using SHA-256
-// func HashString(input string) string {
-// 	hash := sha256.New()
-// 	hash.Write([]byte(input))
-// 	return hex.EncodeToString(hash.Sum(nil))
-// }
