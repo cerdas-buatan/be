@@ -98,9 +98,6 @@ func NotFound(respw http.ResponseWriter, req *http.Request) {
 	helper.WriteJSON(respw, http.StatusNotFound, resp)
 }
 
-
-
-
 // func NotFound(respw http.ResponseWriter, req *http.Request) {
 // 	respw.WriteHeader(http.StatusNotFound)
 // 	respw.Header().Set("Content-Type", "text/html")
