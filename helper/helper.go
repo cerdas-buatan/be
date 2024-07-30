@@ -61,13 +61,3 @@ func GetAddress() (ipport string, network string) {
 
 	return ipport, network
 }
-
-
-// KOMEN FUNCT DIBAWAH BOLEH DIHAPUS 
-// // IsIPv6 checks if the given IP address is IPv6
-// func IsIPv6(ip string) bool {
-// 	return strings.Contains(ip, ":")
-// }
-
-
-
