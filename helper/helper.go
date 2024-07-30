@@ -74,8 +74,5 @@ func GetAddress() (ipport string, network string) {
 // 	return strings.Contains(ip, ":")
 // }
 
-// // GenerateUUID generates a new UUID
-// func GenerateUUID() string {
-// 	return uuid.New().String()
-// }
+
 
