@@ -98,15 +98,6 @@ func NotFound(respw http.ResponseWriter, req *http.Request) {
 	helper.WriteJSON(respw, http.StatusNotFound, resp)
 }
 
-// func NotFound(respw http.ResponseWriter, req *http.Request) {
-// 	respw.WriteHeader(http.StatusNotFound)
-// 	respw.Header().Set("Content-Type", "text/html")
-// 	fmt.Fprintln(respw, `
-//         <!DOCTYPE html>
-//         <html lang="en">
-//         <head>
-//             <meta charset="UTF-8">
-//             <meta name="viewport" content="width=device-width, initial-scale=1.0">
 //             <title>404 Not Found</title>
 //             <style>
 //                 body {
@@ -118,3 +109,5 @@ func NotFound(respw http.ResponseWriter, req *http.Request) {
 //                     max-width: 600px;
 //                     margin: auto;
 //                 }
+
+
