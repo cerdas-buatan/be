@@ -3,11 +3,8 @@ package config
 import (
 	"github.com/gofiber/fiber/v2"
 	"strings"
-	// helper "github.com/cerdas-buaatan/be/helper"
 	"os"
-	//"os"
 )
-
 
 var Iteung = fiber.Config{
 	Prefork:       true,
@@ -45,7 +42,5 @@ func GetAddress() (ipport string, network string) {
 
 var IPort, netString = GetAddress()
 
-
 var PrivateKey = os.Getenv("PRIVATEKEY")
 var PublicKey = os.Getenv("PUBLICKEY")
-
