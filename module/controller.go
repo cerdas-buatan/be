@@ -124,13 +124,3 @@ func NotFound(respw http.ResponseWriter, req *http.Request) {
 //                     padding: 10px 20px;
 //                     font-size: 16px;
 //                     color: #fff;
-//                     background-color: #007bff;
-//                     text-decoration: none;
-//                     border-radius: 5px;
-//                 }
-//                 .button:hover {
-//                     background-color: #0056b3;
-//                 }
-//             </style>
-//         </head>
-//         <body>
