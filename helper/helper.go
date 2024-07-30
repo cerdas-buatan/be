@@ -79,8 +79,3 @@ func GetAddress() (ipport string, network string) {
 // 	return uuid.New().String()
 // }
 
-// // CheckPasswordHash checks if the given password matches the hashed password
-// func CheckPasswordHash(password, hash string) bool {
-// 	err := bcrypt.CompareHashAndPassword([]byte(hash), []byte(password))
-// 	return err == nil
-// }
