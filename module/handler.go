@@ -168,9 +168,6 @@ func SignUp2(db *mongo.Database, insertedDoc model.Pengguna) error {
 	return nil
 }
 
-
-
-//<--- Login --->
 //<--- Login --->
 func GCFHandlerSignIn(PASETOPRIVATEKEYENV, Mongoenv, dbname string, r *http.Request) string {
 	conn := MongoConnect(Mongoenv, dbname)
@@ -199,7 +196,6 @@ func GCFHandlerSignIn(PASETOPRIVATEKEYENV, Mongoenv, dbname string, r *http.Requ
 	return GCFReturnStruct(Response)
 }
 
-
 func SignIn(db *mongo.Database, insertedDoc model.User) (user model.User, err error) {
 	if insertedDoc.Email == "" || insertedDoc.Password == "" {
 		return user, fmt.Errorf("mohon untuk melengkapi data")
@@ -222,7 +218,6 @@ func SignIn(db *mongo.Database, insertedDoc model.User) (user model.User, err er
 	return existsDoc, nil
 }
 
-
 // get user from email
 func GetUserFromEmail(email string, db *mongo.Database) (doc model.User, err error) {
 	collection := db.Collection("user")
@@ -244,7 +239,6 @@ func GCFReturnStruct(DataStuct any) string {
 	return string(jsondata)
 }
 
-
 // get user login
 func GetUserLogin(PASETOPUBLICKEYENV string, r *http.Request) (model.Payload, error) {
 	tokenstring := r.Header.Get("Authorization")
@@ -254,7 +248,6 @@ func GetUserLogin(PASETOPUBLICKEYENV string, r *http.Request) (model.Payload, er
 	}
 	return payload, nil
 }
-
 
 //<--- Forgot Password --->
 // GCFHandlerForgotPassword handles forgot password requests
@@ -310,4 +303,3 @@ func GCFHandlerForgotPassword(Mongoenv, dbname string, r *http.Request) string {
 	Response.Message = "Instruksi reset password telah dikirim via WhatsApp"
 	return GCFReturnStruct(Response)
 }
-

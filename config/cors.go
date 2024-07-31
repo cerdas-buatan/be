@@ -11,8 +11,6 @@ var Origins = []string{
 	"http://cerdas-buatan.projsonal.online/be",
 	"http://cerdas-buatan.projsonal.online",
 	"http://www.cerdas-buatan.projsonal.online",
-	// "https://whatsauth.github.io",
-	// "https://www.do.my.id",
 }
 
 var Cors = struct {
@@ -65,12 +63,3 @@ func SetAccessControlHeaders(w http.ResponseWriter, r *http.Request) bool {
 	}
 	return false
 }
-
-// var Cors= cors.config{
-// 	AllowOrigins: Origins,
-// 	AllowMethods: []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
-// 	AllowHeaders: []string{"Content-Type", "Login"},
-// 	AllowCredentials: true,
-// 	ExposeHeaders: []string{"Content-Length"},
-// 	MaxAge: 3600,
-// }
