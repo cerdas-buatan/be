@@ -3,22 +3,19 @@ module github.com/cerdas-buatan/be
 go 1.20
 
 require (
+	aidanwoods.dev/go-paseto v1.5.0
 	github.com/GoogleCloudPlatform/functions-framework-go v1.8.1
+	github.com/RadhiFadlillah/go-sastrawi v0.0.0-20200621225627-3dd6e0e1ac00
 	github.com/aiteung/atdb v0.1.7
+	github.com/badoux/checkmail v1.2.4
 	github.com/chromedp/chromedp v0.9.5
 	github.com/gofiber/fiber/v2 v2.52.5
-	github.com/o1egl/paseto v1.0.0
-	github.com/whatsauth/watoken v0.1.6
 	go.mongodb.org/mongo-driver v1.16.0
 	golang.org/x/crypto v0.25.0
 )
 
 require (
-	aidanwoods.dev/go-paseto v1.5.0 // indirect
 	aidanwoods.dev/go-result v0.1.0 // indirect
-	github.com/aead/chacha20 v0.0.0-20180709150244-8b13a72661da // indirect
-	github.com/aead/chacha20poly1305 v0.0.0-20170617001512-233f39982aeb // indirect
-	github.com/aead/poly1305 v0.0.0-20180717145839-3fee0db0b635 // indirect
 	github.com/andybalholm/brotli v1.0.5 // indirect
 	github.com/chromedp/cdproto v0.0.0-20240202021202-6d0b6a386732 // indirect
 	github.com/chromedp/sysutil v1.0.0 // indirect
@@ -42,7 +39,6 @@ require (
 	github.com/modern-go/concurrent v0.0.0-20180228061459-e0a39a4cb421 // indirect
 	github.com/modern-go/reflect2 v0.0.0-20180701023420-4b7aa43c6742 // indirect
 	github.com/montanaflynn/stats v0.7.1 // indirect
-	github.com/pkg/errors v0.9.1 // indirect
 	github.com/rivo/uniseg v0.2.0 // indirect
 	github.com/valyala/bytebufferpool v1.0.0 // indirect
 	github.com/valyala/fasthttp v1.51.0 // indirect

@@ -4,16 +4,16 @@ import (
 	"time"
 
 	"go.mongodb.org/mongo-driver/bson/primitive"
-	"go.mongodb.org/mongo-driver/mongo"
 )
 
 // struct user
 type User struct {
-	ID       primitive.ObjectID `bson:"_id,omitempty" json:"_id,omitempty"`
-	Email    string             `bson:"email,omitempty" json:"email,omitempty"`
-	Password string             `bson:"password,omitempty" json:"password,omitempty"`
-	Salt     string             `bson:"salt,omitempty" json:"salt,omitempty"`
-	Role     string             `bson:"role,omitempty" json:"role,omitempty"`
+	ID          primitive.ObjectID `bson:"_id,omitempty" json:"_id,omitempty"`
+	Email       string             `bson:"email,omitempty" json:"email,omitempty"`
+	Password    string             `bson:"password,omitempty" json:"password,omitempty"`
+	Salt        string             `bson:"salt,omitempty" json:"salt,omitempty"`
+	Role        string             `bson:"role,omitempty" json:"role,omitempty"`
+	PhoneNumber string             `bson:"phone_number,omitempty" json:"phone_number,omitempty"` // Add this line
 }
 
 // struct Pengguna
@@ -39,38 +39,38 @@ type ChatRequest struct {
 type ChatResponse struct {
 	ID       primitive.ObjectID `bson:"_id,omitempty" json:"id,omitempty"`
 	Message  string             `bson:"message" json:"message"`
-	Response string             `bson:"response" json:"response"`
+	Response string             `json:"response" json:"response"`
 }
 
 type Credential struct {
-//	ID       string    `json:"id"`
 	Status  bool   `json:"status" bson:"status"`
 	Token   string `json:"token,omitempty" bson:"token,omitempty"`
 	Message string `json:"message,omitempty" bson:"message,omitempty"`
 }
 
+type Credential2 struct {
+	Status  bool   `json:"status"`
+	Message string `json:"message"`
+	Token   string `json:"token"`
+	Role    string `json:"role"` // Add this line
+}
+
 type Payload struct {
 	ID       string    `json:"id"`
-	// Role     string    `json:"role"`
 	IssuedAt time.Time `json:"issued_at"`
 	Expiry   time.Time `json:"expiry"`
 }
 
 type Menu struct {
-    ID   primitive.ObjectID `bson:"_id,omitempty"`
-    Name string             `bson:"name"`
-
-}
-
-type MenuService struct {
-    collection *mongo.Collection
+	ID   primitive.ObjectID `bson:"_id,omitempty"`
+	Name string             `bson:"name"`
 }
 
 type ChatHistory struct {
-    ID        primitive.ObjectID `bson:"_id,omitempty"`
-    UserID    string             `bson:"user_id"`
-    Timestamp string             `bson:"timestamp"`
-    Message   string             `bson:"message"`
+	ID        primitive.ObjectID `bson:"_id,omitempty"`
+	UserID    string             `bson:"user_id"`
+	Timestamp string             `json:"timestamp"`
+	Message   string             `json:"message"`
 }
 
 type Chats struct {
@@ -84,6 +84,10 @@ type Dataset struct {
 	ID       primitive.ObjectID `bson:"_id,omitempty" json:"id,omitempty"`
 	Question string             `bson:"question" json:"question"`
 	Answer   string             `bson:"answer" json:"answer"`
+}
+
+type Secrets struct {
+	SecretToken string `json:"secret_token" bson:"secret_token"`
 }
 
 // struct ForgotPasswordRequest

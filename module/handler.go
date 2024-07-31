@@ -1,43 +1,50 @@
 package module
 
 import (
-	"encoding/json"
+	"crypto/rand"
+	"encoding/hex"
 	"net/http"
+	"fmt"
+	"strings"
+	"time"
+	"context"
+	"encoding/json"
 	"os"
-//	"encoding/json"
-//	"net/http"
-//	"os"
-	"github.com/aiteung/atdb"
-	model "github.com/cerdas-buatan/be/model"
-	helper "github.com/cerdas-buatan/be/helper"
-	"github.com/whatsauth/watoken"
+
+	// "github.com/aiteung/atdb"
+	"github.com/cerdas-buatan/be/model"
+	"github.com/cerdas-buatan/be/helper"
+	// "github.com/whatsauth/watoken"
 	"go.mongodb.org/mongo-driver/bson"
+	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
+	"golang.org/x/crypto/argon2"
+	"github.com/badoux/checkmail"
 	
 )
 
 // GCFHandlerSignUpPengguna handles signup for Google Cloud Function
-func GCFHandlerSignUp(MONGOSTRING, dbname string, r *http.Request) string {
-	conn := MongoConnect(MONGOSTRING, dbname)
+func GCFHandlerSignUpPengguna(MONGOSTRING, dbname string, r *http.Request) string {
+	conn := helper.MongoConnect(MONGOSTRING, dbname)
 	var Response model.Response
 	Response.Status = false
-	var datauser model.Pengguna
-	err := json.NewDecoder(r.Body).Decode(&datauser)
+	var datapengguna model.Pengguna
+	err := json.NewDecoder(r.Body).Decode(&datapengguna)
 	if err != nil {
 		Response.Message = "error parsing application/json: " + err.Error()
 		return GCFReturnStruct(Response)
 	}
-	err = SignUp(conn, datauser)
+	err = SignUpPengguna(conn, datapengguna)
 	if err != nil {
 		Response.Message = err.Error()
 		return GCFReturnStruct(Response)
 	}
 	Response.Status = true
-	Response.Message = "Halo, Selamat Bergabung" + datauser.Username
+	Response.Message = "Halo Selamat Datang" + datapengguna.Username
 	return GCFReturnStruct(Response)
 }
 // signup
-func SignUp(db *mongo.Database, insertedDoc model.Pengguna) error {
+func SignUpPengguna(db *mongo.Database, insertedDoc model.Pengguna) error {
 	objectId := primitive.NewObjectID()
 	if insertedDoc.Username == "" ||
 		insertedDoc.Akun.Password == "" {
@@ -67,6 +74,7 @@ func SignUp(db *mongo.Database, insertedDoc model.Pengguna) error {
 		"email":    insertedDoc.Akun.Email,
 		"password": hex.EncodeToString(hashedPassword),
 		"salt":     hex.EncodeToString(salt),
+		"role":     "pengguna",
 	}
 	pengguna := bson.M{
 		"username": insertedDoc.Username,
@@ -74,11 +82,11 @@ func SignUp(db *mongo.Database, insertedDoc model.Pengguna) error {
 			ID: objectId,
 		},
 	}
-	_, err = InsertOneDoc(db, "user", user)
+	_, err = helper.InsertOneDoc(db, "user", user)
 	if err != nil {
 		return fmt.Errorf("kesalahan server")
 	}
-	_, err = InsertOneDoc(db, "pengguna", pengguna)
+	_, err = helper.InsertOneDoc(db, "pengguna", pengguna)
 	if err != nil {
 		return fmt.Errorf("kesalahan server")
 	}
@@ -87,7 +95,7 @@ func SignUp(db *mongo.Database, insertedDoc model.Pengguna) error {
 
 // GCFHandlerSignUpPengguna handles signup for Google Cloud Function
 func GCFHandlerSignUp2(MONGOSTRING, dbname string, r *http.Request) string {
-	conn := MongoConnect(MONGOSTRING, dbname)
+	conn := helper.MongoConnect(MONGOSTRING, dbname)
 	var Response model.Response
 	Response.Status = false
 	var datauser model.Pengguna
@@ -96,7 +104,7 @@ func GCFHandlerSignUp2(MONGOSTRING, dbname string, r *http.Request) string {
 		Response.Message = "error parsing application/json: " + err.Error()
 		return GCFReturnStruct(Response)
 	}
-	err = SignUp(conn, datauser)
+	err = SignUp2(conn, datauser)
 	if err != nil {
 		Response.Message = err.Error()
 		return GCFReturnStruct(Response)
@@ -145,22 +153,21 @@ func SignUp2(db *mongo.Database, insertedDoc model.Pengguna) error {
 			ID: objectId,
 		},
 	}
-	_, err = InsertOneDoc(db, "user", user)
+	_, err = helper.InsertOneDoc(db, "user", user)
 	if err != nil {
 		return fmt.Errorf("kesalahan server")
 	}
-	_, err = InsertOneDoc(db, "pengguna", pengguna)
+	_, err = helper.InsertOneDoc(db, "pengguna", pengguna)
 	if err != nil {
 		return fmt.Errorf("kesalahan server")
 	}
 
 	// Generate and send the verification code via WhatsApp
-	code := helper.GetVerificationCode()
-	err = helper.SetVerificationCode(insertedDoc.Akun.PhoneNumber, code)
+	code, err := helper.generateVerificationCode()
 	if err != nil {
 		return fmt.Errorf("kesalahan server: %v", err)
 	}
-	err = helper.SendWhatsAppMessage(insertedDoc.Akun.PhoneNumber, code)
+	err = helper.sendWhatsAppMessage(insertedDoc.Akun.PhoneNumber, code)
 	if err != nil {
 		return fmt.Errorf("gagal mengirim pesan WhatsApp: %v", err)
 	}
@@ -168,9 +175,59 @@ func SignUp2(db *mongo.Database, insertedDoc model.Pengguna) error {
 	return nil
 }
 
+
 //<--- Login --->
+func GCFHandlerLogin(PASETOPRIVATEKEYENV, MONGOCONNSTRINGENV, dbname string, r *http.Request) string {
+	conn := helper.MongoConnect(MONGOCONNSTRINGENV, dbname)
+	var Response model.Credential
+	Response.Status = false
+	var datauser model.User
+	err := json.NewDecoder(r.Body).Decode(&datauser)
+	if err != nil {
+		Response.Message = "error parsing application/json: " + err.Error()
+		return GCFReturnStruct(Response)
+	}
+	user, err := LogIn(conn, datauser)
+	if err != nil {
+		Response.Message = err.Error()
+		return GCFReturnStruct(Response)
+	}
+	Response.Status = true
+	tokenstring, err := Encode(user.ID, user.Role, os.Getenv(PASETOPRIVATEKEYENV))
+	if err != nil {
+		Response.Message = "Gagal Encode Token : " + err.Error()
+	} else {
+		Response.Message = "Selamat Datang " + user.Email
+		Response.Token = tokenstring
+		
+	}
+	return GCFReturnStruct(Response)
+}
+
+func LogIn(db *mongo.Database, insertedDoc model.User) (user model.User, err error) {
+	if insertedDoc.Email == "" || insertedDoc.Password == "" {
+		return user, fmt.Errorf("mohon untuk melengkapi data")
+	}
+	if err = checkmail.ValidateFormat(insertedDoc.Email); err != nil {
+		return user, fmt.Errorf("email tidak valid")
+	}
+	existsDoc, err := GetUserFromEmail(insertedDoc.Email, db)
+	if err != nil {
+		return
+	}
+	salt, err := hex.DecodeString(existsDoc.Salt)
+	if err != nil {
+		return user, fmt.Errorf("kesalahan server : salt")
+	}
+	hash := argon2.IDKey([]byte(insertedDoc.Password), salt, 1, 64*1024, 4, 32)
+	if hex.EncodeToString(hash) != existsDoc.Password {
+		return user, fmt.Errorf("password salah")
+	}
+	return existsDoc, nil
+}
+
 func GCFHandlerSignIn(PASETOPRIVATEKEYENV, MONGOSTRING, dbname string, r *http.Request) string {
-	conn := MongoConnect(MONGOSTRING, dbname)
+	conn := helper.MongoConnect(MONGOSTRING, dbname)
 	var Response model.Credential
 	Response.Status = false
 	var datauser model.User
@@ -191,7 +248,7 @@ func GCFHandlerSignIn(PASETOPRIVATEKEYENV, MONGOSTRING, dbname string, r *http.R
 	} else {
 		Response.Message = "Selamat Datang " + user.Email
 		Response.Token = tokenstring
-		Response.Role = user.Role
+		
 	}
 	return GCFReturnStruct(Response)
 }
@@ -262,10 +319,10 @@ func ForgotPassword(db *mongo.Database, request model.ForgotPasswordRequest) err
 	}
 
 	// Generate a verification code
-	code := generateVerificationCode()
+	code := helper.generateVerificationCode()
 
 	// Send the verification code via WhatsApp
-	err := sendWhatsAppMessage(request.PhoneNumber, code)
+	err := helper.sendWhatsAppMessage(request.PhoneNumber, code)
 	if err != nil {
 		return fmt.Errorf("gagal mengirim pesan WhatsApp: %v", err)
 	}
@@ -285,7 +342,7 @@ func ForgotPassword(db *mongo.Database, request model.ForgotPasswordRequest) err
 
 // GCFHandlerForgotPassword handles the forgot password request
 func GCFHandlerForgotPassword(MONGOSTRING, dbname string, r *http.Request) string {
-	conn := MongoConnect(MONGOSTRING, dbname)
+	conn := helper.MongoConnect(MONGOSTRING, dbname)
 	var Response model.Response
 	Response.Status = false
 	var forgotRequest model.ForgotPasswordRequest

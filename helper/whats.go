@@ -10,7 +10,7 @@ import (
 )
 
 // Helper function to generate a verification code
-func generateVerificationCode() string {
+func GenerateVerificationCode() string {
 	const charset = "1234567890"
 	b := make([]byte, 6)
 	for i := range b {
@@ -20,7 +20,7 @@ func generateVerificationCode() string {
 }
 
 // Helper function to send a WhatsApp message by automating WhatsApp Web
-func sendWhatsAppMessage(phoneNumber, code string) error {
+func SendWhatsAppMessage(phoneNumber, code string) error {
 	// Create context
 	ctx, cancel := chromedp.NewContext(context.Background())
 	defer cancel()

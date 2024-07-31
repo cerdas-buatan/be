@@ -6,37 +6,9 @@ import (
 	"time"
 
 	"github.com/cerdas-buatan/be/model"
-	"github.com/o1egl/paseto"
+	"aidanwoods.dev/go-paseto"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
-
-func Encode1(id, role, secret string) (string, error) {
-	now := time.Now()
-	payload := model.Payload{
-		ID:       id,
-		Role:     role,
-		IssuedAt: now,
-		Expiry:   now.Add(24 * time.Hour),
-	}
-
-	v2 := paseto.NewV2()
-	return v2.Encrypt([]byte(secret), payload, nil)
-}
-
-func Decode1(secret, token string) (model.Payload, error) {
-	var payload model.Payload
-	v2 := paseto.NewV2()
-	err := v2.Decrypt(token, []byte(secret), &payload, nil)
-	if err != nil {
-		return payload, err
-	}
-
-	if time.Now().After(payload.Expiry) {
-		return payload, fmt.Errorf("token has expired")
-	}
-
-	return payload, nil
-}
 
 func Encode(id primitive.ObjectID, role, privateKey string) (string, error) {
 	token := paseto.NewToken()
@@ -48,6 +20,17 @@ func Encode(id primitive.ObjectID, role, privateKey string) (string, error) {
 	secretKey, err := paseto.NewV4AsymmetricSecretKeyFromHex(privateKey)
 	return token.V4Sign(secretKey, nil), err
 }
+
+// func EncodeUsername(username, role, privateKey string) (string, error) {
+// 	token := paseto.NewToken()
+// 	token.SetIssuedAt(time.Now())
+// 	token.SetNotBefore(time.Now())
+// 	token.SetExpiration(time.Now().Add(2 * time.Hour))
+// 	token.Set("id", id)
+// 	token.SetString("role", role)
+// 	secretKey, err := paseto.NewV4AsymmetricSecretKeyFromHex(privateKey)
+// 	return token.V4Sign(secretKey, nil), err
+// }
 
 func Decode(publicKey string, tokenstring string) (payload model.Payload, err error) {
 	var token *paseto.Token

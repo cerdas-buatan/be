@@ -12,7 +12,7 @@ import (
 )
 
 func ChatPredictRegex(w http.ResponseWriter, r *http.Request) {
-	resp := new(model.Credential)
+	resp := new(model.Credential2)
 	chat := new(model.Chats)
 	token := r.Header.Get("login")
 	if token == "" {
@@ -58,7 +58,7 @@ func ChatPredictRegex(w http.ResponseWriter, r *http.Request) {
 		helper.WriteJSON(w, http.StatusNotFound, resp)
 		return
 	}
-	chat.IdChats = reply.ID.Hex()
+	chat.IDChats = reply.ID.Hex()
 	chat.Message = reply.Question
 	chat.Responses = reply.Answer
 	chat.Score = score
@@ -68,7 +68,7 @@ func ChatPredictRegex(w http.ResponseWriter, r *http.Request) {
 }
 
 func ChatPredict(w http.ResponseWriter, r *http.Request) {
-	resp := new(model.Credential)
+	resp := new(model.Credential2)
 	chat := new(model.Chats)
 	mess := new(model.ChatRequest)
 	err := json.NewDecoder(r.Body).Decode(&mess)
@@ -105,7 +105,7 @@ func ChatPredict(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	chat.IdChats = reply.ID.Hex()
+	chat.IDChats = reply.ID.Hex()
 	chat.Message = reply.Question
 	chat.Responses = reply.Answer
 	chat.Score = score
