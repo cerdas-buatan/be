@@ -1,12 +1,10 @@
 package helper
 
-
 import (
 	"encoding/json"
 	"log"
 	"net/http"
 )
-
 
 func Jsonstr(strc interface{}) string {
 	jsonData, err := json.Marshal(strc)
@@ -15,7 +13,6 @@ func Jsonstr(strc interface{}) string {
 	}
 	return string(jsonData)
 }
-
 
 func WriteJSON(respw http.ResponseWriter, statusCode int, content interface{}) {
 	respw.Header().Set("Content-Type", "application/json")
