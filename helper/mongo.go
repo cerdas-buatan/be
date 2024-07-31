@@ -15,8 +15,8 @@ import (
 )
 
 // mongo connect
-func MongoConnect(Mongoenv, dbname string) *mongo.Database {
-	client, err := mongo.Connect(context.TODO(), options.Client().ApplyURI(os.Getenv(Mongoenv)))
+func MongoConnect(MONGOSTRING, dbname string) *mongo.Database {
+	client, err := mongo.Connect(context.TODO(), options.Client().ApplyURI(os.Getenv(MONGOSTRING)))
 	if err != nil {
 		fmt.Printf("MongoConnect: %v\n", err)
 	}
@@ -39,7 +39,7 @@ func GetAllDocs(db *mongo.Database, col string, docs interface{}) interface{} {
 
 func SetConnection() *mongo.Database {
 	var DBmongoinfo = atdb.DBInfo{
-		DBString: os.Getenv("Mongoenv"),
+		DBString: os.Getenv("MONGOSTRING"),
 		DBName:   "AI",
 	}
 	return atdb.MongoConnect(DBmongoinfo)

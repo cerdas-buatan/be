@@ -17,8 +17,8 @@ import (
 )
 
 // GCFHandlerSignUpPengguna handles signup for Google Cloud Function
-func GCFHandlerSignUp(Mongoenv, dbname string, r *http.Request) string {
-	conn := MongoConnect(Mongoenv, dbname)
+func GCFHandlerSignUp(MONGOSTRING, dbname string, r *http.Request) string {
+	conn := MongoConnect(MONGOSTRING, dbname)
 	var Response model.Response
 	Response.Status = false
 	var datauser model.Pengguna
@@ -86,8 +86,8 @@ func SignUp(db *mongo.Database, insertedDoc model.Pengguna) error {
 }
 
 // GCFHandlerSignUpPengguna handles signup for Google Cloud Function
-func GCFHandlerSignUp2(Mongoenv, dbname string, r *http.Request) string {
-	conn := MongoConnect(Mongoenv, dbname)
+func GCFHandlerSignUp2(MONGOSTRING, dbname string, r *http.Request) string {
+	conn := MongoConnect(MONGOSTRING, dbname)
 	var Response model.Response
 	Response.Status = false
 	var datauser model.Pengguna
@@ -169,8 +169,8 @@ func SignUp2(db *mongo.Database, insertedDoc model.Pengguna) error {
 }
 
 //<--- Login --->
-func GCFHandlerSignIn(PASETOPRIVATEKEYENV, Mongoenv, dbname string, r *http.Request) string {
-	conn := MongoConnect(Mongoenv, dbname)
+func GCFHandlerSignIn(PASETOPRIVATEKEYENV, MONGOSTRING, dbname string, r *http.Request) string {
+	conn := MongoConnect(MONGOSTRING, dbname)
 	var Response model.Credential
 	Response.Status = false
 	var datauser model.User
@@ -284,8 +284,8 @@ func ForgotPassword(db *mongo.Database, request model.ForgotPasswordRequest) err
 }
 
 // GCFHandlerForgotPassword handles the forgot password request
-func GCFHandlerForgotPassword(Mongoenv, dbname string, r *http.Request) string {
-	conn := MongoConnect(Mongoenv, dbname)
+func GCFHandlerForgotPassword(MONGOSTRING, dbname string, r *http.Request) string {
+	conn := MongoConnect(MONGOSTRING, dbname)
 	var Response model.Response
 	Response.Status = false
 	var forgotRequest model.ForgotPasswordRequest
