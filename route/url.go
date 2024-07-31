@@ -13,11 +13,11 @@ func Web(w http.ResponseWriter, r *http.Request) {
 	var method, path string = r.Method, r.URL.Path
 	switch {
 	case method == "GET" && path == "/":
-		controller.HomeMakmur(w, r)
-	case method == "POST" && path == "/registerai":
-		controller.RegisterUsers(w, r)
-	case method == "POST" && path == "/loginai":
-		controller.LoginUsers(w, r)
+		controller.HomeGaysdisal(w, r)
+	case method == "POST" && path == "/registerai1":
+		controller.SignUp2(w, r)
+	case method == "POST" && path == "/loginaii":
+		controller.SignIn2(w, r)
 	case method == "GET" && path == "/getuser":
 		controller.GetUser(w, r)
 	case method == "GET" && path == "/getallusers":

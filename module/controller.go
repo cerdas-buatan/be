@@ -13,7 +13,7 @@ import(
 )
 
 
-func HomeMakmur(w http.ResponseWriter, r *http.Request) {
+func HomeGaysdisal(w http.ResponseWriter, r *http.Request) {
 	Response := fmt.Sprintf("Gaysdisal AI %s", "8080")
 	response, err := json.Marshal(Response)
 	if err != nil {
