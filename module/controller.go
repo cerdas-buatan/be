@@ -24,7 +24,6 @@ func HomeGaysdisal(w http.ResponseWriter, r *http.Request) {
 	return
 }
 
-
 /// RenameMenuHandler handles renaming a menu
 func RenameMenuHandler(s *module.MenuService) http.HandlerFunc {
     return func(w http.ResponseWriter, r *http.Request) {
@@ -48,7 +47,6 @@ func RenameMenuHandler(s *module.MenuService) http.HandlerFunc {
         json.NewEncoder(w).Encode(model.Response{Status: true, Message: "Menu renamed successfully"})
     }
 }
-
 
 // ArchiveMenuHandler handles moving a menu to the archive
 func ArchiveMenuHandler(s *module.MenuService) http.HandlerFunc {
@@ -89,7 +87,6 @@ func AddMenuHandler(s *module.MenuService) http.HandlerFunc {
         json.NewEncoder(w).Encode(model.Response{Status: true, Message: "New menu added successfully", Data: menu})
     }
 }
-
 
 // NotFound handles 404 errors
 func NotFound(respw http.ResponseWriter, req *http.Request) {
